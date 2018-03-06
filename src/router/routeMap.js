@@ -8,23 +8,24 @@ import {
 import App from '../containers'
 import Home from '../containers/Home'
 import NotFound from '../containers/404'
-
+import Login from '../containers/Login'
+import PrivateRoute from './PrivateRoute'
 /*
  import City from '../containers/City'
- import Login from '../containers/Login'
- import User from '../containers/User'
+ import LoginForm from '../containers/LoginForm'
+ import UserManager from '../containers/UserManager'
  import Search from '../containers/Search'
  import Detail from '../containers/Detail'
- import Home from '../containers/404'
+ import LoginForm from '../containers/404'
  */
 
 class RouteMap extends React.PureComponent {
     render() {
         return (
-
             <Router>
                 <Switch>
-                    <Route exact path="/" component={Home}/>
+                    <PrivateRoute exact path="/" component={Home}/>
+                    <Route path="/login" component={Login}/>
                     <Route path="/*" component={NotFound}/>
                 </Switch>
             </Router>

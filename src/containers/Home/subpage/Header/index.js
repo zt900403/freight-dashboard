@@ -3,44 +3,79 @@
  */
 
 import React from 'react'
-import {Layout, Row, Col, Avatar, Menu, Dropdown, Icon} from 'antd';
+import {Button, Layout, Row, Col, Avatar, Menu, Dropdown, Icon} from 'antd';
 import './style.css'
+import UserinfoEditModal from './UserinfoEditModal'
 
 const {Header} = Layout
 
-const HelloWorld = ({userinfo}) => {
-    const menu = (
-        <Menu>
-            <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
-            </Menu.Item>
-            <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
-            </Menu.Item>
-            <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
-            </Menu.Item>
-        </Menu>
-    );
+class MyHeader extends React.PureComponent {
+    state = {
+        visible: false,
+    }
+    showModal = () => {
+        this.setState({visible: true});
+    }
+    handleCancel = () => {
+        this.setState({visible: false});
+    }
+    handleCreate = () => {
+        const form = this.form;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
 
-    return (
-        <Header style={{background: '#fff', padding: 0}}>
-            <div>
-                <Row type="flex" justify="end" >
-                    <Col span="4" offset="20" className="userinfo" >
-                        <Avatar icon="user"/>
-                        &nbsp;&nbsp;
-                        <Dropdown overlay={menu}>
-                            <a className="ant-dropdown-link" href="#">
-                                {userinfo.username}<Icon type="down"/>
-                            </a>
-                        </Dropdown>
-                    </Col>
-                </Row>
+            console.log('Received values of form: ', values);
+            form.resetFields();
+            this.setState({visible: false});
+        });
+    }
+    saveFormRef = (form) => {
+        this.form = form;
+    }
 
-            </div>
-        </Header>
-    )
+
+    render() {
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <div>
+                        <Button type="primary" onClick={this.showModal}>编辑用户信息</Button>
+                        <UserinfoEditModal
+                            ref={this.saveFormRef}
+                            visible={this.state.visible}
+                            onCancel={this.handleCancel}
+                            onCreate={this.handleCreate}
+                        />
+                    </div>
+                </Menu.Item>
+                <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出登陆</a>
+                </Menu.Item>
+            </Menu>
+        );
+
+        return (
+            <Header style={{background: '#fff', padding: 0}}>
+                <div>
+                    <Row type="flex" justify="end">
+                        <Col span="4" offset="20" className="userinfo">
+                            <Avatar icon="user"/>
+                            &nbsp;&nbsp;
+                            <Dropdown overlay={menu}>
+                                <a className="ant-dropdown-link" href="#">
+                                    {this.props.userinfo.username}<Icon type="down"/>
+                                </a>
+                            </Dropdown>
+                        </Col>
+                    </Row>
+
+                </div>
+            </Header>
+        )
+    }
+
 }
 
-export default HelloWorld
+export default MyHeader

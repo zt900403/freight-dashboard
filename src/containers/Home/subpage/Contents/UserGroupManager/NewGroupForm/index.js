@@ -6,7 +6,7 @@ import {Form, Input, Select, Button } from 'antd';
 const FormItem = Form.Item
 const Option = Select.Option
 
-class RegistrationForm extends React.PureComponent {
+class NewGroupForm extends React.PureComponent {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
@@ -75,11 +75,11 @@ class RegistrationForm extends React.PureComponent {
                 <FormItem
                     {...formItemLayout}
                     label={(
-                        <span>姓名&nbsp;</span>
+                        <span>用户组名称&nbsp;</span>
                     )}
                 >
-                    {getFieldDecorator('name', {
-                        rules: [{required: true, message: '请输入中文名!'}],
+                    {getFieldDecorator('groupName', {
+                        rules: [{required: true, message: '请输入用户组中文名称!'}],
                     })(
                         <Input />
                     )}
@@ -88,67 +88,30 @@ class RegistrationForm extends React.PureComponent {
                 <FormItem
                     {...formItemLayout}
                     label={(
-                        <span>用户名&nbsp;</span>
+                        <span>用户组英文名称&nbsp;</span>
                     )}
                 >
-                    {getFieldDecorator('username', {
-                        rules: [{required: true, message: '请输入用户名!'}],
+                    {getFieldDecorator('groupName2', {
+                        rules: [{required: true, message: '请输入用户组英文名称!'}],
                     })(
                         <Input />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="密码"
-                >
-                    {getFieldDecorator('password', {
-                        rules: [{
-                            required: true, message: '请输入密码!',
-                        }, {
-                            validator: this.validateToNextPassword,
-                        }],
-                    })(
-                        <Input type="password"/>
-                    )}
-                </FormItem>
-                <FormItem
-                    {...formItemLayout}
-                    label="确认密码"
-                >
-                    {getFieldDecorator('confirm', {
-                        rules: [{
-                            required: true, message: '请输入确认密码!',
-                        }, {
-                            validator: this.compareToFirstPassword,
-                        }],
-                    })(
-                        <Input type="password" onBlur={this.handleConfirmBlur}/>
-                    )}
-                </FormItem>
-                <FormItem
-                    {...formItemLayout}
-                    label="用户组[多选]"
+                    label="权限[多选]"
                 >
                     {getFieldDecorator('usergroup', {
                         rules: [
-                            { required: true, message: '请选择用户组!', type: 'array' },
+                            { required: true, message: '请选择该用户组权限!', type: 'array' },
                         ],
                     })(
                         <Select mode="multiple">
-                            <Option value="default">default</Option>
-                            <Option value="group1">group1</Option>
-                            <Option value="group2">group2</Option>
+                            <Option value="admin">管理员权限</Option>
+                            <Option value="step1">流程一权限</Option>
+                            <Option value="step2">流程二权限</Option>
+                            <Option value="step3">流程三权限</Option>
                         </Select>
-                    )}
-                </FormItem>
-                <FormItem
-                    {...formItemLayout}
-                    label="手机号"
-                >
-                    {getFieldDecorator('phone', {
-                        rules: [{required: false}],
-                    })(
-                        <Input style={{width: '100%'}}/>
                     )}
                 </FormItem>
 
@@ -160,4 +123,4 @@ class RegistrationForm extends React.PureComponent {
     }
 }
 
-export default Form.create()(RegistrationForm);
+export default Form.create()(NewGroupForm);

@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 
 import MyHeader from './subpage/Header'
 import UserManager from './subpage/Contents/UserManager'
+import UserGroupManager from './subpage/Contents/UserGroupManager'
 import './style.css'
 
 
@@ -30,7 +31,7 @@ class Home extends React.PureComponent {
             },
             {
                 breadcrumb: ['用户管理', '用户组'],
-                content: ""
+                content:  <UserGroupManager/>
             }
         ]
 

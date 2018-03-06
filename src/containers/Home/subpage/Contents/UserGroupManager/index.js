@@ -1,6 +1,6 @@
 import React from 'react'
 import {Tabs} from 'antd';
-import RegistrationForm from './RegistrationForm/index'
+import NewGroupForm from './NewGroupForm'
 const TabPane = Tabs.TabPane;
 
 class UserManager extends React.PureComponent {
@@ -11,8 +11,8 @@ class UserManager extends React.PureComponent {
     render() {
         return (
             <Tabs defaultActiveKey="1" onChange={this.clickHandle}>
-                <TabPane tab="新建用户" key="1"><RegistrationForm/></TabPane>
-                <TabPane tab="用户编辑" key="2">Content of Tab Pane 2</TabPane>
+                <TabPane tab="新建用户组" key="1"><NewGroupForm/></TabPane>
+                <TabPane tab="用户组编辑" key="2">Content of Tab Pane 2</TabPane>
             </Tabs>
         )
     }

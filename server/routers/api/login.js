@@ -12,7 +12,7 @@ const loginFn = async(ctx) => {
             username: 'zt900403'
         })
     } else {
-        throw new APIError('auth:username_password_not_match', 'uesrname password is not match!')
+        throw new APIError('auth:username_password_not_match', '帐号或密码错误!')
     }
 }
 

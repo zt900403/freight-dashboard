@@ -67,19 +67,43 @@ function obj2params(obj) {
     return result;
 }
 
-//send post request
+// //send post request
+// function post(url, paramsObj) {
+//     return fetch(url, {
+//         method: 'POST',
+//         credentials: 'include',
+//         headers: {
+//             'Accept': 'application/json, text/plain, */*',
+//             'Content-Type': 'application/x-www-form-urlencoded'
+//         },
+//         body: obj2params(paramsObj)
+//     });
+// }
+
 function post(url, paramsObj) {
-    return fetch(url, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: obj2params(paramsObj)
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: obj2params(paramsObj)
+        })
+            .then(parseJSON)
+            .then((response) => {
+                if (response.ok) {
+                    return resolve(response.json);
+                }
+                // extract the error from the server's json
+                return reject(response.json);
+            })
+            .catch((error) => reject({
+                networkError: error.message,
+            }));
     });
 }
-
 // function parseJSON(response) {
 //     return response.json()
 // }

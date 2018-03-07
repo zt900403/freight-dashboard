@@ -23,7 +23,6 @@ class Login extends React.PureComponent {
                 isLogin: true
             })
             this.props.history.push('/')
-            console.log(result)
         }).catch( (err) => {
             message.error(err.message)
         })

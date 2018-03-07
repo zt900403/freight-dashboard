@@ -7,10 +7,6 @@ const FormItem = Form.Item
 const Option = Select.Option
 
 class NewGroupForm extends React.PureComponent {
-    state = {
-        confirmDirty: false,
-        autoCompleteResult: [],
-    };
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -19,25 +15,7 @@ class NewGroupForm extends React.PureComponent {
             }
         });
     }
-    handleConfirmBlur = (e) => {
-        const value = e.target.value;
-        this.setState({confirmDirty: this.state.confirmDirty || !!value});
-    }
-    compareToFirstPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
-        } else {
-            callback();
-        }
-    }
-    validateToNextPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], {force: true});
-        }
-        callback();
-    }
+
 
     render() {
         const {getFieldDecorator} = this.props.form;

@@ -26,7 +26,6 @@ class MyHeader extends React.PureComponent {
                 return;
             }
 
-            console.log('Received values of form: ', values);
             form.resetFields();
             this.setState({visible: false});
         });
@@ -35,21 +34,17 @@ class MyHeader extends React.PureComponent {
         this.form = form;
     }
 
+    menuClickHandle = ({key}) => {
+        switch(key) {
+            case "1":
+                this.showModal()
+        }
+    }
 
     render() {
-        const menu = (
-            <Menu>
-                <Menu.Item>
-                    <div>
-                        <Button type="primary" onClick={this.showModal}>编辑用户信息</Button>
-                        <UserinfoEditModal
-                            ref={this.saveFormRef}
-                            visible={this.state.visible}
-                            onCancel={this.handleCancel}
-                            onCreate={this.handleCreate}
-                        />
-                    </div>
-                </Menu.Item>
+        let menu = (
+            <Menu onClick={this.menuClickHandle}>
+                <Menu.Item key="1">修改个人资料</Menu.Item>
                 <Menu.Item>
                     <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出登陆</a>
                 </Menu.Item>
@@ -68,6 +63,12 @@ class MyHeader extends React.PureComponent {
                                     {this.props.userinfo.username}<Icon type="down"/>
                                 </a>
                             </Dropdown>
+                            <UserinfoEditModal
+                                ref={this.saveFormRef}
+                                visible={this.state.visible}
+                                onCancel={this.handleCancel}
+                                onCreate={this.handleCreate}
+                            />
                         </Col>
                     </Row>
 

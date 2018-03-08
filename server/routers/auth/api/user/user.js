@@ -1,8 +1,8 @@
 /**
  * Created by zhang on 18/03/07.
  */
-const User = require('../../../services/User')
-const APIError = require('../../../middleware/rest').APIError
+const User = require('../../../../services/User')
+const APIError = require('../../../../middleware/rest').APIError
 const newUserFn = async (ctx) => {
     try {
         await new User(ctx.request.body).save()
@@ -20,5 +20,5 @@ const newUserFn = async (ctx) => {
 }
 
 module.exports = {
-    'POST /newuser': newUserFn,
+    'POST /': newUserFn,
 }

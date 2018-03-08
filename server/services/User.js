@@ -4,12 +4,6 @@
 const db = require('../models')
 const bcrypt = require('bcryptjs')
 
-let a = async function () {
-    const User = new db.User({
-        salt: 'hahahah',
-    })
-    await User.save()
-}
 
 function User(obj) {
     this.user = obj;
@@ -44,6 +38,15 @@ User.prototype.auth = async function () {
     return false
 }
 
+new User({
+    name: '管理员',
+    username: 'admin',
+    password: 'admin',
+    authority: ['admin', 'step1', 'step2', 'step3'],
+    phone: 17319242396
+}).save().catch((err) => {
+
+})
 
 
 module.exports = User

@@ -47,7 +47,38 @@ userModel.prototype.toJSON = function () {
     }
 }
 
+const freightRecordModel = mongoose.model('freightRecord', require('./freightRecord'))
+freightRecordModel.prototype.toJSON = function () {
+    return {
+        title: this.title,
+        carNumber: this.carNumber,
+        date: this.date,
+        productName: this.productName,
+        purchaser: this.purchaser,
+        APurchaseCompany: this.APurchaseCompany,
+        startPlace: this.startPlace,
+        ASeller: this.ASeller,
+        ASellerCompany: this.ASellerCompany,
+        oilWellNumber: this.oilWellNumber,
+        ASellPlace: this.ASellPlace,
+        freightUnitPrice: this.freightUnitPrice,
+        freightPriceTonsAdjust: this.freightPriceTonsAdjust,
+        otherAddItem: this.otherAddItem,
+        keepCarNumber: this.keepCarNumber,
+        keepCarUnitPrice: this.keepCarUnitPrice,
+        BSeller: this.BSeller,
+        BSellerCompany: this.BSellerCompany,
+        BSellPlace: this.BSellPlace,
+        CSeller: this.CSeller,
+        CSellerCompany: this.CSellerCompany,
+        CSellPlace: this.CSellPlace,
+        DSeller: this.DSeller,
+        DSellerCompany: this.DSellerCompany,
+        DSellPlace: this.DSellPlace,
+    }
+}
 module.exports = {
     User: userModel,
-    IDGenerator: IDGenerator
+    IDGenerator: IDGenerator,
+    FreightRecord: freightRecordModel,
 }

@@ -14,7 +14,6 @@ class UserManager extends React.PureComponent {
             .then((result) => {
                 message.info(result.message)
             }).catch((err) => {
-            console.log('haha', err)
                 message.error(err.message)
         })
     }

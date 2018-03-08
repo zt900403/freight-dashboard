@@ -5,12 +5,12 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+
 module.exports = {
-    defineSchema: function(attrs) {
+    defineSchema: function(schemaName, attrs) {
         let options = {
             id: {
                 type: Number,
-                required: true,
                 unique: true
             },
             createAt: Date,
@@ -21,7 +21,19 @@ module.exports = {
             }
         }
         let merge = Object.assign({}, attrs, options)
-        return new Schema(merge)
+        let schema = new Schema(merge)
+        schema.post('save', async function () {
+            const idg = require('./').IDGenerator
+            await idg.increaseID(schemaName)
+        })
+
+        schema.pre('save', async function(next) {
+            const idg = require('./').IDGenerator
+            this.id = await idg.getID(schemaName)
+            //delete undefined value
+            await next()
+        })
+        return schema
 
     },
 }

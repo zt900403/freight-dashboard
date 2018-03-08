@@ -3,7 +3,7 @@
  */
 const util = require('../models/util')
 
-const userSchema = util.defineSchema({
+const userSchema = util.defineSchema('user', {
     username: {
         type: String,
         require: true,
@@ -22,21 +22,8 @@ const userSchema = util.defineSchema({
         require: true,
     },
     phone: Number,
-    group: [String]
+    authority: [String]
 })
 
-
-userSchema.post('save', async function (next) {
-    const idg = require('./').IDGenerator
-    await idg.increaseID('user')
-    await next()
-})
-
-
-userSchema.pre('save', async function(next) {
-    const idg = require('./').IDGenerator
-    this.id = await idg.getID('user')
-    await next()
-})
 
 module.exports = userSchema

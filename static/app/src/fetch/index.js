@@ -30,9 +30,17 @@ function parseJSON(response) {
         })));
 }
 
+function deleteUndefined(obj) {
+    for (let p in obj) {
+        if (obj[p] === null || obj[p] === undefined)
+            delete obj[p]
+    }
+    return obj
+}
+
 function get(url, paramsObj) {
     return new Promise((resolve, reject) => {
-        url += params2getParams(paramsObj)
+        url += params2getParams(deleteUndefined(paramsObj))
         fetch(url, {
             credentials: 'include',
             headers: {
@@ -89,7 +97,7 @@ function post(url, paramsObj) {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: obj2params(paramsObj)
+            body: obj2params(deleteUndefined(paramsObj))
         })
             .then(parseJSON)
             .then((response) => {

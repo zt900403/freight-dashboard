@@ -8,7 +8,7 @@ import LoginForm from './subpage/LoginForm'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as userinfoActions from '../../actions/userinfo'
-import {login} from '../../fetch/Login/login'
+import {login} from '../../fetch/User'
 import {message} from 'antd'
 
 class Login extends React.PureComponent {
@@ -23,7 +23,7 @@ class Login extends React.PureComponent {
                 isLogin: true
             })
             this.props.history.push('/')
-        }).catch( (err) => {
+        }).catch((err) => {
             message.error(err.message)
         })
     }
@@ -39,26 +39,14 @@ class Login extends React.PureComponent {
     }
 }
 
-function
-
-mapStateToProps(state) {
+function mapStateToProps(state) {
     return {}
 }
 
-function
-
-mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         userInfoActions: bindActionCreators(userinfoActions, dispatch)
     }
 }
 
-export
-default
-
-connect(mapStateToProps,
-    mapDispatchToProps)
-
-(
-    Login
-)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

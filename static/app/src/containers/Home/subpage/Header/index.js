@@ -38,6 +38,8 @@ class MyHeader extends React.PureComponent {
         switch(key) {
             case "1":
                 this.showModal()
+            case "2":
+                this.props.logout()
         }
     }
 
@@ -45,9 +47,7 @@ class MyHeader extends React.PureComponent {
         let menu = (
             <Menu onClick={this.menuClickHandle}>
                 <Menu.Item key="1">修改个人资料</Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出登陆</a>
-                </Menu.Item>
+                <Menu.Item key="2">退出登陆</Menu.Item>
             </Menu>
         );
 
@@ -60,7 +60,7 @@ class MyHeader extends React.PureComponent {
                             &nbsp;&nbsp;
                             <Dropdown overlay={menu}>
                                 <a className="ant-dropdown-link" href="#">
-                                    {this.props.userinfo.username}<Icon type="down"/>
+                                    {this.props.userinfo.name}<Icon type="down"/>
                                 </a>
                             </Dropdown>
                             <UserinfoEditModal

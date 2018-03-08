@@ -13,7 +13,7 @@ import PrivateRoute from './PrivateRoute'
 /*
  import City from '../containers/City'
  import LoginForm from '../containers/LoginForm'
- import UserManager from '../containers/UserManager'
+ import FreightFormManager from '../containers/FreightFormManager'
  import Search from '../containers/Search'
  import Detail from '../containers/Detail'
  import LoginForm from '../containers/404'
@@ -24,7 +24,8 @@ class RouteMap extends React.PureComponent {
         return (
             <Router>
                 <Switch>
-                    <PrivateRoute exact path="/" component={Home}/>
+                    {/*<PrivateRoute exact path="/" component={Home}/>*/}
+                    <Route exact path="/" component={Home}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/*" component={NotFound}/>
                 </Switch>

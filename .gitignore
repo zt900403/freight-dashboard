@@ -3,5 +3,7 @@
 # dependencies
 /node_modules
 
+#
+startMongodb.bat
 # ide config
 .idea

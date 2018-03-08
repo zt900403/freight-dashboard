@@ -1,10 +1,12 @@
 import React from 'react'
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 import {connect} from 'react-redux'
-
+import {bindActionCreators} from 'redux'
+import * as userinfoActions from '../../actions/userinfo'
 import MyHeader from './subpage/Header'
 import UserManager from './subpage/Contents/UserManager'
 import UserGroupManager from './subpage/Contents/UserGroupManager'
+import FreightFormManager from './subpage/Contents/FreightFormManager'
 import './style.css'
 
 
@@ -16,12 +18,17 @@ class Home extends React.PureComponent {
     state = {
         collapsed: false,
         breadcrumb: [],
-        content: <UserManager/>
+        content: ''
     };
 
     onCollapse = (collapsed) => {
         this.setState({collapsed});
     }
+
+    logoutHandle = () => {
+        this.props.userInfoActions.update({})
+    }
+
 
     menuClickHandle = ({item, key}) => {
         const componentMap = [
@@ -31,12 +38,21 @@ class Home extends React.PureComponent {
             },
             {
                 breadcrumb: ['用户管理', '用户组'],
-                content:  <UserGroupManager/>
+                content: <UserGroupManager/>
+            },
+            {
+                breadcrumb: ['货运单管理', '新建货运单'],
+                content: <FreightFormManager/>
             }
         ]
 
         key = parseInt(key)
 
+        this.setState({
+            breadcrumb: componentMap[key - 1].breadcrumb,
+            content: componentMap[key - 1].content
+        })
+        /*
         switch (key) {
 
             case 1:
@@ -49,8 +65,15 @@ class Home extends React.PureComponent {
                     breadcrumb: componentMap[key - 1].breadcrumb,
                     content: componentMap[key - 1].content
                 })
+            case 3:
+                this.setState({
+                    breadcrumb: componentMap[key - 1].breadcrumb,
+                    content: componentMap[key - 1].content
+                })
+
 
         }
+         */
     }
 
     render() {
@@ -62,7 +85,13 @@ class Home extends React.PureComponent {
                     onCollapse={this.onCollapse}
                 >
                     <div className="logo"/>
-                    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick={this.menuClickHandle}>
+                    <Menu theme="dark" defaultSelectedKeys={[]} mode="inline" onClick={this.menuClickHandle}>
+                        <SubMenu
+                            key="freightFormManager"
+                            title={<span><Icon type="profile"/>货运单管理</span>}
+                        >
+                            <Menu.Item key="3">新建货运单</Menu.Item>
+                        </SubMenu>
                         <SubMenu
                             key="userManager"
                             title={<span><Icon type="user"/><span>用户管理</span></span>}
@@ -73,7 +102,7 @@ class Home extends React.PureComponent {
                     </Menu>
                 </Sider>
                 <Layout>
-                    <MyHeader userinfo={this.props.userinfo}/>
+                    <MyHeader userinfo={this.props.userinfo} logout={this.logoutHandle}/>
                     <Content style={{margin: '0 16px'}}>
                         <Breadcrumb style={{margin: '16px 0'}}>
                             {this.state.breadcrumb.map((item, index) => {
@@ -100,8 +129,11 @@ function mapStateToProps(state) {
     }
 }
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        userInfoActions: bindActionCreators(userinfoActions, dispatch)
+    }
 }
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Home)

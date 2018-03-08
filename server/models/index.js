@@ -5,21 +5,19 @@ const mongoose = require('mongoose');
 mongoose.connect(require('./config.json').MongoDB_URI);
 
 
-
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'mongodb connection error:'));
-db.once('open', function() {
+db.once('open', function () {
     // we're connected!
     console.log('mongodb connection!')
 });
 
 const IDGenerator = mongoose.model('idgenerator', require('./IDGenerator'))
 
-IDGenerator.increaseID = async function(modelname) {
+IDGenerator.increaseID = async function (modelname) {
     const data = await this.findOne({modelname: modelname})
-    console.log('increast', data)
     if (data) {
-        data.currentid ++
+        data.currentid++
     } else {
         await this.create({modelname: modelname})
     }
@@ -28,16 +26,28 @@ IDGenerator.increaseID = async function(modelname) {
 }
 
 
-IDGenerator.getID = async function(modelname) {
+IDGenerator.getID = async function (modelname) {
     const data = await this.findOne({modelname: modelname})
     if (data) {
-         return data.currentid
+        return data.currentid
     } else {
         await this.create({modelname: modelname})
+        return 1
     }
     return data.currentid
 }
+
+const userModel = mongoose.model('user', require('./user'))
+userModel.prototype.toJSON = function () {
+    return {
+        username: this.username,
+        name: this.name,
+        phone: this.phone,
+        authority: this.authority,
+    }
+}
+
 module.exports = {
-    User: mongoose.model('user', require('./user')),
+    User: userModel,
     IDGenerator: IDGenerator
 }

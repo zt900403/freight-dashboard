@@ -2,7 +2,7 @@
  * Created by zhang on 18/03/06.
  */
 import React from 'react'
-import {Form, Input, Select, Button } from 'antd';
+import {Form, Input, Select, Button, InputNumber } from 'antd';
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -15,7 +15,9 @@ class RegistrationForm extends React.PureComponent {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
+                console.log(values)
+                this.props.onRegister(values)
             }
         });
     }
@@ -23,10 +25,11 @@ class RegistrationForm extends React.PureComponent {
         const value = e.target.value;
         this.setState({confirmDirty: this.state.confirmDirty || !!value});
     }
+
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
+            callback('两次密码输入不一致!');
         } else {
             callback();
         }
@@ -92,7 +95,9 @@ class RegistrationForm extends React.PureComponent {
                     )}
                 >
                     {getFieldDecorator('username', {
-                        rules: [{required: true, message: '请输入用户名!'}],
+                        rules: [{required: true, message: '请输入用户名!'},{
+                                min: 6, message:'长度小于6!'
+                        }],
                     })(
                         <Input />
                     )}
@@ -127,17 +132,18 @@ class RegistrationForm extends React.PureComponent {
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="用户组[多选]"
+                    label="用户权限[多选]"
                 >
-                    {getFieldDecorator('usergroup', {
+                    {getFieldDecorator('authority', {
                         rules: [
-                            { required: true, message: '请选择用户组!', type: 'array' },
+                            { required: true, message: '请选择用户权限!', type: 'array' },
                         ],
                     })(
                         <Select mode="multiple">
-                            <Option value="default">default</Option>
-                            <Option value="group1">group1</Option>
-                            <Option value="group2">group2</Option>
+                            <Option value="admin">管理员</Option>
+                            <Option value="step1">流程一</Option>
+                            <Option value="step2">流程二</Option>
+                            <Option value="step3">流程三</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -146,7 +152,8 @@ class RegistrationForm extends React.PureComponent {
                     label="手机号"
                 >
                     {getFieldDecorator('phone', {
-                        rules: [{required: false}],
+                        rules: [{required: false,
+                                pattern: /[0-9]{11}/, message:'请输入11位手机号!'}],
                     })(
                         <Input style={{width: '100%'}}/>
                     )}

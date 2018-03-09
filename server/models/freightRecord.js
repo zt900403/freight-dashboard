@@ -72,6 +72,12 @@ const schema = util.defineSchema('freightRecord', {
     DSellerCompany: String,
     DSellPlace: String,
 
+    status: {
+        type: String,
+        require: true,
+        default: 'STEP1'
+    }
+
 })
 
 

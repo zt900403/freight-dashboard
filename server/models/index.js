@@ -50,6 +50,7 @@ userModel.prototype.toJSON = function () {
 const freightRecordModel = mongoose.model('freightRecord', require('./freightRecord'))
 freightRecordModel.prototype.toJSON = function () {
     return {
+        id: this.id,
         title: this.title,
         carNumber: this.carNumber,
         date: this.date,
@@ -75,6 +76,7 @@ freightRecordModel.prototype.toJSON = function () {
         DSeller: this.DSeller,
         DSellerCompany: this.DSellerCompany,
         DSellPlace: this.DSellPlace,
+        status: this.status
     }
 }
 module.exports = {

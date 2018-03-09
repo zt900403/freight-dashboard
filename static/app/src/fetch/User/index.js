@@ -9,6 +9,6 @@ export function login(data) {
 }
 
 export function newUser(data) {
-    const result = fetch.post('/auth/api', data)
+    const result = fetch.post('/auth/api/user', data)
     return result
 }

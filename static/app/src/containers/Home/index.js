@@ -6,7 +6,8 @@ import * as userinfoActions from '../../actions/userinfo'
 import MyHeader from './subpage/Header'
 import UserManager from './subpage/Contents/UserManager'
 import UserGroupManager from './subpage/Contents/UserGroupManager'
-import FreightFormManager from './subpage/Contents/FreightFormManager'
+import NewFreightForm from '../../controllers/FreightForm'
+import FreightFromManager from './subpage/Contents/FreightFormManager'
 import './style.css'
 
 
@@ -36,14 +37,20 @@ class Home extends React.PureComponent {
                 breadcrumb: ['用户管理', '用户'],
                 content: <UserManager/>
             },
+            /*
             {
                 breadcrumb: ['用户管理', '用户组'],
                 content: <UserGroupManager/>
             },
+            */
             {
                 breadcrumb: ['货运单管理', '新建货运单'],
-                content: <FreightFormManager/>
-            }
+                content: <NewFreightForm/>
+            },
+            {
+                breadcrumb: ['货运单管理', '货运单概览'],
+                content: <FreightFromManager/>
+            },
         ]
 
         key = parseInt(key)
@@ -52,28 +59,6 @@ class Home extends React.PureComponent {
             breadcrumb: componentMap[key - 1].breadcrumb,
             content: componentMap[key - 1].content
         })
-        /*
-        switch (key) {
-
-            case 1:
-                this.setState({
-                    breadcrumb: componentMap[key - 1].breadcrumb,
-                    content: componentMap[key - 1].content
-                })
-            case 2:
-                this.setState({
-                    breadcrumb: componentMap[key - 1].breadcrumb,
-                    content: componentMap[key - 1].content
-                })
-            case 3:
-                this.setState({
-                    breadcrumb: componentMap[key - 1].breadcrumb,
-                    content: componentMap[key - 1].content
-                })
-
-
-        }
-         */
     }
 
     render() {
@@ -90,14 +75,15 @@ class Home extends React.PureComponent {
                             key="freightFormManager"
                             title={<span><Icon type="profile"/>货运单管理</span>}
                         >
-                            <Menu.Item key="3">新建货运单</Menu.Item>
+                            <Menu.Item key="3">货运单概览</Menu.Item>
+                            <Menu.Item key="2">新建货运单</Menu.Item>
                         </SubMenu>
                         <SubMenu
                             key="userManager"
                             title={<span><Icon type="user"/><span>用户管理</span></span>}
                         >
                             <Menu.Item key="1">用户</Menu.Item>
-                            <Menu.Item key="2">用户组</Menu.Item>
+                            {/*<Menu.Item key="2">用户组</Menu.Item>*/}
                         </SubMenu>
                     </Menu>
                 </Sider>
@@ -106,7 +92,6 @@ class Home extends React.PureComponent {
                     <Content style={{margin: '0 16px'}}>
                         <Breadcrumb style={{margin: '16px 0'}}>
                             {this.state.breadcrumb.map((item, index) => {
-                                console.log(item)
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })}
                         </Breadcrumb>

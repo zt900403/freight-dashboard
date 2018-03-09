@@ -4,11 +4,40 @@
 const db = require('../models')
 const bcrypt = require('bcryptjs')
 
+/*
+ function User(obj) {
+ this.user = obj;
+ }
+ */
+class User extends db.User {
+    constructor(props) {
+        super(props)
+    }
 
-function User(obj) {
-    this.user = obj;
+    async save() {
+        this.salt = await bcrypt.genSalt(4);
+        this.password = await bcrypt.hash(this.password, this.salt)
+        try {
+            await super.save()
+        } catch(err) {
+            throw err
+        }
+    }
+
+    async auth() {
+        let one = await db.User.findOne({username: this.username})
+        if (!one) {
+            return false
+        }
+        let hash = await bcrypt.hash(this.password, one.salt)
+        if (hash === one.password) {
+            return one.toJSON()
+        }
+        return false
+    }
 }
 
+/*
 User.prototype.save = async function () {
     let user = this.user;
     const salt = await bcrypt.genSalt(4);
@@ -47,6 +76,6 @@ new User({
 }).save().catch((err) => {
 
 })
-
+*/
 
 module.exports = User

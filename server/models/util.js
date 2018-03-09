@@ -33,6 +33,13 @@ module.exports = {
             //delete undefined value
             await next()
         })
+        schema.post('find', async function(doc, next) {
+            for (let p in doc) {
+                if (!doc[p])
+                    delete doc[p]
+            }
+            await next()
+        })
         return schema
 
     },

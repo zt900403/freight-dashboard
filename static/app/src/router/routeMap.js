@@ -13,7 +13,7 @@ import PrivateRoute from './PrivateRoute'
 /*
  import City from '../containers/City'
  import LoginForm from '../containers/LoginForm'
- import FreightFormManager from '../containers/FreightFormManager'
+ import NewFreightForm from '../containers/NewFreightForm'
  import Search from '../containers/Search'
  import Detail from '../containers/Detail'
  import LoginForm from '../containers/404'

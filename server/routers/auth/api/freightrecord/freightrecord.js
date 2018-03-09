@@ -13,6 +13,15 @@ const newFreightRecord = async (ctx) => {
     }
 }
 
+const getAllFreightRecord = async (ctx) => {
+    try {
+        const result = await new FreightRecord().getAllRecord()
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
 module.exports = {
-    'POST /': newFreightRecord
+    'POST /': newFreightRecord,
+    'GET /': getAllFreightRecord,
 }

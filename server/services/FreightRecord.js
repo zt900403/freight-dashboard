@@ -3,10 +3,34 @@
  */
 const db = require('../models')
 
+/*
 function FreightRecord(obj) {
     this.record = obj;
 }
+*/
 
+class FreightRecord extends db.FreightRecord {
+    constructor(obj) {
+        super(obj)
+    }
+    async getAllRecord() {
+        const all = await db.FreightRecord.find({})
+        let done = []
+        let undone = []
+        all.forEach((item, index) => {
+            if (item.status == "done") {
+                done.push(item.toJSON())
+            } else {
+                undone.push(item.toJSON())
+            }
+        })
+        return {
+            done,
+            undone
+        }
+    }
+}
+/*
 FreightRecord.prototype.save = async function () {
     let record = this.record;
     console.log(record)
@@ -17,5 +41,7 @@ FreightRecord.prototype.save = async function () {
         throw err
     }
 }
+*/
+
 
 module.exports = FreightRecord

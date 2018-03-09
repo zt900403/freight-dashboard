@@ -3,8 +3,8 @@
  */
 import React from 'react'
 import { Button, Modal, Form, Input, Radio } from 'antd';
+import FreightFormManager  from '../../../../../controllers/FreightForm'
 const FormItem = Form.Item;
-
 const UserinfoEditModal = Form.create()(
     (props) => {
         const { visible, onCancel, onCreate, form } = props;
@@ -14,6 +14,7 @@ const UserinfoEditModal = Form.create()(
                 visible={visible}
                 title="Create a new collection"
                 okText="Create"
+                width={1000}
                 onCancel={onCancel}
                 onOk={onCreate}
             >
@@ -39,6 +40,8 @@ const UserinfoEditModal = Form.create()(
                         )}
                     </FormItem>
                 </Form>
+
+                <FreightFormManager/>
             </Modal>
         );
     }

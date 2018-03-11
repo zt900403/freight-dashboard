@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Icon, Divider} from 'antd';
+import {Table, Button} from 'antd';
 class DoneFreightForm extends React.PureComponent {
 
     render() {
@@ -16,13 +16,12 @@ class DoneFreightForm extends React.PureComponent {
             dataIndex: 'date',
             key: 'date',
         }, {
-            title: 'Action',
+            title: '动作',
             key: 'action',
-            render: (text, record) => (
-                <span>
-      <a href="#">Action 一 {record.name}</a>
-    </span>
-            ),
+            render: (text, record) => {
+                return <Button type="primary">明细</Button >
+
+            }
         }];
 
         return (

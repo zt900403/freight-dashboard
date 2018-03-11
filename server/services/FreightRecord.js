@@ -4,44 +4,46 @@
 const db = require('../models')
 
 /*
-function FreightRecord(obj) {
-    this.record = obj;
-}
-*/
+ function FreightRecord(obj) {
+ this.record = obj;
+ }
+ */
 
 class FreightRecord extends db.FreightRecord {
     constructor(obj) {
         super(obj)
     }
-    async getAllRecord() {
-        const all = await db.FreightRecord.find({})
-        let done = []
-        let undone = []
-        all.forEach((item, index) => {
-            if (item.status == "done") {
-                done.push(item.toJSON())
-            } else {
-                undone.push(item.toJSON())
-            }
-        })
-        return {
-            done,
-            undone
+
+}
+
+FreightRecord.getAllRecord = async function () {
+    const all = await db.FreightRecord.find({})
+    let done = []
+    let undone = []
+    all.forEach((item, index) => {
+        let obj = item.toJSON()
+        obj.key = obj.id
+        if (obj.status == "DONE") {
+            done.push(obj)
+        } else {
+            undone.push(obj)
         }
+    })
+    return {
+        done,
+        undone
     }
 }
-/*
-FreightRecord.prototype.save = async function () {
-    let record = this.record;
-    console.log(record)
+
+FreightRecord.updateOne = async function ({id}, newValue) {
     try {
-        await new db.FreightRecord(record).save()
-        return '创建成功!'
+        const result = await db.FreightRecord.update({id: id}, {$set: newValue})
+        console.log('real', result)
+        return true
     } catch (err) {
-        throw err
+        throw error
     }
 }
-*/
 
 
 module.exports = FreightRecord

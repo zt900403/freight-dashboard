@@ -9,6 +9,7 @@ class UserGroupManager extends React.PureComponent {
     }
     registerNewUserHandle = (data) => {
         delete data.confirm
+        data.status = 'STEP2'
         newUser(data)
             .then((result) => {
                 message.info(result.message)

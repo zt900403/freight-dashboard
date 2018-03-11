@@ -76,7 +76,46 @@ freightRecordModel.prototype.toJSON = function () {
         DSeller: this.DSeller,
         DSellerCompany: this.DSellerCompany,
         DSellPlace: this.DSellPlace,
-        status: this.status
+        status: this.status,
+
+        //step2
+        APurchaseAmount: this.APurchaseAmount,
+        ASellAmount: this.ASellAmount,
+        ASellAmountAdjust: this.ASellAmountAdjust,
+        carTotalCost: this.carTotalCost,
+        keepProductAmount: this.keepProductAmount,
+        warehouseSupplement: this.warehouseSupplement,
+        BSellAmount: this.BSellAmount,
+        BSellAmountAdjust: this.BSellAmountAdjust,
+        CSellAmount: this.CSellAmount,
+        CSellAmountAdjust: this.CSellAmountAdjust,
+        DSellAmount: this.DSellAmount,
+        DSellAmountAdjust: this.DSellAmountAdjust,
+
+        //step3
+        ABuyUnitPrice: this.ABuyUnitPrice,
+        AFreightSubsidy: this.AFreightSubsidy,
+        ASellUnitPrice: this.ASellUnitPrice,
+        BBuyUnitPrice: this.BBuyUnitPrice,
+        BFreightSubsidy: this.BFreightSubsidy,
+        BSellUnitPrice: this.BSellUnitPrice,
+        CSellUnitPrice: this.CSellUnitPrice,
+        DSellUnitPrice: this.DSellUnitPrice,
+
+
+        //step4,
+        poisonName: this.poisonName,
+        poisonANumber: this.poisonANumber,
+        poisonBNumber: this.poisonBNumber,
+        poisonBuyLicense: this.poisonBuyLicense,
+        poisonTransportLicense: this.poisonTransportLicense,
+        poisonDestination: this.poisonDestination,
+        sellPoisonBuyCompany: this.sellPoisonBuyCompany,
+        sellPoisonBuyer: this.sellPoisonBuyer,
+        sellPoisonName: this.sellPoisonName,
+        sellPoisonNumber: this.sellPoisonNumber,
+        sellPoisonTakeCompany: this.sellPoisonTakeCompany,
+        sellPoisonDestination: this.sellPoisonDestination,
     }
 }
 module.exports = {

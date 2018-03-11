@@ -112,6 +112,31 @@ function post(url, paramsObj) {
             }));
     });
 }
+
+function put(url, paramsObj) {
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: obj2params(deleteUndefined(paramsObj))
+        })
+            .then(parseJSON)
+            .then((response) => {
+                if (response.ok) {
+                    return resolve(response.json);
+                }
+                // extract the error from the server's json
+                return reject(response.json);
+            })
+            .catch((error) => reject({
+                networkError: error.message,
+            }));
+    });
+}
 // function parseJSON(response) {
 //     return response.json()
 // }
@@ -119,5 +144,6 @@ function post(url, paramsObj) {
 
 export default {
     get,
-    post
+    post,
+    put,
 }

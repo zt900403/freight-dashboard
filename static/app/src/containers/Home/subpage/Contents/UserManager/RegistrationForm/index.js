@@ -16,7 +16,6 @@ class RegistrationForm extends React.PureComponent {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
-                console.log(values)
                 this.props.onRegister(values)
             }
         });
@@ -140,10 +139,11 @@ class RegistrationForm extends React.PureComponent {
                         ],
                     })(
                         <Select mode="multiple">
-                            <Option value="admin">管理员</Option>
-                            <Option value="step1">流程一</Option>
-                            <Option value="step2">流程二</Option>
-                            <Option value="step3">流程三</Option>
+                            <Option value="ADMIN">管理员</Option>
+                            <Option value="STEP1">流程一</Option>
+                            <Option value="STEP2">流程二</Option>
+                            <Option value="STEP3">流程三</Option>
+                            <Option value="STEP4">流程三</Option>
                         </Select>
                     )}
                 </FormItem>

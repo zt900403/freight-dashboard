@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { Button, Modal, Form, Input, Radio } from 'antd';
-import FreightFormManager  from '../../../../../controllers/FreightForm'
+import FreightFormManager  from '../../../../../controllers/FreightFormStep1'
 const FormItem = Form.Item;
 const UserinfoEditModal = Form.create()(
     (props) => {

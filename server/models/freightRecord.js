@@ -61,7 +61,7 @@ const schema = util.defineSchema('freightRecord', {
         require: true,
     },
     keepCarNumber: String,
-    keepCarUnitPrice: Number,
+    keepCarUnitPrice: String,
     BSeller: String,
     BSellerCompany: String,
     BSellPlace: String,
@@ -72,6 +72,44 @@ const schema = util.defineSchema('freightRecord', {
     DSellerCompany: String,
     DSellPlace: String,
 
+    //step2
+    APurchaseAmount: String,
+    ASellAmount: String,
+    ASellAmountAdjust: String,
+    carTotalCost: String,
+    keepProductAmount: String,
+    warehouseSupplement: String,
+    BSellAmount: String,
+    BSellAmountAdjust: String,
+    CSellAmount: String,
+    CSellAmountAdjust: String,
+    DSellAmount: String,
+    DSellAmountAdjust: String,
+
+    //step3
+    ABuyUnitPrice: String,
+    AFreightSubsidy: String,
+    ASellUnitPrice: String,
+    BBuyUnitPrice: String,
+    BFreightSubsidy: String,
+    BSellUnitPrice: String,
+    CSellUnitPrice: String,
+    DSellUnitPrice: String,
+
+    //step4
+    poisonName:String,
+    poisonANumber:String,
+    poisonBNumber:String,
+    poisonBuyLicense:String,
+    poisonTransportLicense:String,
+    poisonDestination:String,
+    sellPoisonBuyCompany:String,
+    sellPoisonBuyer:String,
+    sellPoisonName:String,
+    sellPoisonNumber:String,
+    sellPoisonTakeCompany:String,
+    sellPoisonDestination:String,
+
     status: {
         type: String,
         require: true,
@@ -79,7 +117,6 @@ const schema = util.defineSchema('freightRecord', {
     }
 
 })
-
 
 
 module.exports = schema

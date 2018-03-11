@@ -15,13 +15,25 @@ const newFreightRecord = async (ctx) => {
 
 const getAllFreightRecord = async (ctx) => {
     try {
-        const result = await new FreightRecord().getAllRecord()
+        const result = await FreightRecord.getAllRecord()
         ctx.rest(result)
     } catch (err) {
         throw err
     }
 }
+
+const updateOneRecord = async (ctx) => {
+    try {
+        await FreightRecord.updateOne({id :ctx.params.id}, ctx.request.body)
+        ctx.rest({
+            message: '更新数据完成!'
+        })
+    } catch (err) {
+        throw err
+    }
+}
 module.exports = {
-    'POST /': newFreightRecord,
+    'PUT /': newFreightRecord,
+    'POST /:id': updateOneRecord,
     'GET /': getAllFreightRecord,
 }

@@ -66,16 +66,15 @@ User.prototype.auth = async function () {
     }
     return false
 }
-
+*/
 new User({
     name: '管理员',
     username: 'admin',
     password: 'admin',
-    authority: ['admin', 'step1', 'step2', 'step3'],
+    authority: ['ADMIN', 'STEP1', 'STEP2', 'STEP3', 'STEP4'],
     phone: 17319242396
 }).save().catch((err) => {
 
 })
-*/
 
 module.exports = User

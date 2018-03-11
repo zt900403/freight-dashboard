@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import {InputNumber,message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
-import {saveFreightRecord} from '../../fetch/FreightRecord/index'
+import {newFreightRecord} from '../../fetch/FreightRecord/index'
 import './style.css'
 
 
@@ -20,8 +20,8 @@ class NewFreightForm extends React.PureComponent {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
-                console.log(values)
-                saveFreightRecord(values)
+                values.status = "STEP2"
+                newFreightRecord(values)
                     .then((result) => {
                         message.info(result.message)
                     }).catch((err) => {
@@ -39,8 +39,8 @@ class NewFreightForm extends React.PureComponent {
                     <Panel header="基本录入" key="1">
                         <FormItem
                             label="标题"
-                            labelCol={{span: 4}}
-                            wrapperCol={{span: 20}}
+                            labelCol={{span: 1}}
+                            wrapperCol={{span: 23}}
                         >
                             {getFieldDecorator('title', {
                                 rules: [{required: true, message: '请输入标题!'}],
@@ -98,8 +98,6 @@ class NewFreightForm extends React.PureComponent {
                             <Col span={6}>
                                 <FormItem
                                     label="A采购单位"
-                                    labelCol={{span:10}}
-                                    wrapperCol={{span:14}}
                                 >
                                     {getFieldDecorator('APurchaseCompany', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -146,8 +144,6 @@ class NewFreightForm extends React.PureComponent {
                             <Col span={6}>
                                 <FormItem
                                     label="油井号"
-                                    labelCol={2}
-                                    wrapperCol={3}
                                 >
                                     {getFieldDecorator('oilWellNumber', {
                                         rules: [{required: true, message: '请输入!'}],

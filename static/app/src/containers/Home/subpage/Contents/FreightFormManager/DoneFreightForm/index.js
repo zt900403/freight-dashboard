@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Button} from 'antd';
+import {Table, Button, Modal} from 'antd';
 class DoneFreightForm extends React.PureComponent {
 
     render() {
@@ -20,13 +20,21 @@ class DoneFreightForm extends React.PureComponent {
             key: 'action',
             render: (text, record) => {
                 return <Button type="primary">明细</Button >
-
             }
         }];
 
         return (
-            <Table columns={columns} dataSource={this.props.data}/>
+            <div>
+                <Table columns={columns} dataSource={this.props.data}/>
+                <Modal
+                    cancelText="关闭"
+                    title="货运单详情"
+                >
+                    
+                </Modal>
+            </div>
         )
+
     }
 }
 

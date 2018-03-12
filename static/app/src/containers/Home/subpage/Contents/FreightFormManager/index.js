@@ -14,12 +14,17 @@ class FreightFormManager extends React.PureComponent {
     updateUndoneFormDataHandle = (data) => {
 
         let undone = []
-        this.state.undone.forEach((item) => {
-            if (item.id != data.id)
+        let done = []
+        data.forEach((item) => {
+            if (item.status === 'DONE') {
+                done.push(item)
+            } else {
                 undone.push(item)
+            }
         })
+
         this.setState( {
-            done: this.state.done.slice().concat([data]),
+            done: this.state.done.slice().concat(done),
             undone: undone
         })
     }

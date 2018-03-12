@@ -76,15 +76,22 @@ class Home extends React.PureComponent {
                             title={<span><Icon type="profile"/>货运单管理</span>}
                         >
                             <Menu.Item key="3">货运单概览</Menu.Item>
-                            <Menu.Item key="2">新建货运单</Menu.Item>
+                            {
+                                this.props.userinfo.authority.includes('STEP1')
+                                    ? <Menu.Item key="2">新建货运单</Menu.Item>
+                                    : ''
+                            }
                         </SubMenu>
-                        <SubMenu
-                            key="userManager"
-                            title={<span><Icon type="user"/><span>用户管理</span></span>}
-                        >
-                            <Menu.Item key="1">用户</Menu.Item>
-                            {/*<Menu.Item key="2">用户组</Menu.Item>*/}
-                        </SubMenu>
+                        {   this.props.userinfo.authority.includes('ADMIN')
+                            ? <SubMenu
+                                key="userManager"
+                                title={<span><Icon type="user"/><span>用户管理</span></span>}
+                            >
+                                <Menu.Item key="1">用户</Menu.Item>
+                                {/*<Menu.Item key="2">用户组</Menu.Item>*/}
+                            </SubMenu>
+                            : ''
+                        }
                     </Menu>
                 </Sider>
                 <Layout>

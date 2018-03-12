@@ -65,7 +65,7 @@ class UndoneFreightForm extends React.PureComponent {
             let target;
             let i;
             this.props.data.forEach((item, index) => {
-                if (item.id = this.state.id) {
+                if (item.id === this.state.id) {
                     target = item;
                     i = index
                 }
@@ -78,16 +78,14 @@ class UndoneFreightForm extends React.PureComponent {
             else {
                 values.status = 'STEP' + (parseInt(n) + 1)
             }
-
             this.props.data[i] = Object.assign({}, this.props.data[i], values)
             updateOneRecord(this.state.id, values)
                 .then((result) => {
                     message.info(result.message)
+                    this.props.updateUndoneFormData(this.props.data)
                 }).catch((err) => {
                 message.error(err.message)
             })
-            if (values.status === 'DONE')
-                this.props.updateUndoneFormData(this.props.data[i])
         });
     }
     saveFormRef = (form) => {
@@ -112,6 +110,10 @@ class UndoneFreightForm extends React.PureComponent {
             dataIndex: 'date',
             key: 'date',
         }, {
+            title: '状态',
+            dataIndex: 'status',
+            key: 'status',
+        }, {
             title: '动作',
             key: 'action',
             render: (text, record) => {
@@ -120,7 +122,7 @@ class UndoneFreightForm extends React.PureComponent {
                     let authority = this.props.userinfo.authority
                     let status = record.status
                     if ((status != 'DONE')
-                        || (authority.includes('STEP2')) || authority.includes('STEP3') || authority.includes('STEP4'))
+                        && (authority.includes('STEP2')) || authority.includes('STEP3') || authority.includes('STEP4'))
                         return <Button type="primary" onClick={this.showModal.bind(this, record.id)}>修改</Button >
 
                 }

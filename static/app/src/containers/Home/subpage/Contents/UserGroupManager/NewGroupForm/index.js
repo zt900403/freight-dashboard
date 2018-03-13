@@ -7,6 +7,10 @@ const FormItem = Form.Item
 const Option = Select.Option
 
 class NewGroupForm extends React.PureComponent {
+    state = {
+        loading: false,
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -94,7 +98,7 @@ class NewGroupForm extends React.PureComponent {
                 </FormItem>
 
                 <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">确认新建</Button>
+                    <Button type="primary" loading={this.state.loading} htmlType="submit">确认新建</Button>
                 </FormItem>
             </Form>
         );

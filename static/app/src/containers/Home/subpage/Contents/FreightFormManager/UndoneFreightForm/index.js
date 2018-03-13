@@ -11,6 +11,7 @@ class UndoneFreightForm extends React.PureComponent {
         id: -1,
         modalVisible: false,
         editModalChildren: <div />,
+        loading: false,
     }
 
     showModal = (id) => {
@@ -79,12 +80,19 @@ class UndoneFreightForm extends React.PureComponent {
                 values.status = 'STEP' + (parseInt(n) + 1)
             }
             this.props.data[i] = Object.assign({}, this.props.data[i], values)
+            this.setState({
+                loading: true,
+            })
             updateOneRecord(this.state.id, values)
                 .then((result) => {
                     message.info(result.message)
                     this.props.updateUndoneFormData(this.props.data)
                 }).catch((err) => {
                 message.error(err.message)
+            }).finally(() => {
+                this.setState({
+                    loading: false,
+                })
             })
         });
     }
@@ -132,11 +140,12 @@ class UndoneFreightForm extends React.PureComponent {
 
         return (
             <div>
-                <Table columns={columns} dataSource={this.props.data}/>
+                <Table loading={this.props.loading} columns={columns} dataSource={this.props.data}/>
                 <EditModal
                     visible={this.state.modalVisible}
                     onCancel={this.handleCancel}
                     onCreate={this.handleCreate}
+                    confirmLoading={this.state.loading}
                 >
                     {this.state.editModalChildren}
                 </EditModal>

@@ -9,6 +9,7 @@ class FreightFormManager extends React.PureComponent {
     state = {
         done: [],
         undone: [],
+        loading: false,
     }
 
     updateUndoneFormDataHandle = (data) => {
@@ -23,7 +24,7 @@ class FreightFormManager extends React.PureComponent {
             }
         })
 
-        this.setState( {
+        this.setState({
             done: this.state.done.slice().concat(done),
             undone: undone
         })
@@ -33,9 +34,11 @@ class FreightFormManager extends React.PureComponent {
         return (
 
             <Tabs defaultActiveKey="1">
-                <TabPane tab="已完成货运单" key="1"><DoneFreightForm data={this.state.done} userinfo={this.props.userinfo}/></TabPane>
+                <TabPane tab="已完成货运单" key="1"><DoneFreightForm
+                    loading={this.state.loading} data={this.state.done}
+                    userinfo={this.props.userinfo}/></TabPane>
                 <TabPane tab="未完成货运单" key="2"><UndoneFreightForm
-                    data={this.state.undone} userinfo = {this.props.userinfo}
+                    loading={this.state.loading} data={this.state.undone} userinfo={this.props.userinfo}
                     updateUndoneFormData={this.updateUndoneFormDataHandle}/></TabPane>
             </Tabs>
 
@@ -43,6 +46,9 @@ class FreightFormManager extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.setState({
+            loading: true,
+        })
         getAllRecord()
             .then((data) => {
                 this.setState({
@@ -51,6 +57,10 @@ class FreightFormManager extends React.PureComponent {
                 })
             }).catch((err) => {
             message.error(err.message)
+        }).finally(() => {
+            this.setState({
+                loading: false,
+            })
         })
     }
 

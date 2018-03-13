@@ -143,7 +143,7 @@ class RegistrationForm extends React.PureComponent {
                             <Option value="STEP1">流程一</Option>
                             <Option value="STEP2">流程二</Option>
                             <Option value="STEP3">流程三</Option>
-                            <Option value="STEP4">流程三</Option>
+                            <Option value="STEP4">流程四</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -160,7 +160,7 @@ class RegistrationForm extends React.PureComponent {
                 </FormItem>
 
                 <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">确认新建</Button>
+                    <Button type="primary" loading={this.props.loading} htmlType="submit">确认新建</Button>
                 </FormItem>
             </Form>
         );

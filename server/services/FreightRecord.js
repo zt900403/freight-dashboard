@@ -38,7 +38,6 @@ FreightRecord.getAllRecord = async function () {
 FreightRecord.updateOne = async function ({id}, newValue) {
     try {
         const result = await db.FreightRecord.update({id: id}, {$set: newValue})
-        console.log('real', result)
         return true
     } catch (err) {
         throw error

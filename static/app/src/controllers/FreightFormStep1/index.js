@@ -11,9 +11,6 @@ const Panel = Collapse.Panel
 const FormItem = Form.Item
 
 class NewFreightForm extends React.PureComponent {
-    clickHandle = (key) => {
-        console.log(key)
-    }
 
     handleSubmit = (e) => {
         e.preventDefault();

@@ -13,7 +13,13 @@ import {message} from 'antd'
 
 class Login extends React.PureComponent {
 
+    state = {
+        loading: false,
+    }
     loginHandle = (data) => {
+        this.setState({
+            loading: true,
+        })
         login({
             username: data.username,
             password: data.password
@@ -25,6 +31,11 @@ class Login extends React.PureComponent {
             this.props.history.push('/')
         }).catch((err) => {
             message.error(err.message)
+        }).finally(() => {
+
+            this.setState({
+                loading: false,
+            })
         })
     }
 
@@ -32,7 +43,7 @@ class Login extends React.PureComponent {
         return (
             <div id="loginDIV">
                 <div className="login">
-                    <LoginForm onLogin={this.loginHandle}/>
+                    <LoginForm loading={this.state.loading} onLogin={this.loginHandle}/>
                 </div>
             </div>
         )

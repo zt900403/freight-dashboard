@@ -8,7 +8,7 @@ import FreightFormStep2 from '../FreightFormStep2'
 const FormItem = Form.Item;
 const Step2Modal = Form.create()(
     (props) => {
-        const { visible, onCancel, onCreate, form } = props;
+        const { visible, onCancel, onCreate, confirmLoading, form  } = props;
         const { getFieldDecorator } = form;
         return (
             <Modal
@@ -19,6 +19,7 @@ const Step2Modal = Form.create()(
                 width={1000}
                 onCancel={onCancel}
                 onOk={onCreate}
+                confirmLoading={confirmLoading}
             >
                 {props.children}
             </Modal>

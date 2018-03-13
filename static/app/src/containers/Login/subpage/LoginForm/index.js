@@ -54,7 +54,7 @@ class LoginForm extends React.PureComponent {
                     <a href="">忘记密码</a>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary"  onClick={this.check}>
+                    <Button type="primary" loading={this.props.loading} onClick={this.check}>
                         登陆
                     </Button>
                 </FormItem>

@@ -5,7 +5,9 @@ const User = require('../../../../services/User')
 const APIError = require('../../../../middleware/rest').APIError
 const newUserFn = async (ctx) => {
     try {
-        await new User(ctx.request.body).save()
+        let body = ctx.request.body
+        body.authority = body.authority.split(',')
+        await new User(body).save()
         ctx.rest({
             message: '创建成功!'
         })

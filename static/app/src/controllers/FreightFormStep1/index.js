@@ -30,14 +30,39 @@ class NewFreightForm extends React.PureComponent {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: 16,
+                    offset: 8,
+                },
+            },
+        };
+
+        const formItemLayout = {
+            labelCol: {
+                xs: {span: 24},
+                sm: {
+                    span: 4,
+                },
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 8},
+            },
+        };
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
                     <Panel header="基本录入" key="1">
                         <FormItem
                             label="标题"
-                            labelCol={{span: 1}}
-                            wrapperCol={{span: 23}}
+                            {...formItemLayout}
                         >
                             {getFieldDecorator('title', {
                                 rules: [{required: true, message: '请输入标题!'}],
@@ -46,9 +71,10 @@ class NewFreightForm extends React.PureComponent {
                             )}
                         </FormItem>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col>
                                 <FormItem
                                     label="车辆名称"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('carNumber', {
                                         rules: [{required: true, message: '请输入!'}],

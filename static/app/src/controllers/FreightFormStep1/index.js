@@ -273,6 +273,16 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="剩余货物入库量"
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('remainingProductStoreAmount', {})(
+                                        <InputNumber />
+                                    )}
+                                </FormItem>
+                            </Col>
                         </Row>
                     </Panel>
                     <Panel header="多点采购信息录入" key="3">

@@ -129,6 +129,9 @@ class FreightFormDetail extends React.PureComponent {
                             <Col span={6}>
                                 {flagStep1 ? <p><strong>留货车辆费用小计: </strong><span className="red">{this.multiply(data.keepCarUnitPrice, data.keepProductAmount)}</span></p>: ''}
                             </Col>
+                            <Col span={6}>
+                                {flagStep1 ? <p><strong>剩余货物入库量: </strong>{data.remainingProductStoreAmount}</p>: ''}
+                            </Col>
                         </Row>
                     </Panel>
                     <Panel header="多点采购信息录入" key="3">

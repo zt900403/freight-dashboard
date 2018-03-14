@@ -29,15 +29,18 @@ class Login extends React.PureComponent {
                 isLogin: true
             })
 
+            this.setState({
+                loading: false,
+            })
             this.props.history.push('/')
         }).catch((err) => {
             message.error(err.message)
-        }).then(() => {
             this.setState({
                 loading: false,
             })
         })
     }
+
 
 
 

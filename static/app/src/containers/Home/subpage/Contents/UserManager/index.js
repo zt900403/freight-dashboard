@@ -20,14 +20,21 @@ class UserManager extends React.PureComponent {
         newUser(data)
             .then((result) => {
                 message.info(result.message)
+                this.setState({
+                    newUserloading: false,
+                })
             }).catch((err) => {
             message.error(err.message)
-
-        }).finally(() => {
             this.setState({
                 newUserloading: false,
             })
+
         })
+        /*.finally(() => {
+         this.setState({
+         newUserloading: false,
+         })
+         })*/
     }
 
     render() {

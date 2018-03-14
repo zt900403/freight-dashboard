@@ -87,13 +87,20 @@ class UndoneFreightForm extends React.PureComponent {
                 .then((result) => {
                     message.info(result.message)
                     this.props.updateUndoneFormData(this.props.data)
+                    this.setState({
+                        loading: false,
+                    })
                 }).catch((err) => {
                 message.error(err.message)
-            }).finally(() => {
                 this.setState({
                     loading: false,
                 })
             })
+            /*.finally(() => {
+             this.setState({
+             loading: false,
+             })
+             })*/
         });
     }
     saveFormRef = (form) => {

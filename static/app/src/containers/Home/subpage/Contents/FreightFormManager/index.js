@@ -54,14 +54,19 @@ class FreightFormManager extends React.PureComponent {
                 this.setState({
                     done: data.done,
                     undone: data.undone,
+                    loading: false,
                 })
             }).catch((err) => {
             message.error(err.message)
-        }).finally(() => {
             this.setState({
                 loading: false,
             })
         })
+        /*.finally(() => {
+         this.setState({
+         loading: false,
+         })
+         })*/
     }
 
 }

@@ -71,6 +71,7 @@ const schema = util.defineSchema('freightRecord', {
     DSeller: String,
     DSellerCompany: String,
     DSellPlace: String,
+    needPoisonInfo: Boolean,
 
     //step2
     APurchaseAmount: String,

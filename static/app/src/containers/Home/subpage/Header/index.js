@@ -46,7 +46,7 @@ class MyHeader extends React.PureComponent {
     render() {
         let menu = (
             <Menu onClick={this.menuClickHandle}>
-                <Menu.Item key="1">修改个人资料</Menu.Item>
+                {/*<Menu.Item key="1">修改个人资料</Menu.Item>*/}
                 <Menu.Item key="2">退出登陆</Menu.Item>
             </Menu>
         );

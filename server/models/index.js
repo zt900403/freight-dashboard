@@ -77,6 +77,7 @@ freightRecordModel.prototype.toJSON = function () {
         DSellerCompany: this.DSellerCompany,
         DSellPlace: this.DSellPlace,
         status: this.status,
+        needPoisonInfo: this.needPoisonInfo,
 
         //step2
         APurchaseAmount: this.APurchaseAmount,

@@ -16,7 +16,6 @@ class UserManager extends React.PureComponent {
         this.setState({
             newUserloading: true,
         })
-        console.log(data)
         newUser(data)
             .then((result) => {
                 message.info(result.message)

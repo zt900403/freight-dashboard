@@ -2,7 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber, message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
+import {InputNumber, message, DatePicker, Collapse, Form, Button, Input, Col, Row, Checkbox} from 'antd';
 import {newFreightRecord} from '../../fetch/FreightRecord/index'
 import './style.css'
 
@@ -24,6 +24,7 @@ class NewFreightForm extends React.PureComponent {
                 this.setState({
                     loading: true,
                 })
+                console.log(values)
                 newFreightRecord(values)
                     .then((result) => {
                         message.info(result.message)
@@ -375,7 +376,14 @@ class NewFreightForm extends React.PureComponent {
                         </Row>
                     </Panel>
                 </Collapse>
-
+                <FormItem>
+                    {getFieldDecorator('needPoisonInfo', {
+                        valuePropName: 'checked',
+                        initialValue: false,
+                    })(
+                        <Checkbox>需要输入易制毒信息</Checkbox>
+                    )}
+                </FormItem>
                 < FormItem
                     wrapperCol={{span: 12, offset: 0}
                     }

@@ -71,12 +71,12 @@ class UndoneFreightForm extends React.PureComponent {
                     i = index
                 }
             })
-
             let n = target.status.slice(-1)
             if (n == '4') {
                 values.status = 'DONE'
-            }
-            else {
+            } else if (n == '3' && !target.needPoisonInfo) {
+                values.status ="DONE"
+            } else {
                 values.status = 'STEP' + (parseInt(n) + 1)
             }
             this.props.data[i] = Object.assign({}, this.props.data[i], values)
@@ -136,9 +136,12 @@ class UndoneFreightForm extends React.PureComponent {
                     this.props.userinfo.authority) {
                     let authority = this.props.userinfo.authority
                     let status = record.status
-                    if ((status != 'DONE')
-                        && (authority.includes('STEP2')) || authority.includes('STEP3') || authority.includes('STEP4'))
+                    if ((status == 'STEP2' && authority.includes('STEP2')) ||
+                        (status == 'STEP3' && authority.includes('STEP3')) ||
+                        (status == 'STEP4' && authority.includes('STEP4')) ) {
+
                         return <Button type="primary" onClick={this.showModal.bind(this, record.id)}>修改</Button >
+                    }
 
                 }
             }

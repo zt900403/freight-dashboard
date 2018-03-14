@@ -2,7 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber,message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
+import {InputNumber, message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
 import {newFreightRecord} from '../../fetch/FreightRecord/index'
 import './style.css'
 
@@ -11,18 +11,28 @@ const Panel = Collapse.Panel
 const FormItem = Form.Item
 
 class NewFreightForm extends React.PureComponent {
+    state = {
+        loading: false,
+    }
 
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
                 values.status = "STEP2"
+                this.setState({
+                    loading: true,
+                })
                 newFreightRecord(values)
                     .then((result) => {
                         message.info(result.message)
                     }).catch((err) => {
                     message.error(err.message)
+                }).finally(() => {
+                    this.setState({
+                        loading: false,
+                    })
                 })
             }
         });
@@ -31,47 +41,45 @@ class NewFreightForm extends React.PureComponent {
     render() {
         const {getFieldDecorator} = this.props.form;
 
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 8,
-                },
-            },
-        };
-
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
                 sm: {
-                    span: 4,
+                    span: 12,
                 },
             },
             wrapperCol: {
                 xs: {span: 24},
-                sm: {span: 8},
+                sm: {span: 12},
             },
         };
+
+        const colspan = {
+            span: 6
+        }
+
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
                     <Panel header="基本录入" key="1">
-                        <FormItem
-                            label="标题"
-                            {...formItemLayout}
-                        >
-                            {getFieldDecorator('title', {
-                                rules: [{required: true, message: '请输入标题!'}],
-                            })(
-                                <Input />
-                            )}
-                        </FormItem>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col>
+                            <Col span={14}>
+                                <FormItem
+                                    label="标题"
+                                    wrapperCol={{span: 20}}
+                                    labelCol={{span: 4}}
+                                >
+                                    {getFieldDecorator('title', {
+                                        rules: [{required: true, message: '请输入标题!'}],
+                                    })(
+                                        <Input />
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="车辆名称"
                                     {...formItemLayout}
@@ -83,9 +91,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="日期"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('date', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -94,9 +103,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="品名"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('productName', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -105,9 +115,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="采购贸易方"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('purchaser', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -118,9 +129,10 @@ class NewFreightForm extends React.PureComponent {
                             </Col>
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A采购单位"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('APurchaseCompany', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -129,9 +141,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="出发地"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('startPlace', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -140,9 +153,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A销售贸易方"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASeller', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -151,9 +165,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A销售单位"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellerCompany', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -164,9 +179,10 @@ class NewFreightForm extends React.PureComponent {
                             </Col>
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="油井号"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('oilWellNumber', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -175,9 +191,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A销售地"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellPlace', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -186,9 +203,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="运费单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('freightUnitPrice', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -197,11 +215,10 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="运输费吨位调整"
-                                    labelCol={{span:12}}
-                                    wrapperCol={{span:12}}
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('freightPriceTonsAdjust', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -212,9 +229,10 @@ class NewFreightForm extends React.PureComponent {
                             </Col>
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="其他增项"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('otherAddItem', {
                                         rules: [{required: true, message: '请输入!'}],
@@ -227,18 +245,20 @@ class NewFreightForm extends React.PureComponent {
                     </Panel>
                     <Panel header="留货车辆录入" key="2">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="留存车辆"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('keepCarNumber', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="留货车辆单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('keepCarUnitPrice', {})(
                                         <InputNumber />
@@ -251,27 +271,30 @@ class NewFreightForm extends React.PureComponent {
                     </Panel>
                     <Panel header="第三方贸易商信息录入" key="4">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B销售贸易方"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('BSeller', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B销售单位"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('BSellerCompany', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B销售地"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('BSellPlace', {})(
                                         <Input />
@@ -280,27 +303,30 @@ class NewFreightForm extends React.PureComponent {
                             </Col>
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="C销售贸易方"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('CSeller', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="C销售单位"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('CSellerCompany', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="C销售地"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('CSellPlace', {})(
                                         <Input />
@@ -309,27 +335,30 @@ class NewFreightForm extends React.PureComponent {
                             </Col>
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="D销售贸易方"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('DSeller', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="D销售单位"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('DSellerCompany', {})(
                                         <Input />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="D销售地"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('DSellPlace', {})(
                                         <Input />
@@ -344,7 +373,7 @@ class NewFreightForm extends React.PureComponent {
                     wrapperCol={{span: 12, offset: 0}
                     }
                 >
-                    <Button type="primary" htmlType="submit">提交</Button>
+                    <Button type="primary" loading={this.state.loading} htmlType="submit">提交</Button>
                 </FormItem >
             </ Form >
         )

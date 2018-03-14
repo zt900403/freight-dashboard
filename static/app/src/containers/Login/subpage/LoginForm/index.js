@@ -44,15 +44,16 @@ class LoginForm extends React.PureComponent {
                                placeholder="密码"/>
                     )}
                 </FormItem>
-                <FormItem>
-                    {getFieldDecorator('remember', {
-                        valuePropName: 'checked',
-                        initialValue: true,
-                    })(
-                        <Checkbox>记住我</Checkbox>
-                    )}
-                    <a href="">忘记密码</a>
-                </FormItem>
+
+                {/*<FormItem>*/}
+                    {/*{getFieldDecorator('remember', {*/}
+                        {/*valuePropName: 'checked',*/}
+                        {/*initialValue: true,*/}
+                    {/*})(*/}
+                        {/*<Checkbox>记住我</Checkbox>*/}
+                    {/*)}*/}
+                    {/*<a href="">忘记密码</a>*/}
+                {/*</FormItem>*/}
                 <FormItem>
                     <Button type="primary" loading={this.props.loading} onClick={this.check}>
                         登陆

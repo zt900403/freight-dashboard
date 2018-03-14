@@ -24,14 +24,31 @@ class FreightFormStep3 extends React.PureComponent {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                xs: {span: 24},
+                sm: {
+                    span: 12,
+                },
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 12},
+            },
+        };
+
+        const colspan = {
+            span: 6
+        }
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
                     <Panel header="基本录入" key="1">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A采购单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('ABuyUnitPrice', {
                                         rules: [{required: true, message: '请输入!'},{type: 'number'}],
@@ -40,9 +57,10 @@ class FreightFormStep3 extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A补贴运费"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('AFreightSubsidy', {
                                         rules: [{required: true, message: '请输入!'},{type: 'number'}],
@@ -51,9 +69,10 @@ class FreightFormStep3 extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="A销售单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellUnitPrice', {
                                         rules: [{required: true, message: '请输入!'},{type: 'number'}],
@@ -68,9 +87,10 @@ class FreightFormStep3 extends React.PureComponent {
                     </Panel>
                     <Panel header="多点采购信息录入" key="3">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B采购单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('BBuyUnitPrice', {
                                         rules: [{type: 'number'}],
@@ -79,9 +99,10 @@ class FreightFormStep3 extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B补贴运费"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('BFreightSubsidy', {
                                         rules: [{type: 'number'}],
@@ -94,9 +115,10 @@ class FreightFormStep3 extends React.PureComponent {
                     </Panel>
                     <Panel header="第三方贸易商信息录入" key="4">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B销售单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('BSellUnitPrice', {})(
                                         <InputNumber />
@@ -105,18 +127,20 @@ class FreightFormStep3 extends React.PureComponent {
                             </Col>
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="C销售单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('CSellUnitPrice', {})(
                                         <InputNumber />
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="D销售单价"
+                                    {...formItemLayout}
                                 >
                                     {getFieldDecorator('DSellUnitPrice', {})(
                                         <InputNumber />

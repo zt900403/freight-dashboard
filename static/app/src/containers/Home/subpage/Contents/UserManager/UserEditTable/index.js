@@ -1,7 +1,7 @@
 import React from 'react'
-import {Modal,Table, Button, message} from 'antd';
+import {Modal, Table, Button, message} from 'antd';
 import EditUserForm from './EditUserForm'
-import {deleteUser} from '../../../../../../fetch/User'
+import {deleteUser, updateOneUser} from '../../../../../../fetch/User'
 class UserEditTable extends React.PureComponent {
 
     state = {
@@ -32,8 +32,15 @@ class UserEditTable extends React.PureComponent {
                 return;
             }
             form.resetFields();
-
-            this.setState({editModalVisible: false});
+            values.id = this.state.editTarget.id
+            updateOneUser(values)
+                .then((result) => {
+                    message.info(result.message)
+                }).catch((err) => {
+                message.error(err.message)
+            }).then(() => {
+                this.setState({editModalVisible: false});
+            })
 
         })
     }
@@ -47,7 +54,8 @@ class UserEditTable extends React.PureComponent {
     deleteUserHandle = (userid) => {
         deleteUser(userid)
             .then((result) => {
-               message.info(result.message)
+                message.info(result.message)
+                this.props.deleteUserDataFromTable(userid)
             }).catch((err) => {
             message.error(err.message)
         }).then(() => {
@@ -58,6 +66,7 @@ class UserEditTable extends React.PureComponent {
     saveFormRef = (form) => {
         this.form = form
     }
+
     render() {
         const authorityMapping = {
             ADMIN: '管理员',
@@ -113,11 +122,11 @@ class UserEditTable extends React.PureComponent {
                 <Table loading={this.props.loading} columns={columns} dataSource={this.props.data}/>
                 <Modal title={`修改用户${this.state.editTarget.username}`}
                        visible={this.state.editModalVisible}
-                        onOk={this.handleEdit}
-                        onCancel={this.handleCancel}
-                        okText="确认"
-                        cancelText="取消">
-                    <EditUserForm ref={this.saveFormRef} initialValues={this.state.editTarget} />
+                       onOk={this.handleEdit}
+                       onCancel={this.handleCancel}
+                       okText="确认"
+                       cancelText="取消">
+                    <EditUserForm ref={this.saveFormRef} initialValues={this.state.editTarget}/>
                 </Modal>
             </div>
         )

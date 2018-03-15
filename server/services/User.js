@@ -39,6 +39,7 @@ class User extends db.User {
 
 User.findOneAndRemove = async function (conditions) {
     try {
+        console.log(conditions)
         await db.User.findOneAndRemove(conditions)
         return true
     } catch(err) {
@@ -61,6 +62,17 @@ User.getAllRecord = async function () {
     return result
 }
 
+
+User.updateOne = async function (id, newValue) {
+    try {
+        newValue.salt = await bcrypt.genSalt(4);
+        newValue.password = await bcrypt.hash(newValue.password, newValue.salt)
+        await db.User.update({id: id}, {$set: newValue})
+        return true
+    } catch (err) {
+        throw err
+    }
+}
 
 new User({
     name: '管理员',

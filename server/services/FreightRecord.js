@@ -37,10 +37,10 @@ FreightRecord.getAllRecord = async function () {
 
 FreightRecord.updateOne = async function ({id}, newValue) {
     try {
-        const result = await db.FreightRecord.update({id: id}, {$set: newValue})
+        await db.FreightRecord.update({id: id}, {$set: newValue})
         return true
     } catch (err) {
-        throw error
+        throw err
     }
 }
 

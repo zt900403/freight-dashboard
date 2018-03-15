@@ -49,13 +49,21 @@ class UserManager extends React.PureComponent {
         })
     }
 
+    deleteUserDataFromTableHandle = (userid) => {
+        this.setState({
+            userEditData: this.state.userEditData.filter((item) => item.id !== userid)
+        })
+    }
+
     render() {
         return (
             <Tabs defaultActiveKey="1" onChange={this.clickHandle}>
                 <TabPane tab="新建用户" key="1"><RegistrationForm
                     loading={this.state.newUserLoading} onRegister={this.registerNewUserHandle}/></TabPane>
                 <TabPane tab="用户编辑" key="2"><UserEditTable loading={this.state.userEditLoading}
-                                                           data={this.state.userEditData} /></TabPane>
+                                                           data={this.state.userEditData}
+                                                            deleteUserDataFromTable={this.deleteUserDataFromTableHandle} /></TabPane>
+
             </Tabs>
         )
     }

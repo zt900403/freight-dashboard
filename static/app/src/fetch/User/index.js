@@ -22,3 +22,9 @@ export function deleteUser(id) {
     const result = fetch.DELETE('/auth/api/user/' + id)
     return result
 }
+
+
+export function updateOneUser(data) {
+    const result = fetch.post('/auth/api/user/' + data.id, data)
+    return result
+}

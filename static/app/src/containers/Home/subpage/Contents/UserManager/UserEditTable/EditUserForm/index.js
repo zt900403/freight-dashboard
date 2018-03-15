@@ -4,9 +4,7 @@ const Option = Select.Option
 const FormItem = Form.Item
 
 class EditUserForm extends React.PureComponent {
-    state = {
-        confirmDirty: false,
-    }
+
 
     render() {
 
@@ -45,21 +43,6 @@ class EditUserForm extends React.PureComponent {
 
                 <FormItem
                     {...formItemLayout}
-                    label={(
-                        <span>用户名&nbsp;</span>
-                    )}
-                >
-                    {getFieldDecorator('username', {
-                        rules: [{required: true, message: '请输入用户名!'}, {
-                            min: 6, message: '长度小于6!'
-                        }],
-                        initialValue: data.username,
-                    })(
-                        <Input />
-                    )}
-                </FormItem>
-                <FormItem
-                    {...formItemLayout}
                     label="用户权限[多选]"
                 >
                     {getFieldDecorator('authority', {
@@ -83,7 +66,8 @@ class EditUserForm extends React.PureComponent {
                 >
                     {getFieldDecorator('password', {
                         rules: [{
-                        }],
+                            min: 6, message: '长度小于6!'
+                        }]
                     })(
                         <Input type="password"/>
                     )}

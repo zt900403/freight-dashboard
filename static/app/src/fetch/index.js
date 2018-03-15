@@ -137,6 +137,33 @@ function put(url, paramsObj) {
             }));
     });
 }
+
+function DELETE(url, paramsObj) {
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+            },
+            body: obj2params(deleteUndefined(paramsObj))
+        })
+            .then(parseJSON)
+            .then((response) => {
+                if (response.ok) {
+                    return resolve(response.json);
+                }
+                // extract the error from the server's json
+                return reject(response.json);
+            })
+            .catch((error) => reject({
+                networkError: error.message,
+            }));
+    });
+}
+
+
+
 // function parseJSON(response) {
 //     return response.json()
 // }
@@ -146,4 +173,5 @@ export default {
     get,
     post,
     put,
+    DELETE,
 }

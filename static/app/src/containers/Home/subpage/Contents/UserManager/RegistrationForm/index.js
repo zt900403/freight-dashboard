@@ -2,7 +2,7 @@
  * Created by zhang on 18/03/06.
  */
 import React from 'react'
-import {Form, Input, Select, Button, InputNumber } from 'antd';
+import {Form, Input, Select, Button} from 'antd';
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -16,7 +16,7 @@ class RegistrationForm extends React.PureComponent {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
-                this.props.onRegister(values)
+                this.props.onRegister(values, this.props.form)
             }
         });
     }

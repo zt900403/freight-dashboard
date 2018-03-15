@@ -37,36 +37,31 @@ class User extends db.User {
     }
 }
 
-/*
-User.prototype.save = async function () {
-    let user = this.user;
-    const salt = await bcrypt.genSalt(4);
-    user.salt = salt;
-    user.password = await bcrypt.hash(user.password, salt)
+User.findOneAndRemove = async function (conditions) {
     try {
-        await new db.User(user).save()
-        return '创建成功!'
-    } catch (err) {
+        await db.User.findOneAndRemove(conditions)
+        return true
+    } catch(err) {
         throw err
     }
 }
 
-User.prototype.auth = async function () {
-    let user = this.user;
-    let one = await db.User.findOne({username: user.username})
-
-    if (!one) {
-        return false
-    }
-
-    var hash = await bcrypt.hash(user.password, one.salt)
-    if (hash === one.password) {
-        const result = one.toJSON()
-        return result
-    }
-    return false
+User.getAllRecord = async function () {
+    const all = await db.User.find({})
+    const result = []
+    all.filter((item) => {
+        if (item.username !== 'admin') {
+            return item
+        }
+    }).forEach((item) => {
+        let obj = item.toJSON()
+        obj.key = obj.id
+        result.push(obj)
+    })
+    return result
 }
-*/
+
+
 new User({
     name: '管理员',
     username: 'admin',

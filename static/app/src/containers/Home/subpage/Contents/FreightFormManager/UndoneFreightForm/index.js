@@ -28,7 +28,7 @@ class UndoneFreightForm extends React.PureComponent {
             if (step === 'STEP2' && authority.includes('STEP2')) {
                 this.setState({
                     id,
-                    modalVisible: true,
+                    editModalVisible: true,
                     editModalChildren: <FreightFormStep2 ref={this.saveFormRef}/>
                 })
             }
@@ -36,14 +36,14 @@ class UndoneFreightForm extends React.PureComponent {
             if (step === 'STEP3' && authority.includes('STEP3')) {
                 this.setState({
                     id,
-                    modalVisible: true,
+                    editModalVisible: true,
                     editModalChildren: <FreightFormStep3 ref={this.saveFormRef}/>
                 })
             }
             if (step === 'STEP4' && authority.includes('STEP4')) {
                 this.setState({
                     id,
-                    modalVisible: true,
+                    editModalVisible: true,
                     editModalChildren: <FreightFormStep4 ref={this.saveFormRef}/>
                 })
             }
@@ -52,7 +52,7 @@ class UndoneFreightForm extends React.PureComponent {
     }
 
     handleCancel = () => {
-        this.setState({modalVisible: false});
+        this.setState({editModalVisible: false});
     }
     handleCreate = () => {
         const form = this.form;
@@ -61,7 +61,7 @@ class UndoneFreightForm extends React.PureComponent {
                 return;
             }
             form.resetFields();
-            this.setState({modalVisible: false});
+            this.setState({editModalVisible: false});
 
             let target;
             let i;
@@ -152,7 +152,7 @@ class UndoneFreightForm extends React.PureComponent {
             <div>
                 <Table loading={this.props.loading} columns={columns} dataSource={this.props.data}/>
                 <EditModal
-                    visible={this.state.modalVisible}
+                    visible={this.state.editModalVisible}
                     onCancel={this.handleCancel}
                     onCreate={this.handleCreate}
                     confirmLoading={this.state.loading}

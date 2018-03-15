@@ -40,6 +40,7 @@ IDGenerator.getID = async function (modelname) {
 const userModel = mongoose.model('user', require('./user'))
 userModel.prototype.toJSON = function () {
     return {
+        id: this.id,
         username: this.username,
         name: this.name,
         phone: this.phone,

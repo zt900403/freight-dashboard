@@ -20,7 +20,35 @@ const newUserFn = async (ctx) => {
         }
     }
 }
+const getAllUser = async (ctx) => {
+    if (!ctx.session.userinfo || !ctx.session.userinfo.authority.includes('ADMIN')) {
+        throw new APIError('auth: auth_error', '权限不足!')
+    }
+    try {
+        const result = await User.getAllRecord()
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
 
+
+}
+
+const deleteUser = async (ctx) => {
+    if (!ctx.session.userinfo || !ctx.session.userinfo.authority.includes('ADMIN')) {
+        throw new APIError('auth: auth_error', '权限不足!')
+    }
+    try {
+        await User.findOneAndRemove({id: ctx.params.id})
+        ctx.rest({
+            message: '删除成功!'
+        })
+    } catch (err) {
+        throw err
+    }
+}
 module.exports = {
     'POST /': newUserFn,
+    'GET /': getAllUser,
+    'DELETE /:id': deleteUser,
 }

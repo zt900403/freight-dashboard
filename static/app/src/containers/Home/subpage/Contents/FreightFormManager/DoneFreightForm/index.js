@@ -10,12 +10,12 @@ class DoneFreightForm extends React.PureComponent {
     showModal = (record) => {
        this.setState({
            detailData: record,
-           modalVisible: true,
+           editModalVisible: true,
        })
     }
 
     handleCancel = () => {
-        this.setState({modalVisible: false});
+        this.setState({editModalVisible: false});
     }
 
     render() {
@@ -45,7 +45,7 @@ class DoneFreightForm extends React.PureComponent {
                 <Modal
                     cancelText="关闭"
                     title="货运单详情"
-                    visible={this.state.modalVisible}
+                    visible={this.state.editModalVisible}
                     onCancel={this.handleCancel}
                     width={1000}
                     footer={[

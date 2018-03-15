@@ -1,47 +1,61 @@
 import React from 'react'
 import {Tabs, message} from 'antd';
 import RegistrationForm from './RegistrationForm/index'
+import UserEditTable from './UserEditTable'
 import {newUser} from '../../../../../fetch/User'
+import {getAllUser} from '../../../../../fetch/User'
 const TabPane = Tabs.TabPane;
 
 class UserManager extends React.PureComponent {
     state = {
-        newUserloading: false,
+        newUserLoading: false,
+        userEditLoading: false,
+        userEditData: [],
     }
     clickHandle = (key) => {
-
+        if (key === '2') {
+            this.setState({
+                userEditLoading: true,
+            })
+            getAllUser()
+                .then((data) => {
+                    this.setState({
+                        userEditData: data,
+                    })
+                }).catch((err) => {
+                message.error(err.message)
+            }).then(() => {
+                this.setState({
+                    userEditLoading: false,
+                })
+            })
+        }
     }
-    registerNewUserHandle = (data) => {
+    registerNewUserHandle = (data, form) => {
         delete data.confirm
         this.setState({
-            newUserloading: true,
+            newUserLoading: true,
         })
         newUser(data)
             .then((result) => {
                 message.info(result.message)
-                this.setState({
-                    newUserloading: false,
-                })
+                form.resetFields()
             }).catch((err) => {
             message.error(err.message)
+        }).then(() => {
             this.setState({
-                newUserloading: false,
+                newUserLoading: false,
             })
-
         })
-        /*.finally(() => {
-         this.setState({
-         newUserloading: false,
-         })
-         })*/
     }
 
     render() {
         return (
             <Tabs defaultActiveKey="1" onChange={this.clickHandle}>
                 <TabPane tab="新建用户" key="1"><RegistrationForm
-                    loading={this.state.newUserloading} onRegister={this.registerNewUserHandle}/></TabPane>
-                <TabPane tab="用户编辑" key="2">Content of Tab Pane 2</TabPane>
+                    loading={this.state.newUserLoading} onRegister={this.registerNewUserHandle}/></TabPane>
+                <TabPane tab="用户编辑" key="2"><UserEditTable loading={this.state.userEditLoading}
+                                                           data={this.state.userEditData} /></TabPane>
             </Tabs>
         )
     }

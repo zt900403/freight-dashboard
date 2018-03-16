@@ -24,7 +24,7 @@ const getAllFreightRecord = async (ctx) => {
 
 const updateOneRecord = async (ctx) => {
     try {
-        await FreightRecord.updateOne({id :ctx.params.id}, ctx.request.body)
+        await FreightRecord.updateOne({id: ctx.params.id}, ctx.request.body)
         ctx.rest({
             message: '更新数据完成!'
         })
@@ -47,9 +47,28 @@ const deleteOneRecord = async (ctx) => {
     }
 }
 
+const getDoneRecord = async (ctx) => {
+    try {
+        const result = await FreightRecord.getDoneRecord(ctx.request.query)
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
+
+const getUndoneRecord = async (ctx) => {
+    try {
+        const result = await FreightRecord.getUndoneRecord(ctx.request.query)
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
 module.exports = {
     'PUT /': newFreightRecord,
     'POST /:id': updateOneRecord,
     'GET /': getAllFreightRecord,
+    'GET /done': getDoneRecord,
+    'GET /undone': getUndoneRecord,
     'DELETE /:id': deleteOneRecord,
 }

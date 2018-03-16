@@ -2,7 +2,7 @@ import React from 'react'
 import {message, Table, Button, Modal} from 'antd';
 import FreightFormDetail from '../../../../../../controllers/FreightFormDetail'
 import FreightFormRollback from '../../../../../../controllers/FreightFormRollback'
-import {updateOneRecord, deleteOneReocrd} from '../../../../../../fetch/FreightRecord'
+import {updateOneRecord, deleteOneReocrd, getDoneRecord} from '../../../../../../fetch/FreightRecord'
 class DoneFreightForm extends React.PureComponent {
     state = {
         detailData: '',
@@ -92,13 +92,19 @@ class DoneFreightForm extends React.PureComponent {
         deleteOneReocrd(this.state.deleteID)
             .then((result) => {
                 message.info(result.message)
-                this.props.deleteDoneFreightData(this.state.deleteID);
+                this.props.deleteDoneFreightData(this.state.deleteID)
             }).catch((err) => {
             message.error(err.message)
         }).then(() => {
             this.deleteConfirmCancelHandle()
         })
     }
+
+
+    handleTableChange = (pagination) => {
+        this.props.getNewData(pagination)
+    }
+
     render() {
         const columns = [{
             title: '单号',
@@ -136,7 +142,11 @@ class DoneFreightForm extends React.PureComponent {
 
         return (
             <div>
-                <Table loading={this.props.loading} columns={columns} dataSource={this.props.data}/>
+                <Table loading={this.props.loading} columns={columns}
+                       dataSource={this.props.data}
+                       pagination={this.props.pagination}
+                       onChange={this.handleTableChange}
+                       rowKey={record => record.id}/>
                 <Modal
                     cancelText="关闭"
                     title="货运单详情"

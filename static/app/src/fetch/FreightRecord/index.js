@@ -22,3 +22,13 @@ export function deleteOneReocrd(id) {
     const result = fetch.DELETE('/auth/api/freightrecord/' + id)
     return result
 }
+
+export function getDoneRecord(data) {
+    const result = fetch.get('/auth/api/freightrecord/done', data)
+    return result
+}
+
+export function getUndoneRecord(data) {
+    const result = fetch.get('/auth/api/freightrecord/undone', data)
+    return result
+}

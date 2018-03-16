@@ -439,7 +439,7 @@ class NewFreightForm extends React.PureComponent {
                 <FormItem>
                     {getFieldDecorator('needPoisonInfo', {
                         valuePropName: 'checked',
-                        initialValue: data ? data.needPoisonInfo : '',
+                        initialValue: data ? data.needPoisonInfo : false,
                     })(
                         <Checkbox>需要输入易制毒信息</Checkbox>
                     )}

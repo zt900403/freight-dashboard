@@ -2,14 +2,17 @@ import React from 'react'
 import {Tabs, message} from 'antd';
 import UndoneFreightForm from './UndoneFreightForm'
 import DoneFreightForm from './DoneFreightForm'
-import {getAllRecord} from '../../../../../fetch/FreightRecord'
+
+import {getDoneRecord, getUndoneRecord} from '../../../../../fetch/FreightRecord'
 const TabPane = Tabs.TabPane;
 
 class FreightFormManager extends React.PureComponent {
     state = {
         done: [],
+        donePagination: {},
         undone: [],
-        loading: false,
+        doneLoading: false,
+        undoneLoading: false,
     }
 
     updateUndoneFormDataHandle = (data) => {
@@ -31,9 +34,9 @@ class FreightFormManager extends React.PureComponent {
     }
 
     deleteDoneFreightDataHandle = (id) => {
-       this.setState({
-           done: this.state.done.filter((item) => item.id !== id)
-       })
+        this.setState({
+            done: this.state.done.filter((item) => item.id !== id)
+        })
     }
 
     updateDoneFreightDataHandle = (data) => {
@@ -43,45 +46,74 @@ class FreightFormManager extends React.PureComponent {
         })
 
     }
+
     render() {
         return (
 
             <Tabs defaultActiveKey="1">
                 <TabPane tab="已完成货运单" key="1"><DoneFreightForm
-                    loading={this.state.loading} data={this.state.done}
+                    loading={this.state.doneLoading} data={this.state.done}
                     userinfo={this.props.userinfo}
                     updateDoneFreightData={this.updateDoneFreightDataHandle}
-                    deleteDoneFreightData={this.deleteDoneFreightDataHandle} /></TabPane>
+                    deleteDoneFreightData={this.deleteDoneFreightDataHandle}
+                    getNewData={this.getDoneData}
+                    pagination={this.state.donePagination}/></TabPane>
                 <TabPane tab="未完成货运单" key="2"><UndoneFreightForm
-                    loading={this.state.loading} data={this.state.undone} userinfo={this.props.userinfo}
+                    loading={this.state.undoneLoading} data={this.state.undone} userinfo={this.props.userinfo}
                     updateUndoneFormData={this.updateUndoneFormDataHandle}/></TabPane>
             </Tabs>
 
         )
     }
 
-    componentDidMount() {
+    getDoneData = (pagination) => {
+        const pagination_tmp = {...pagination}
+        const page = pagination ? pagination_tmp.current : 1
         this.setState({
-            loading: true,
+            doneLoading: true,
         })
-        getAllRecord()
+
+        getDoneRecord({
+            results: 10,
+            page: page,
+        }).then((result) => {
+            pagination_tmp.total = result.total
+            this.setState({
+                done: result.data,
+                donePagination: pagination_tmp,
+            })
+        }).catch((err) => {
+            message.error(err.message)
+        }).then(() => {
+            this.setState({
+                doneLoading: false,
+            })
+        })
+    }
+
+
+    getUndoneData = () => {
+        this.setState({
+            undoneLoading: true,
+        })
+
+        getUndoneRecord()
             .then((data) => {
                 this.setState({
-                    done: data.done,
-                    undone: data.undone,
-                    loading: false,
+                    undone: data,
                 })
             }).catch((err) => {
             message.error(err.message)
+        }).then(() => {
             this.setState({
-                loading: false,
+                undoneLoading: false,
             })
         })
-        /*.finally(() => {
-         this.setState({
-         loading: false,
-         })
-         })*/
+    }
+
+    componentDidMount() {
+        this.getDoneData()
+        this.getUndoneData()
     }
 
 }

@@ -35,6 +35,34 @@ FreightRecord.getAllRecord = async function () {
     }
 }
 
+FreightRecord.getDoneRecord = async function ({results, page}) {
+    try {
+        let all = await db.FreightRecord.find({status: 'DONE'}).sort({date: -1})
+        const total = all.length
+        all = all.slice((page - 1) * results, page * results)
+
+        return {
+            data: all.map((item) => {
+                item.key = item.id
+                return item
+            }),
+            total: total,
+        }
+    } catch (err) {
+        throw err
+    }
+
+}
+FreightRecord.getUndoneRecord = async function () {
+    try {
+        let all = await db.FreightRecord.find({status: {$ne: 'DONE'}}).sort({date: -1})
+        return all
+    } catch (err) {
+        throw err
+    }
+
+}
+
 FreightRecord.updateOne = async function ({id}, newValue) {
     try {
         await db.FreightRecord.update({id: id}, {$set: newValue})
@@ -48,7 +76,7 @@ FreightRecord.findOneAndRemove = async function (conditions) {
     try {
         await db.FreightRecord.findOneAndRemove(conditions)
         return true
-    } catch(err) {
+    } catch (err) {
         throw err
     }
 }

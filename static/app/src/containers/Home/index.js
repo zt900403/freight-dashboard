@@ -5,8 +5,7 @@ import {bindActionCreators} from 'redux'
 import * as userinfoActions from '../../actions/userinfo'
 import MyHeader from './subpage/Header'
 import UserManager from './subpage/Contents/UserManager'
-import UserGroupManager from './subpage/Contents/UserGroupManager'
-import NewFreightForm from '../../controllers/FreightFormStep1'
+import FreightFormStep1 from '../../controllers/FreightFormStep1'
 import FreightFromManager from './subpage/Contents/FreightFormManager'
 import './style.css'
 
@@ -45,7 +44,7 @@ class Home extends React.PureComponent {
             */
             {
                 breadcrumb: ['货运单管理', '新建货运单'],
-                content: <NewFreightForm/>
+                content: <FreightFormStep1 showSubmitButton={true} />
             },
             {
                 breadcrumb: ['货运单管理', '货运单概览'],
@@ -53,7 +52,7 @@ class Home extends React.PureComponent {
             },
         ]
 
-        key = parseInt(key)
+        key = parseInt(key, 10)
 
         this.setState({
             breadcrumb: componentMap[key - 1].breadcrumb,

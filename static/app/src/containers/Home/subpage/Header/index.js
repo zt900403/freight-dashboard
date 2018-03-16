@@ -3,15 +3,17 @@
  */
 
 import React from 'react'
-import {Button, Layout, Row, Col, Avatar, Menu, Dropdown, Icon} from 'antd';
+import {Modal, message, Layout, Row, Col, Avatar, Menu, Dropdown, Icon} from 'antd';
 import './style.css'
-import UserinfoEditModal from './UserinfoEditModal'
 
+import {updateOneUser} from '../../../../fetch/User'
+import EditUserForm from '../../../../controllers/EditUserForm'
 const {Header} = Layout
 
 class MyHeader extends React.PureComponent {
     state = {
         visible: false,
+        editLoading: false,
     }
     showModal = () => {
         this.setState({visible: true});
@@ -19,15 +21,31 @@ class MyHeader extends React.PureComponent {
     handleCancel = () => {
         this.setState({visible: false});
     }
-    handleCreate = () => {
+    handleEdit = () => {
         const form = this.form;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-
-            form.resetFields();
-            this.setState({visible: false});
+            this.setState({
+                editLoading: true,
+            })
+            if (values.password === '') {
+                delete values.password
+            }
+            values.id = this.props.userinfo.id
+            updateOneUser(values)
+                .then((result) => {
+                    message.info(result.message)
+                }).catch((err) => {
+                message.error(err.message)
+            }).then(() => {
+                this.setState({
+                    visible: false,
+                    editLoading: false,
+                });
+                this.props.logout()
+            })
         });
     }
     saveFormRef = (form) => {
@@ -35,18 +53,22 @@ class MyHeader extends React.PureComponent {
     }
 
     menuClickHandle = ({key}) => {
-        switch(key) {
+        switch (key) {
             case "1":
                 this.showModal()
+                break;
             case "2":
                 this.props.logout()
+                break;
+            default:
+                break;
         }
     }
 
     render() {
         let menu = (
             <Menu onClick={this.menuClickHandle}>
-                {/*<Menu.Item key="1">修改个人资料</Menu.Item>*/}
+                <Menu.Item key="1">修改个人资料</Menu.Item>
                 <Menu.Item key="2">退出登陆</Menu.Item>
             </Menu>
         );
@@ -59,16 +81,20 @@ class MyHeader extends React.PureComponent {
                             <Avatar icon="user"/>
                             &nbsp;&nbsp;
                             <Dropdown overlay={menu}>
-                                <a className="ant-dropdown-link" href="#">
+                                <a className="ant-dropdown-link">
                                     {this.props.userinfo.name}<Icon type="down"/>
                                 </a>
                             </Dropdown>
-                            <UserinfoEditModal
-                                ref={this.saveFormRef}
-                                visible={this.state.visible}
-                                onCancel={this.handleCancel}
-                                onCreate={this.handleCreate}
-                            />
+                            <Modal title={`修改用户${this.props.userinfo.name}`}
+                                   visible={this.state.visible}
+                                   onOk={this.handleEdit}
+                                   onCancel={this.handleCancel}
+                                   okText="确认"
+                                   cancelText="取消"
+                                   confirmLoading={this.state.editLoading}>
+
+                                <EditUserForm ref={this.saveFormRef} initialValues={this.props.userinfo}/>
+                            </Modal>
                         </Col>
                     </Row>
 

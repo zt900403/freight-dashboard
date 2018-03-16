@@ -32,8 +32,24 @@ const updateOneRecord = async (ctx) => {
         throw err
     }
 }
+
+const deleteOneRecord = async (ctx) => {
+    if (!ctx.session.userinfo || !ctx.session.userinfo.authority.includes('ADMIN')) {
+        throw new APIError('auth: auth_error', '权限不足!')
+    }
+    try {
+        await FreightRecord.findOneAndRemove({id: ctx.params.id})
+        ctx.rest({
+            message: '删除成功!'
+        })
+    } catch (err) {
+        throw err
+    }
+}
+
 module.exports = {
     'PUT /': newFreightRecord,
     'POST /:id': updateOneRecord,
     'GET /': getAllFreightRecord,
+    'DELETE /:id': deleteOneRecord,
 }

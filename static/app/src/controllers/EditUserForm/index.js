@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Button, Select, Input} from 'antd';
+import {Form, Select, Input} from 'antd';
 const Option = Select.Option
 const FormItem = Form.Item
 
@@ -41,25 +41,28 @@ class EditUserForm extends React.PureComponent {
                     )}
                 </FormItem>
 
-                <FormItem
-                    {...formItemLayout}
-                    label="用户权限[多选]"
-                >
-                    {getFieldDecorator('authority', {
-                        rules: [
-                            {required: true, message: '请选择用户权限!', type: 'array'},
-                        ],
-                        initialValue: data.authority,
-                    })(
-                        <Select mode="multiple">
-                            <Option value="ADMIN">管理员</Option>
-                            <Option value="STEP1">流程一</Option>
-                            <Option value="STEP2">流程二</Option>
-                            <Option value="STEP3">流程三</Option>
-                            <Option value="STEP4">流程四</Option>
-                        </Select>
-                    )}
-                </FormItem>
+                { this.props.showAuthority ?
+                    <FormItem
+                        {...formItemLayout}
+                        label="用户权限[多选]"
+                    >
+                        {getFieldDecorator('authority', {
+                            rules: [
+                                {required: true, message: '请选择用户权限!', type: 'array'},
+                            ],
+                            initialValue: data.authority,
+                        })(
+                            <Select mode="multiple">
+                                <Option value="ADMIN">管理员</Option>
+                                <Option value="STEP1">流程一</Option>
+                                <Option value="STEP2">流程二</Option>
+                                <Option value="STEP3">流程三</Option>
+                                <Option value="STEP4">流程四</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    : ''
+                }
                 <FormItem
                     {...formItemLayout}
                     label="密码"
@@ -69,7 +72,7 @@ class EditUserForm extends React.PureComponent {
                             min: 6, message: '长度小于6!'
                         }]
                     })(
-                        <Input type="password"/>
+                        <Input />
                     )}
                 </FormItem>
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import {Table, Button, message} from 'antd';
 import EditModal from '../../../../../../controllers/EditModal'
+import FreightFormStep1 from '../../../../../../controllers/FreightFormStep1'
 import FreightFormStep2 from '../../../../../../controllers/FreightFormStep2'
 import FreightFormStep3 from '../../../../../../controllers/FreightFormStep3'
 import FreightFormStep4 from '../../../../../../controllers/FreightFormStep4'
@@ -16,20 +17,31 @@ class UndoneFreightForm extends React.PureComponent {
 
     showModal = (id) => {
         let step = '';
+        let target = {};
         this.props.data.forEach((item, index) => {
             if (item.id === id) {
                 step = item.status
+                target = item
             }
         })
-
+        // if (target.date) {
+        //     target.date = new Date(target.date)
+        // }
         let authority = []
         if (this.props.userinfo && this.props.userinfo.authority) {
             authority = this.props.userinfo.authority
+            if (step === 'STEP1' && authority.includes('STEP1')) {
+                this.setState({
+                    id,
+                    editModalVisible: true,
+                    editModalChildren: <FreightFormStep1 initialValues={target} ref={this.saveFormRef}/>
+                })
+            }
             if (step === 'STEP2' && authority.includes('STEP2')) {
                 this.setState({
                     id,
                     editModalVisible: true,
-                    editModalChildren: <FreightFormStep2 ref={this.saveFormRef}/>
+                    editModalChildren: <FreightFormStep2 initialValues={target} ref={this.saveFormRef}/>
                 })
             }
 
@@ -37,14 +49,14 @@ class UndoneFreightForm extends React.PureComponent {
                 this.setState({
                     id,
                     editModalVisible: true,
-                    editModalChildren: <FreightFormStep3 ref={this.saveFormRef}/>
+                    editModalChildren: <FreightFormStep3 initialValues={target} ref={this.saveFormRef}/>
                 })
             }
             if (step === 'STEP4' && authority.includes('STEP4')) {
                 this.setState({
                     id,
                     editModalVisible: true,
-                    editModalChildren: <FreightFormStep4 ref={this.saveFormRef}/>
+                    editModalChildren: <FreightFormStep4 initialValues={target} ref={this.saveFormRef}/>
                 })
             }
 
@@ -72,12 +84,12 @@ class UndoneFreightForm extends React.PureComponent {
                 }
             })
             let n = target.status.slice(-1)
-            if (n == '4') {
+            if (n === '4') {
                 values.status = 'DONE'
-            } else if (n == '3' && !target.needPoisonInfo) {
-                values.status ="DONE"
+            } else if (n === '3' && !target.needPoisonInfo) {
+                values.status = "DONE"
             } else {
-                values.status = 'STEP' + (parseInt(n) + 1)
+                values.status = 'STEP' + (parseInt(n, 10) + 1)
             }
             this.props.data[i] = Object.assign({}, this.props.data[i], values)
             this.setState({
@@ -108,6 +120,13 @@ class UndoneFreightForm extends React.PureComponent {
     }
 
     render() {
+
+        const statusMapping = {
+            STEP1: '流程一',
+            STEP2: '流程二',
+            STEP3: '流程三',
+            STEP4: '流程四',
+        }
         const columns = [{
             title: '单号',
             dataIndex: 'id',
@@ -122,12 +141,20 @@ class UndoneFreightForm extends React.PureComponent {
             key: 'carNumber',
         }, {
             title: '日期',
-            dataIndex: 'date',
             key: 'date',
+            render: (text, record) => {
+                if (typeof(record.date) === 'string') {
+                    return record.date.substring(0, 10)
+                } else {
+                    return record.date.toLocaleString().substring(0, 10)
+                }
+            }
         }, {
             title: '状态',
             dataIndex: 'status',
-            key: 'status',
+            render: (text, record) => {
+                return statusMapping[record.status]
+            }
         }, {
             title: '动作',
             key: 'action',
@@ -136,9 +163,11 @@ class UndoneFreightForm extends React.PureComponent {
                     this.props.userinfo.authority) {
                     let authority = this.props.userinfo.authority
                     let status = record.status
-                    if ((status == 'STEP2' && authority.includes('STEP2')) ||
-                        (status == 'STEP3' && authority.includes('STEP3')) ||
-                        (status == 'STEP4' && authority.includes('STEP4')) ) {
+                    if (
+                        (status === 'STEP1' && authority.includes('STEP1')) ||
+                        (status === 'STEP2' && authority.includes('STEP2')) ||
+                        (status === 'STEP3' && authority.includes('STEP3')) ||
+                        (status === 'STEP4' && authority.includes('STEP4'))) {
 
                         return <Button type="primary" onClick={this.showModal.bind(this, record.id)}>修改</Button >
                     }

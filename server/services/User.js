@@ -39,7 +39,6 @@ class User extends db.User {
 
 User.findOneAndRemove = async function (conditions) {
     try {
-        console.log(conditions)
         await db.User.findOneAndRemove(conditions)
         return true
     } catch(err) {
@@ -65,8 +64,10 @@ User.getAllRecord = async function () {
 
 User.updateOne = async function (id, newValue) {
     try {
-        newValue.salt = await bcrypt.genSalt(4);
-        newValue.password = await bcrypt.hash(newValue.password, newValue.salt)
+        if (newValue.password && newValue.password !== '') {
+            newValue.salt = await bcrypt.genSalt(4);
+            newValue.password = await bcrypt.hash(newValue.password, newValue.salt)
+        }
         await db.User.update({id: id}, {$set: newValue})
         return true
     } catch (err) {

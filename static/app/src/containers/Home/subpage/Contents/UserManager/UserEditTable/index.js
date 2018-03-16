@@ -1,6 +1,6 @@
 import React from 'react'
 import {Modal, Table, Button, message} from 'antd';
-import EditUserForm from './EditUserForm'
+import EditUserForm from '../../../../../../controllers/EditUserForm'
 import {deleteUser, updateOneUser} from '../../../../../../fetch/User'
 class UserEditTable extends React.PureComponent {
 
@@ -9,6 +9,7 @@ class UserEditTable extends React.PureComponent {
         editModalVisible: false,
         deleteModalVisible: false,
         loading: false,
+        editLoading: false,
     }
 
     showModal = (record) => {
@@ -31,15 +32,25 @@ class UserEditTable extends React.PureComponent {
             if (err) {
                 return;
             }
-            form.resetFields();
+            this.setState({
+                editLoading: true,
+            })
             values.id = this.state.editTarget.id
+            if (values.password === '') {
+                delete values.password
+            }
             updateOneUser(values)
                 .then((result) => {
                     message.info(result.message)
+                    let obj = Object.assign({}, this.state.editTarget, values)
+                    this.props.updateEditUserData(obj)
                 }).catch((err) => {
                 message.error(err.message)
             }).then(() => {
-                this.setState({editModalVisible: false});
+                this.setState({
+                    editModalVisible: false,
+                    editLoading: false,
+                });
             })
 
         })
@@ -104,12 +115,13 @@ class UserEditTable extends React.PureComponent {
                 return (<div>
                         <Button type="primary" onClick={this.showModal.bind(this, record)}>修改</Button >
                         &nbsp;
-                        <Button type="primary" onClick={this.showDeleteModal}>删除</Button >
+                        <Button type="dashed" onClick={this.showDeleteModal}>删除</Button >
                         <Modal title="" visible={this.state.deleteModalVisible}
                                onOk={this.deleteUserHandle.bind(this, record.id)} onCancel={this.deleteModalCancel}
                                okText="确认" cancelText="取消"
+
                         >
-                            <p>确认删除用户{record.username}?</p>
+                            <p>确认删除用户{record.username}[{record.name}]?</p>
                         </Modal>
                     </div>
                 )
@@ -125,8 +137,10 @@ class UserEditTable extends React.PureComponent {
                        onOk={this.handleEdit}
                        onCancel={this.handleCancel}
                        okText="确认"
-                       cancelText="取消">
-                    <EditUserForm ref={this.saveFormRef} initialValues={this.state.editTarget}/>
+                       cancelText="取消"
+                       confirmLoading={this.state.editLoading}
+                >
+                    <EditUserForm ref={this.saveFormRef} initialValues={this.state.editTarget} showAuthority={true}/>
                 </Modal>
             </div>
         )

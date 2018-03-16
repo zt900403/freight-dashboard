@@ -2,8 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber,message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
-import {newFreightRecord} from '../../fetch/FreightRecord/index'
+import {InputNumber,Collapse, Form, Col, Row} from 'antd';
 import './style.css'
 
 
@@ -40,6 +39,10 @@ class FreightFormStep3 extends React.PureComponent {
         const colspan = {
             span: 6
         }
+
+
+        const data = this.props.initialValues;
+
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
@@ -51,7 +54,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('ABuyUnitPrice', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.ABuyUnitPrice : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -63,7 +67,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('AFreightSubsidy', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.AFreightSubsidy : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -75,7 +80,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellUnitPrice', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.ASellUnitPrice : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -93,7 +99,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('BBuyUnitPrice', {
-                                        rules: [{type: 'number'}],
+                                        rules: [],
+                                        initialValue: data ? data.BBuyUnitPrice : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -105,7 +112,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('BFreightSubsidy', {
-                                        rules: [{type: 'number'}],
+                                        rules: [],
+                                        initialValue: data ? data.BFreightSubsidy : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -120,7 +128,10 @@ class FreightFormStep3 extends React.PureComponent {
                                     label="B销售单价"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('BSellUnitPrice', {})(
+                                    {getFieldDecorator('BSellUnitPrice', {
+
+                                        initialValue: data ? data.BSellUnitPrice : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -132,7 +143,10 @@ class FreightFormStep3 extends React.PureComponent {
                                     label="C销售单价"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('CSellUnitPrice', {})(
+                                    {getFieldDecorator('CSellUnitPrice', {
+
+                                        initialValue: data ? data.CSellUnitPrice : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -142,7 +156,10 @@ class FreightFormStep3 extends React.PureComponent {
                                     label="D销售单价"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('DSellUnitPrice', {})(
+                                    {getFieldDecorator('DSellUnitPrice', {
+
+                                        initialValue: data ? data.DSellUnitPrice : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>

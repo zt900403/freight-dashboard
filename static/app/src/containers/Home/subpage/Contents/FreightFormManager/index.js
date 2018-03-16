@@ -30,13 +30,28 @@ class FreightFormManager extends React.PureComponent {
         })
     }
 
+    deleteDoneFreightDataHandle = (id) => {
+       this.setState({
+           done: this.state.done.filter((item) => item.id !== id)
+       })
+    }
+
+    updateDoneFreightDataHandle = (data) => {
+        this.setState({
+            done: this.state.done.filter((item) => item.id !== data.id),
+            undone: this.state.undone.slice().concat(data)
+        })
+
+    }
     render() {
         return (
 
             <Tabs defaultActiveKey="1">
                 <TabPane tab="已完成货运单" key="1"><DoneFreightForm
                     loading={this.state.loading} data={this.state.done}
-                    userinfo={this.props.userinfo}/></TabPane>
+                    userinfo={this.props.userinfo}
+                    updateDoneFreightData={this.updateDoneFreightDataHandle}
+                    deleteDoneFreightData={this.deleteDoneFreightDataHandle} /></TabPane>
                 <TabPane tab="未完成货运单" key="2"><UndoneFreightForm
                     loading={this.state.loading} data={this.state.undone} userinfo={this.props.userinfo}
                     updateUndoneFormData={this.updateUndoneFormDataHandle}/></TabPane>

@@ -55,6 +55,19 @@ class UserManager extends React.PureComponent {
         })
     }
 
+    updateEditUserDataHandle = (data) => {
+        this.setState({
+            userEditData: this.state.userEditData.map((item) => {
+                if (item.id === data.id) {
+                    return data
+                } else {
+                    return item
+                }
+            })
+        })
+    }
+
+
     render() {
         return (
             <Tabs defaultActiveKey="1" onChange={this.clickHandle}>
@@ -62,7 +75,8 @@ class UserManager extends React.PureComponent {
                     loading={this.state.newUserLoading} onRegister={this.registerNewUserHandle}/></TabPane>
                 <TabPane tab="用户编辑" key="2"><UserEditTable loading={this.state.userEditLoading}
                                                            data={this.state.userEditData}
-                                                            deleteUserDataFromTable={this.deleteUserDataFromTableHandle} /></TabPane>
+                                                            deleteUserDataFromTable={this.deleteUserDataFromTableHandle}
+                                                            updateEditUserData={this.updateEditUserDataHandle}/></TabPane>
 
             </Tabs>
         )

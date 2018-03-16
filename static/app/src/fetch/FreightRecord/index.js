@@ -17,3 +17,8 @@ export function updateOneRecord(id, newValue) {
     const result = fetch.post('/auth/api/freightrecord/' + id, newValue)
     return result
 }
+
+export function deleteOneReocrd(id) {
+    const result = fetch.DELETE('/auth/api/freightrecord/' + id)
+    return result
+}

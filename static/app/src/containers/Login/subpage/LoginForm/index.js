@@ -4,12 +4,9 @@
 import React from 'react'
 
 
-import {Form, Icon, Input, Button, Checkbox} from 'antd'
+import {Form, Icon, Input, Button} from 'antd'
 const FormItem = Form.Item
 class LoginForm extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context)
-    }
 
     handleSubmit = () => {
         // console.log("get filed:", this.props.form.getFieldsValue())

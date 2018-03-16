@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.2.3",
     "es6-promise": "^4.2.4",
+    "moment": "^2.21.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",

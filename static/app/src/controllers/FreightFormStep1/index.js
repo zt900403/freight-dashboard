@@ -4,6 +4,7 @@
 import React from 'react'
 import {InputNumber, message, DatePicker, Collapse, Form, Button, Input, Col, Row, Checkbox} from 'antd';
 import {newFreightRecord} from '../../fetch/FreightRecord/index'
+import moment from 'moment'
 import './style.css'
 
 
@@ -66,6 +67,7 @@ class NewFreightForm extends React.PureComponent {
             span: 6
         }
 
+        const data = this.props.initialValues;
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
@@ -79,6 +81,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('title', {
                                         rules: [{required: true, message: '请输入标题!'}],
+                                        initialValue: data ? data.title : '',
                                     })(
                                         <Input />
                                     )}
@@ -94,6 +97,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('carNumber', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.carNumber : '',
                                     })(
                                         <Input />
                                     )}
@@ -106,6 +110,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('date', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? moment(data.date.substring(0, 10), 'YYYY-MM-DD') : moment(),
                                     })(
                                         <DatePicker placeholder="选择日期"/>
                                     )}
@@ -118,6 +123,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('productName', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.productName : '',
                                     })(
                                         <Input />
                                     )}
@@ -130,6 +136,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('purchaser', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.purchaser : '',
                                     })(
                                         <Input />
                                     )}
@@ -144,6 +151,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('APurchaseCompany', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.APurchaseCompany : '',
                                     })(
                                         <Input />
                                     )}
@@ -156,6 +164,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('startPlace', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.startPlace : '',
                                     })(
                                         <Input />
                                     )}
@@ -168,6 +177,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('ASeller', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.ASeller : '',
                                     })(
                                         <Input />
                                     )}
@@ -180,6 +190,8 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('ASellerCompany', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.ASellerCompany : '',
+
                                     })(
                                         <Input />
                                     )}
@@ -194,6 +206,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('oilWellNumber', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.oilWellNumber : '',
                                     })(
                                         <Input />
                                     )}
@@ -206,6 +219,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('ASellPlace', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.ASellPlace : '',
                                     })(
                                         <Input />
                                     )}
@@ -218,6 +232,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('freightUnitPrice', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.freightUnitPrice : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -230,6 +245,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('freightPriceTonsAdjust', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.freightPriceTonsAdjust : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -244,6 +260,7 @@ class NewFreightForm extends React.PureComponent {
                                 >
                                     {getFieldDecorator('otherAddItem', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.otherAddItem : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -258,7 +275,9 @@ class NewFreightForm extends React.PureComponent {
                                     label="留存车辆"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('keepCarNumber', {})(
+                                    {getFieldDecorator('keepCarNumber', {
+                                        initialValue: data ? data.keepCarNumber : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -268,7 +287,9 @@ class NewFreightForm extends React.PureComponent {
                                     label="留货车辆单价"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('keepCarUnitPrice', {})(
+                                    {getFieldDecorator('keepCarUnitPrice', {
+                                        initialValue: data ? data.keepCarUnitPrice : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -278,7 +299,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="剩余货物入库量"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('remainingProductStoreAmount', {})(
+                                    {getFieldDecorator('remainingProductStoreAmount', {
+
+                                        initialValue: data ? data.remainingProductStoreAmount : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -294,7 +318,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="B销售贸易方"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('BSeller', {})(
+                                    {getFieldDecorator('BSeller', {
+                                        initialValue: data ? data.BSeller : '',
+
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -304,7 +331,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="B销售单位"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('BSellerCompany', {})(
+                                    {getFieldDecorator('BSellerCompany', {
+
+                                        initialValue: data ? data.BSellerCompany : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -314,7 +344,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="B销售地"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('BSellPlace', {})(
+                                    {getFieldDecorator('BSellPlace', {
+
+                                        initialValue: data ? data.BSellPlace : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -326,7 +359,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="C销售贸易方"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('CSeller', {})(
+                                    {getFieldDecorator('CSeller', {
+                                        initialValue: data ? data.CSeller : '',
+
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -336,7 +372,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="C销售单位"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('CSellerCompany', {})(
+                                    {getFieldDecorator('CSellerCompany', {
+
+                                        initialValue: data ? data.CSellerCompany : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -346,7 +385,9 @@ class NewFreightForm extends React.PureComponent {
                                     label="C销售地"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('CSellPlace', {})(
+                                    {getFieldDecorator('CSellPlace', {
+                                        initialValue: data ? data.CSellPlace : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -358,7 +399,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="D销售贸易方"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('DSeller', {})(
+                                    {getFieldDecorator('DSeller', {
+
+                                        initialValue: data ? data.DSeller : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -368,7 +412,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="D销售单位"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('DSellerCompany', {})(
+                                    {getFieldDecorator('DSellerCompany', {
+
+                                        initialValue: data ? data.DSellerCompany : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -378,7 +425,10 @@ class NewFreightForm extends React.PureComponent {
                                     label="D销售地"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('DSellPlace', {})(
+                                    {getFieldDecorator('DSellPlace', {
+
+                                        initialValue: data ? data.DSellPlace : '',
+                                    })(
                                         <Input />
                                     )}
                                 </FormItem>
@@ -389,17 +439,19 @@ class NewFreightForm extends React.PureComponent {
                 <FormItem>
                     {getFieldDecorator('needPoisonInfo', {
                         valuePropName: 'checked',
-                        initialValue: false,
+                        initialValue: data ? data.needPoisonInfo : '',
                     })(
                         <Checkbox>需要输入易制毒信息</Checkbox>
                     )}
                 </FormItem>
-                < FormItem
-                    wrapperCol={{span: 12, offset: 0}
-                    }
-                >
-                    <Button type="primary" loading={this.state.loading} htmlType="submit">提交</Button>
-                </FormItem >
+                {this.props.showSubmitButton ?
+                    < FormItem
+                        wrapperCol={{span: 12, offset: 0}
+                        }
+                    >
+                        <Button type="primary" loading={this.state.loading} htmlType="submit">提交</Button>
+                    </FormItem >
+                    : '' }
             </ Form >
         )
     }

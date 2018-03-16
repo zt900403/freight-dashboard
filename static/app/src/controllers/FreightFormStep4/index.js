@@ -2,8 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber,message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
-import {newFreightRecord} from '../../fetch/FreightRecord/index'
+import {InputNumber,Collapse, Form, Input, Col, Row} from 'antd';
 import './style.css'
 
 
@@ -40,6 +39,7 @@ class FreightFormStep3 extends React.PureComponent {
         const colspan = {
             span: 6
         }
+        const data = this.props.initialValues;
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1','2']}>
@@ -52,6 +52,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('poisonName', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.poisonName : '',
                                     })(
                                         <Input />
                                     )}
@@ -63,7 +64,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('poisonANumber', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.poisonANumber : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -75,7 +77,8 @@ class FreightFormStep3 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('poisonBNumber', {
-                                        rules: [{type: 'number'}],
+                                        rules: [],
+                                        initialValue: data ? data.poisonBNumber : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -90,6 +93,7 @@ class FreightFormStep3 extends React.PureComponent {
                             >
                                 {getFieldDecorator('poisonBuyLicense', {
                                     rules: [{required: true, message: '请输入!'}],
+                                    initialValue: data ? data.poisonBuyLicense : '',
                                 })(
                                     <Input />
                                 )}
@@ -102,6 +106,7 @@ class FreightFormStep3 extends React.PureComponent {
                             >
                                 {getFieldDecorator('poisonTransportLicense', {
                                     rules: [{required: true, message: '请输入!'}],
+                                    initialValue: data ? data.poisonTransportLicense : '',
                                 })(
                                     <Input />
                                 )}
@@ -114,6 +119,7 @@ class FreightFormStep3 extends React.PureComponent {
                             >
                                 {getFieldDecorator('poisonDestination', {
                                     rules: [{required: true, message: '请输入!'}],
+                                    initialValue: data ? data.poisonDestination : '',
                                 })(
                                     <Input />
                                 )}
@@ -131,6 +137,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('sellPoisonBuyCompany', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.sellPoisonBuyCompany : '',
                                     })(
                                         <Input />
                                     )}
@@ -143,6 +150,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('sellPoisonBuyer', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.sellPoisonBuyer : '',
                                     })(
                                         <Input />
                                     )}
@@ -155,6 +163,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('sellPoisonName', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.sellPoisonName : '',
                                     })(
                                         <Input />
                                     )}
@@ -169,6 +178,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('sellPoisonNumber', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.sellPoisonNumber : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -181,6 +191,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('sellPoisonTakeCompany', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.sellPoisonTakeCompany : '',
                                     })(
                                         <Input />
                                     )}
@@ -193,6 +204,7 @@ class FreightFormStep3 extends React.PureComponent {
                                 >
                                     {getFieldDecorator('sellPoisonDestination', {
                                         rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.sellPoisonDestination : '',
                                     })(
                                         <Input />
                                     )}

@@ -2,8 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber,message, DatePicker, Collapse, Form, Button, Input, Col, Row} from 'antd';
-import {newFreightRecord} from '../../fetch/FreightRecord/index'
+import {InputNumber,Collapse, Form, Col, Row} from 'antd';
 import './style.css'
 
 
@@ -41,6 +40,7 @@ class FreightFormStep2 extends React.PureComponent {
         const colspan = {
             span: 6
         }
+        const data = this.props.initialValues;
         return (
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
@@ -52,7 +52,8 @@ class FreightFormStep2 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('APurchaseAmount', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'}],
+                                        initialValue: data ? data.APurchaseAmount : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -64,7 +65,8 @@ class FreightFormStep2 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellAmount', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.ASellAmount : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -76,7 +78,8 @@ class FreightFormStep2 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellAmountAdjust', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.ASellAmountAdjust : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -88,7 +91,8 @@ class FreightFormStep2 extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('carTotalCost', {
-                                        rules: [{required: true, message: '请输入!'},{type: 'number'}],
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.carTotalCost : '',
                                     })(
                                         <InputNumber />
                                     )}
@@ -103,7 +107,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="留货量"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('keepProductAmount', {})(
+                                    {getFieldDecorator('keepProductAmount', {
+
+                                        initialValue: data ? data.keepProductAmount : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -119,7 +126,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="库补装量"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('warehouseSupplement', {})(
+                                    {getFieldDecorator('warehouseSupplement', {
+
+                                        initialValue: data ? data.warehouseSupplement : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -131,7 +141,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="B销售量"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('BSellAmount', {})(
+                                    {getFieldDecorator('BSellAmount', {
+
+                                        initialValue: data ? data.BSellAmount : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -141,7 +154,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="B销售量调整"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('BSellAmountAdjust', {})(
+                                    {getFieldDecorator('BSellAmountAdjust', {
+
+                                        initialValue: data ? data.BSellAmountAdjust : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -153,7 +169,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="C销售量"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('CSellAmount', {})(
+                                    {getFieldDecorator('CSellAmount', {
+
+                                        initialValue: data ? data.CSellAmount : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -163,7 +182,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="C销售量调整"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('CSellAmountAdjust', {})(
+                                    {getFieldDecorator('CSellAmountAdjust', {
+
+                                        initialValue: data ? data.CSellAmountAdjust : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -175,7 +197,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="D销售量"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('DSellAmount', {})(
+                                    {getFieldDecorator('DSellAmount', {
+
+                                        initialValue: data ? data.DSellAmount : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -185,7 +210,10 @@ class FreightFormStep2 extends React.PureComponent {
                                     label="D销售量调整"
                                     {...formItemLayout}
                                 >
-                                    {getFieldDecorator('DSellAmountAdjust', {})(
+                                    {getFieldDecorator('DSellAmountAdjust', {
+
+                                        initialValue: data ? data.DSellAmountAdjust : '',
+                                    })(
                                         <InputNumber />
                                     )}
                                 </FormItem>
@@ -194,11 +222,6 @@ class FreightFormStep2 extends React.PureComponent {
                     </Panel>
                 </Collapse>
 
-                < FormItem
-                    wrapperCol={{span: 12, offset: 0}
-                    }
-                >
-                </FormItem >
             </ Form >
         )
     }

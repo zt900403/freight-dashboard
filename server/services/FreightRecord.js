@@ -44,5 +44,13 @@ FreightRecord.updateOne = async function ({id}, newValue) {
     }
 }
 
+FreightRecord.findOneAndRemove = async function (conditions) {
+    try {
+        await db.FreightRecord.findOneAndRemove(conditions)
+        return true
+    } catch(err) {
+        throw err
+    }
+}
 
 module.exports = FreightRecord

@@ -25,13 +25,13 @@ class NewFreightForm extends React.PureComponent {
                 this.setState({
                     loading: true,
                 })
-                console.log(values)
                 newFreightRecord(values)
                     .then((result) => {
                         message.info(result.message)
                         this.setState({
                             loading: false,
                         })
+                        this.props.form.resetFields()
                     }).catch((err) => {
                     message.error(err.message)
                     this.setState({

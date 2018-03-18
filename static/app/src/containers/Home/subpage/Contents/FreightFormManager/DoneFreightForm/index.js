@@ -1,8 +1,13 @@
 import React from 'react'
-import {message, Table, Button, Modal} from 'antd';
+import {message, DatePicker, Table, Button, Modal, Form, Row, Col, Input, Icon} from 'antd';
 import FreightFormDetail from '../../../../../../controllers/FreightFormDetail'
 import FreightFormRollback from '../../../../../../controllers/FreightFormRollback'
-import {updateOneRecord, deleteOneReocrd, getDoneRecord} from '../../../../../../fetch/FreightRecord'
+import {updateOneRecord, deleteOneReocrd,} from '../../../../../../fetch/FreightRecord'
+
+import './style.css'
+
+const FormItem = Form.Item;
+const RangePicker = DatePicker.RangePicker;
 class DoneFreightForm extends React.PureComponent {
     state = {
         detailData: '',
@@ -105,7 +110,21 @@ class DoneFreightForm extends React.PureComponent {
         this.props.getNewData(pagination)
     }
 
+
+    handleSearch = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            console.log('Received values of form: ', values);
+        });
+    }
+
+    handleReset = () => {
+        this.props.form.resetFields();
+    }
+
+
     render() {
+
         const columns = [{
             title: '单号',
             dataIndex: 'id',
@@ -139,14 +158,57 @@ class DoneFreightForm extends React.PureComponent {
                 )
             }
         }];
-
+        const {getFieldDecorator} = this.props.form;
+        const rangeConfig = {
+            rules: [{type: 'array'}],
+        };
         return (
             <div>
-                <Table loading={this.props.loading} columns={columns}
-                       dataSource={this.props.data}
-                       pagination={this.props.pagination}
-                       onChange={this.handleTableChange}
-                       rowKey={record => record.id}/>
+                <Form
+                    className="ant-advanced-search-form"
+                    onSubmit={this.handleSearch}
+                >
+                    <Row gutter={6}>
+                        <Col span={6}>
+                            <FormItem label="单号">
+                                {getFieldDecorator('id')(
+                                    <Input placeholder="单号搜索"/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label="标题">
+                                {getFieldDecorator('title')(
+                                    <Input placeholder="关键字搜索"/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem
+                                label="时间区间过滤"
+                            >
+                                {getFieldDecorator('rangePicker', rangeConfig)(
+                                    <RangePicker />
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={6} style={{textAlign: 'right'}}>
+                            <Button type="primary" htmlType="submit"><Icon type="search"/>搜索</Button>
+                            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
+                                清除
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+                <div className="search-result-list">
+                    <Table loading={this.props.loading} columns={columns}
+                           dataSource={this.props.data}
+                           pagination={this.props.pagination}
+                           onChange={this.handleTableChange}
+                           rowKey={record => record.id}/>
+
+
+                </div>
                 <Modal
                     cancelText="关闭"
                     title="货运单详情"
@@ -174,11 +236,9 @@ class DoneFreightForm extends React.PureComponent {
                 >
                     <p>确认删除单号为[{this.state.deleteID}]的货运单吗?</p>
                 </Modal>
-
             </div>
-        )
-
+        );
     }
 }
 
-export default DoneFreightForm
+export default Form.create()(DoneFreightForm)

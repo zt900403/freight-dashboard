@@ -25,7 +25,6 @@ class FreightFormRollback extends React.PureComponent {
         };
 
         const data = this.props.initialValues
-        console.log(data)
         return (
             <Form >
                 <FormItem

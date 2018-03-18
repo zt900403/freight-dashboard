@@ -5,12 +5,10 @@ import FreightFormStep1 from '../../../../../../controllers/FreightFormStep1'
 import FreightFormStep2 from '../../../../../../controllers/FreightFormStep2'
 import FreightFormStep3 from '../../../../../../controllers/FreightFormStep3'
 import FreightFormStep4 from '../../../../../../controllers/FreightFormStep4'
-import {updateOneRecord, getUndoneRecord} from '../../../../../../fetch/FreightRecord'
+import {updateOneRecord, } from '../../../../../../fetch/FreightRecord'
 class UndoneFreightForm extends React.PureComponent {
 
     state = {
-        data: [],
-        dataLoading: false,
         id: -1,
         modalVisible: false,
         editModalChildren: <div />,
@@ -116,27 +114,25 @@ class UndoneFreightForm extends React.PureComponent {
         this.form = form;
     }
 
-    componentDidMount() {
-        this.setState({
-            dataLoading: true,
-        })
-        getUndoneRecord()
-            .then((result) => {
-                this.setState({
-                    data: result,
-                })
-            }).catch((err) => {
-            message.error(err.message)
-        }).then(() => {
-            this.setState({
-                dataLoading: false,
-            })
-        })
-    }
+    // componentDidMount() {
+    //     this.setState({
+    //         dataLoading: true,
+    //     })
+    //     getUndoneRecord()
+    //         .then((result) => {
+    //             this.setState({
+    //                 data: result,
+    //             })
+    //         }).catch((err) => {
+    //         message.error(err.message)
+    //     }).then(() => {
+    //         this.setState({
+    //             dataLoading: false,
+    //         })
+    //     })
+    // }
 
-    componentDidUpdate() {
 
-    }
 
     render() {
 
@@ -198,8 +194,8 @@ class UndoneFreightForm extends React.PureComponent {
 
         return (
             <div>
-                <Table loading={this.state.dataLoading} columns={columns}
-                       dataSource={this.state.data}
+                <Table loading={this.props.loading} columns={columns}
+                       dataSource={this.props.data}
                        rowKey={record => record.id}
                 />
                 <EditModal

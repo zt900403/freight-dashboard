@@ -18,32 +18,68 @@ class FreightFormManager extends React.PureComponent {
     updateUndoneFormDataHandle = (data) => {
 
         let undone = []
-        let done = []
+        // let done = []
         data.forEach((item) => {
             if (item.status === 'DONE') {
-                done.push(item)
+                // done.push(item)
             } else {
                 undone.push(item)
             }
         })
-
         this.setState({
-            done: this.state.done.slice().concat(done),
-            undone: undone
+            undone,
         })
+        // this.state.donePagination.total = done.length
+        // this.setState({
+        //     done: this.state.done.slice().concat(done),
+        //     undone: undone,
+        //     donePagination: {...this.state.donePagination},
+        // })
+        this.updateDoneData()
     }
 
     deleteDoneFreightDataHandle = (id) => {
-        this.setState({
-            done: this.state.done.filter((item) => item.id !== id)
-        })
+        // const done =  this.state.done.filter((item) => item.id !== id)
+        // this.state.donePagination.total = done.length
+        // this.setState({
+        //     done,
+        //     donePagination: {...this.state.donePagination}
+        // })
+        this.updateDoneData()
+    }
+
+    updateDoneData = () => {
+        if (this.state.done.length === 1) {
+            if (this.state.donePagination.current > 1) {
+                let tmp = {...this.state.donePagination}
+                tmp.current--
+                this.getDoneData(tmp)
+            } else {
+                this.setState({
+                    done: [],
+                })
+            }
+        } else {
+            this.getDoneData(this.state.donePagination)
+        }
     }
 
     updateDoneFreightDataHandle = (data) => {
+        // const done = this.state.done.filter((item) => item.id !== data.id)
+        // this.state.donePagination.total = done.length
+        // this.setState({
+        //     done,
+        //     undone: this.state.undone.slice().concat(data),
+        //     donePagination: {...this.state.donePagination},
+        // // })
+        // if (this.state.done.length === 1) {
+        //     if
+        //         }
         this.setState({
-            done: this.state.done.filter((item) => item.id !== data.id),
-            undone: this.state.undone.slice().concat(data)
+            undone: this.state.undone.slice().concat(data),
         })
+
+        this.updateDoneData()
 
     }
 
@@ -68,7 +104,8 @@ class FreightFormManager extends React.PureComponent {
 
     getDoneData = (pagination) => {
         const pagination_tmp = {...pagination}
-        const page = pagination ? pagination_tmp.current : 1
+        const page = pagination ? pagination_tmp.current || 1 : 1
+
         this.setState({
             doneLoading: true,
         })

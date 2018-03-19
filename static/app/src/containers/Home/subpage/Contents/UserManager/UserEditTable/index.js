@@ -8,6 +8,7 @@ class UserEditTable extends React.PureComponent {
         editTarget: '',
         editModalVisible: false,
         deleteModalVisible: false,
+        deleteUser: {},
         loading: false,
         editLoading: false,
     }
@@ -18,8 +19,9 @@ class UserEditTable extends React.PureComponent {
             editModalVisible: true,
         })
     }
-    showDeleteModal = () => {
+    showDeleteModal = (user) => {
         this.setState({
+            deleteUser: user,
             deleteModalVisible: true,
         })
     }
@@ -62,11 +64,11 @@ class UserEditTable extends React.PureComponent {
         })
     }
 
-    deleteUserHandle = (userid) => {
-        deleteUser(userid)
+    deleteUserHandle = () => {
+        deleteUser(this.state.deleteUser.id)
             .then((result) => {
                 message.info(result.message)
-                this.props.deleteUserDataFromTable(userid)
+                this.props.deleteUserDataFromTable(this.state.deleteUser.id)
             }).catch((err) => {
             message.error(err.message)
         }).then(() => {
@@ -115,14 +117,8 @@ class UserEditTable extends React.PureComponent {
                 return (<div>
                         <Button type="primary" onClick={this.showModal.bind(this, record)}>修改</Button >
                         &nbsp;
-                        <Button type="dashed" onClick={this.showDeleteModal}>删除</Button >
-                        <Modal title="" visible={this.state.deleteModalVisible}
-                               onOk={this.deleteUserHandle.bind(this, record.id)} onCancel={this.deleteModalCancel}
-                               okText="确认" cancelText="取消"
+                        <Button type="dashed" onClick={this.showDeleteModal.bind(this, record)}>删除</Button >
 
-                        >
-                            <p>确认删除用户{record.username}[{record.name}]?</p>
-                        </Modal>
                     </div>
                 )
 
@@ -141,6 +137,13 @@ class UserEditTable extends React.PureComponent {
                        confirmLoading={this.state.editLoading}
                 >
                     <EditUserForm ref={this.saveFormRef} initialValues={this.state.editTarget} showAuthority={true}/>
+                </Modal>
+                <Modal title="" visible={this.state.deleteModalVisible}
+                       onOk={this.deleteUserHandle} onCancel={this.deleteModalCancel}
+                       okText="确认" cancelText="取消"
+
+                >
+                    <p>确认删除用户帐号为[{this.state.deleteUser.username}]用户名为[{this.state.deleteUser.name}]的用户?</p>
                 </Modal>
             </div>
         )

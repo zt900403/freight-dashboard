@@ -20,7 +20,7 @@ class FreightFormManager extends React.PureComponent {
         let undone = []
         // let done = []
         data.forEach((item) => {
-            if (item.status === 'DONE') {
+            if (item.status === 'DONE' || item.status === 'STEP4') {
                 // done.push(item)
             } else {
                 undone.push(item)
@@ -48,6 +48,11 @@ class FreightFormManager extends React.PureComponent {
         this.updateDoneData()
     }
 
+    deleteUndoneFreightDataHandle = (id) => {
+        this.setState({
+            undone: this.state.undone.filter((item) => { return id !== item.id})
+        })
+    }
     updateDoneData = () => {
         if (this.state.done.length === 1) {
             if (this.state.donePagination.current > 1) {
@@ -96,7 +101,9 @@ class FreightFormManager extends React.PureComponent {
                     pagination={this.state.donePagination}/></TabPane>
                 <TabPane tab="未完成货运单" key="2"><UndoneFreightForm
                     loading={this.state.undoneLoading} data={this.state.undone} userinfo={this.props.userinfo}
-                    updateUndoneFormData={this.updateUndoneFormDataHandle}/></TabPane>
+                    updateUndoneFormData={this.updateUndoneFormDataHandle}
+                    deleteUndoneFreightData={this.deleteUndoneFreightDataHandle}
+                /></TabPane>
             </Tabs>
 
         )

@@ -176,7 +176,7 @@ class NewFreightForm extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASeller', {
-                                        rules: [{required: true, message: '请输入!'}],
+                                        rules: [],
                                         initialValue: data ? data.ASeller : '',
                                     })(
                                         <Input />
@@ -189,7 +189,7 @@ class NewFreightForm extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('ASellerCompany', {
-                                        rules: [{required: true, message: '请输入!'}],
+                                        rules: [],
                                         initialValue: data ? data.ASellerCompany : '',
 
                                     })(
@@ -205,7 +205,7 @@ class NewFreightForm extends React.PureComponent {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('oilWellNumber', {
-                                        rules: [{required: true, message: '请输入!'}],
+                                        rules: [],
                                         initialValue: data ? data.oilWellNumber : '',
                                     })(
                                         <Input />
@@ -310,6 +310,34 @@ class NewFreightForm extends React.PureComponent {
                         </Row>
                     </Panel>
                     <Panel header="多点采购信息录入" key="3">
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="B采购单位"
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('BPurchaseCompany', {
+                                        initialValue: data ? data.BPurchaseCompany : '',
+
+                                    })(
+                                        <Input />
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="B采购量"
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('BPurchaseAmount', {
+                                        initialValue: data ? data.BPurchaseAmount : '',
+
+                                    })(
+                                        <InputNumber />
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
                     </Panel>
                     <Panel header="第三方贸易商信息录入" key="4">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>

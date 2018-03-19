@@ -55,9 +55,9 @@ FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePi
 
         let all
         if (id) {
-            all = await db.FreightRecord.find({status: 'DONE', id: id}).sort({date: -1})
+            all = await db.FreightRecord.find({$or:[{status: 'DONE', id: id}, {status:'STEP4', id: id}]}).sort({date: -1})
         } else {
-            all = await db.FreightRecord.find({status: 'DONE'}).sort({date: -1})
+            all = await db.FreightRecord.find({$or:[{status: 'DONE'}, {status:'STEP4'}]}).sort({date: -1})
         }
         all = all.filter((item) => {
             const f1 = title ? item.title.includes(title) : true
@@ -96,7 +96,8 @@ FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePi
 }
 FreightRecord.getUndoneRecord = async function () {
     try {
-        let all = await db.FreightRecord.find({status: {$ne: 'DONE'}}).sort({date: -1})
+        let all = await db.FreightRecord.find({$or: [{status: 'STEP2'}, {status: 'STEP3'}]}).sort({date: -1})
+
         return all
     } catch (err) {
         throw err

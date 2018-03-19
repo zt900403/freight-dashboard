@@ -2,7 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber,Collapse, Form, Col, Row} from 'antd';
+import {InputNumber, Collapse, Form, Col, Row} from 'antd';
 import './style.css'
 
 
@@ -47,6 +47,14 @@ class FreightFormStep3 extends React.PureComponent {
             <Form onSubmit={this.handleSubmit} className="ant-advanced-search-form">
                 <Collapse bordered={false} defaultActiveKey={['1']}>
                     <Panel header="基本录入" key="1">
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <p><strong>A销售单位:</strong> {data.ASellerCompany} </p>
+                            </Col>
+                            <Col {...colspan}>
+                                <p><strong>A销售地:</strong> {data.ASellPlace}</p>
+                            </Col>
+                        </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
                                 <FormItem
@@ -124,6 +132,12 @@ class FreightFormStep3 extends React.PureComponent {
                     <Panel header="第三方贸易商信息录入" key="4">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
+                                <p><strong>B销售单位:</strong> {data.BSellerCompany}</p>
+                            </Col>
+                            <Col {...colspan}>
+                                <p><strong>B销售地: </strong>{data.BSellPlace}</p>
+                            </Col>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="B销售单价"
                                     {...formItemLayout}
@@ -139,6 +153,12 @@ class FreightFormStep3 extends React.PureComponent {
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
+                                <p><strong>C销售单位:</strong> {data.CSellerCompany}</p>
+                            </Col>
+                            <Col {...colspan}>
+                                <p><strong>C销售地: </strong>{data.CSellPlace}</p>
+                            </Col>
+                            <Col {...colspan}>
                                 <FormItem
                                     label="C销售单价"
                                     {...formItemLayout}
@@ -150,6 +170,14 @@ class FreightFormStep3 extends React.PureComponent {
                                         <InputNumber />
                                     )}
                                 </FormItem>
+                            </Col>
+                        </Row>
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <p><strong>D销售单位:</strong> {data.DSellerCompany}</p>
+                            </Col>
+                            <Col {...colspan}>
+                                <p><strong>D销售地: </strong>{data.DSellPlace}</p>
                             </Col>
                             <Col {...colspan}>
                                 <FormItem

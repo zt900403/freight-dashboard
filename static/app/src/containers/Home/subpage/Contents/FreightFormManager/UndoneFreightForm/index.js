@@ -1,11 +1,11 @@
 import React from 'react'
-import {Table, Button, message} from 'antd';
+import {Table, Button, message, Modal} from 'antd';
 import EditModal from '../../../../../../controllers/EditModal'
 import FreightFormStep1 from '../../../../../../controllers/FreightFormStep1'
 import FreightFormStep2 from '../../../../../../controllers/FreightFormStep2'
 import FreightFormStep3 from '../../../../../../controllers/FreightFormStep3'
 import FreightFormStep4 from '../../../../../../controllers/FreightFormStep4'
-import {updateOneRecord, } from '../../../../../../fetch/FreightRecord'
+import {updateOneRecord, deleteOneReocrd} from '../../../../../../fetch/FreightRecord'
 class UndoneFreightForm extends React.PureComponent {
 
     state = {
@@ -13,6 +13,9 @@ class UndoneFreightForm extends React.PureComponent {
         modalVisible: false,
         editModalChildren: <div />,
         loading: false,
+        deleteConfirmModalVisible: false,
+        deleteID: -1,
+        deleteLoading: false,
     }
 
     showModal = (id) => {
@@ -113,26 +116,35 @@ class UndoneFreightForm extends React.PureComponent {
     saveFormRef = (form) => {
         this.form = form;
     }
+    showDeleteModal = (record) => {
+        this.setState({
+            deleteConfirmModalVisible: true,
+            deleteID: record.id
+        })
+    }
 
-    // componentDidMount() {
-    //     this.setState({
-    //         dataLoading: true,
-    //     })
-    //     getUndoneRecord()
-    //         .then((result) => {
-    //             this.setState({
-    //                 data: result,
-    //             })
-    //         }).catch((err) => {
-    //         message.error(err.message)
-    //     }).then(() => {
-    //         this.setState({
-    //             dataLoading: false,
-    //         })
-    //     })
-    // }
+    deleteConfirmCancelHandle = () => {
+        this.setState({
+            deleteConfirmModalVisible: false,
+            deleteLoading: false,
+        })
+    }
 
+    deleteFreightFormHandle = () => {
 
+        this.setState({
+            deleteLoading: true,
+        })
+        deleteOneReocrd(this.state.deleteID)
+            .then((result) => {
+                message.info(result.message)
+                this.props.deleteUndoneFreightData(this.state.deleteID)
+            }).catch((err) => {
+            message.error(err.message)
+        }).then(() => {
+            this.deleteConfirmCancelHandle()
+        })
+    }
 
     render() {
 
@@ -182,9 +194,19 @@ class UndoneFreightForm extends React.PureComponent {
                         (status === 'STEP1' && authority.includes('STEP1')) ||
                         (status === 'STEP2' && authority.includes('STEP2')) ||
                         (status === 'STEP3' && authority.includes('STEP3')) ||
-                        (status === 'STEP4' && authority.includes('STEP4'))) {
+                        // (status === 'STEP4' && authority.includes('STEP4')) ||
+                        (status === 'STEP2' && authority.includes('STEP1')) ) {
 
-                        return <Button type="primary" onClick={this.showModal.bind(this, record.id)}>修改</Button >
+                        return (
+                            <div>
+                                <Button type="primary" onClick={this.showModal.bind(this, record.id)}>修改</Button >
+                                &nbsp;
+                                {   (status === 'STEP2') && (authority.includes('STEP1'))?
+                                    <Button type="dashed" onClick={this.showDeleteModal.bind(this, record)}>删除</Button >
+                                    : ''
+                                }
+                            </div>
+                        )
                     }
 
                 }
@@ -206,6 +228,13 @@ class UndoneFreightForm extends React.PureComponent {
                 >
                     {this.state.editModalChildren}
                 </EditModal>
+                <Modal title="" visible={this.state.deleteConfirmModalVisible}
+                       onOk={this.deleteFreightFormHandle} onCancel={this.deleteConfirmCancelHandle}
+                       okText="确认" cancelText="取消"
+                       confirmLoading={this.state.deleteLoading}
+                >
+                    <p>确认删除单号为[{this.state.deleteID}]的货运单吗?</p>
+                </Modal>
             </div>
         )
     }

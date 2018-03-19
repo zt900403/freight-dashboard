@@ -2,6 +2,7 @@
  * Created by ZT on 18/03/08.
  */
 const FreightRecord = require('../../../../services/FreightRecord')
+const APIError = require('../../../../middleware/rest').APIError
 const newFreightRecord = async (ctx) => {
     try {
         await new FreightRecord(ctx.request.body).save()
@@ -34,7 +35,8 @@ const updateOneRecord = async (ctx) => {
 }
 
 const deleteOneRecord = async (ctx) => {
-    if (!ctx.session.userinfo || !ctx.session.userinfo.authority.includes('ADMIN')) {
+    const authority = ctx.session.userinfo ? ctx.session.userinfo.authority : []
+    if (!(authority.includes('ADMIN') || authority.includes('STEP1'))) {
         throw new APIError('auth: auth_error', '权限不足!')
     }
     try {

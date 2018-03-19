@@ -80,6 +80,8 @@ freightRecordModel.prototype.toJSON = function () {
         status: this.status,
         needPoisonInfo: this.needPoisonInfo,
         remainingProductStoreAmount: this.remainingProductStoreAmount,
+        BPurchaseCompany: this.BPurchaseCompany,
+        BPurchaseAmount: this.BPurchaseAmount,
 
         //step2
         APurchaseAmount: this.APurchaseAmount,

@@ -1,6 +1,7 @@
 import React from 'react'
 import {message, DatePicker, Table, Button, Modal, Form, Row, Col, Input, Icon} from 'antd';
 import FreightFormDetail from '../../../../../../controllers/FreightFormDetail'
+import FreightFormStep4 from '../../../../../../controllers/FreightFormStep4'
 import FreightFormRollback from '../../../../../../controllers/FreightFormRollback'
 import {updateOneRecord, deleteOneReocrd,} from '../../../../../../fetch/FreightRecord'
 
@@ -18,14 +19,19 @@ class DoneFreightForm extends React.PureComponent {
         deleteConfirmModalVisible: false,
         deleteLoading: false,
         deleteID: -1,
+        detailModalVisible: false,
+        editModalVisible: false,
+        editModalConfirmLoading: false,
+        editModalData: {},
     }
 
-    showModal = (record) => {
+    showDetailModal = (record) => {
         this.setState({
             detailData: record,
-            editModalVisible: true,
+            detailModalVisible: true,
         })
     }
+
     showRollbackModal = (record) => {
         this.setState({
             rollbackData: record,
@@ -84,8 +90,8 @@ class DoneFreightForm extends React.PureComponent {
         this.form = form
     }
 
-    handleCancel = () => {
-        this.setState({editModalVisible: false});
+    handleDetailCancel = () => {
+        this.setState({detailModalVisible: false});
     }
 
 
@@ -139,9 +145,59 @@ class DoneFreightForm extends React.PureComponent {
         this.props.form.resetFields();
     }
 
+    showEditModal = (record) => {
+        if (this.props.userinfo && this.props.userinfo.authority) {
+            let authority = this.props.userinfo.authority
+            if (record.status === 'STEP4' && ( authority.includes('ADMIN') || authority.includes('STEP4'))) {
+                this.setState({
+                    editModalData: record,
+                    editModalVisible: true,
+                })
+            }
+
+        }
+    }
+
+    handleEditCancel = () => {
+        this.setState({
+            editModalVisible: false,
+            editModalConfirmLoading: false,
+        })
+    }
+
+    handleEdit = () => {
+        const form = this.form;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            form.resetFields();
+
+            let target = this.state.editModalData
+            let n = target.status.slice(-1)
+            if (n === '4') {
+                values.status = 'DONE'
+            }
+            this.setState({ editModalConfirmLoading: true});
+            updateOneRecord(target.id, values)
+                .then((result) => {
+                    message.info(result.message)
+                    this.props.getNewData()
+                }).catch((err) => {
+            }).then(() => {
+                this.handleEditCancel()
+            })
+        });
+    }
 
     render() {
-
+        const statusMapping = {
+            STEP1: '流程一',
+            STEP2: '流程二',
+            STEP3: '流程三',
+            STEP4: '流程四',
+            DONE: '完成',
+        }
         const columns = [{
             title: '单号',
             dataIndex: 'id',
@@ -161,17 +217,30 @@ class DoneFreightForm extends React.PureComponent {
                 }
             }
         }, {
+            title: '状态',
+            dataIndex: 'status',
+            render: (text, record) => {
+                return statusMapping[record.status]
+            }
+        }, {
             title: '动作',
             key: 'action',
             render: (text, record) => {
                 let authority = this.props.userinfo ? this.props.userinfo.authority : []
                 let admin = authority.includes('ADMIN')
+                let step4 = authority.includes('STEP4')
                 return (<div>
-                        <Button type="primary" onClick={this.showModal.bind(this, record)}>明细</Button >
+                        <Button type="primary" onClick={this.showDetailModal.bind(this, record)}>明细</Button >
                         &nbsp;
                         {   admin ?
                             <Button type="primary" onClick={this.showRollbackModal.bind(this, record)}>回退</Button >
                             : ''
+                        }
+                        &nbsp;
+                        {
+                            ( record.status === "STEP4" && (admin || step4)) ?
+                                <Button type="primary" onClick={this.showEditModal.bind(this, record)}>录入易制毒信息</Button >
+                                : ''
                         }
                         &nbsp;
                         {   admin ?
@@ -237,11 +306,11 @@ class DoneFreightForm extends React.PureComponent {
                 <Modal
                     cancelText="关闭"
                     title="货运单详情"
-                    visible={this.state.editModalVisible}
-                    onCancel={this.handleCancel}
+                    visible={this.state.detailModalVisible}
+                    onCancel={this.handleDetailCancel}
                     width={1000}
                     footer={[
-                        <Button key="cancel" type="primary" onClick={this.handleCancel}>关闭</Button>
+                        <Button key="cancel" type="primary" onClick={this.handleDetailCancel}>关闭</Button>
                     ]}
                 >
                     <FreightFormDetail data={this.state.detailData}
@@ -260,6 +329,17 @@ class DoneFreightForm extends React.PureComponent {
                        confirmLoading={this.state.deleteLoading}
                 >
                     <p>确认删除单号为[{this.state.deleteID}]的货运单吗?</p>
+                </Modal>
+                <Modal
+                    width={1000}
+                    title="录入易制毒信息"
+                    visible={this.state.editModalVisible}
+                    okText="确认" cancelText="取消"
+                    onCancel={this.handleEditCancel}
+                    onOk={this.handleEdit}
+                    confirmLoading={this.state.editModalConfirmLoading}
+                >
+                    <FreightFormStep4 initialValues={this.state.editModalData} ref={this.saveFormRef}/>
                 </Modal>
             </div>
         );

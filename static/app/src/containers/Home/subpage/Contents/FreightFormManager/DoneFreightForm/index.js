@@ -164,12 +164,20 @@ class DoneFreightForm extends React.PureComponent {
             title: '动作',
             key: 'action',
             render: (text, record) => {
+                let authority = this.props.userinfo ? this.props.userinfo.authority : []
+                let admin = authority.includes('ADMIN')
                 return (<div>
                         <Button type="primary" onClick={this.showModal.bind(this, record)}>明细</Button >
                         &nbsp;
-                        <Button type="primary" onClick={this.showRollbackModal.bind(this, record)}>回退</Button >
+                        {   admin ?
+                            <Button type="primary" onClick={this.showRollbackModal.bind(this, record)}>回退</Button >
+                            : ''
+                        }
                         &nbsp;
-                        <Button type="dashed" onClick={this.showDeleteModal.bind(this, record)}>删除</Button >
+                        {   admin ?
+                            <Button type="dashed" onClick={this.showDeleteModal.bind(this, record)}>删除</Button >
+                            : ''
+                        }
 
                     </div>
                 )

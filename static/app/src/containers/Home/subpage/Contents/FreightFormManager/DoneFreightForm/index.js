@@ -130,8 +130,8 @@ class DoneFreightForm extends React.PureComponent {
                     values.rangePicker.length === 2 ? values.rangePicker : null
                     : null
 
-                this.props.getNewData(null, values)
             }
+            this.props.getNewData(null, values)
         });
     }
 

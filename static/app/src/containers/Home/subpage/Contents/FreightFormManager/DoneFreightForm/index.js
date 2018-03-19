@@ -114,7 +114,24 @@ class DoneFreightForm extends React.PureComponent {
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log('Received values of form: ', values);
+            if (err) {
+                console.log(err)
+                return
+            }
+            if (values.rangePicker && values.rangePicker.length === 2) {
+                values.rangePicker = values.rangePicker.map((item) => {
+                    return item.format('YYYY-MM-DD')
+                })
+            }
+            if (values.id || values.title || (values.rangePicker && values.rangePicker.length === 2)) {
+                values.id = values.id ? values.id.trim() : null
+                values.title = values.title ? values.title.trim() : null
+                values.rangePicker = values.rangePicker ?
+                    values.rangePicker.length === 2 ? values.rangePicker : null
+                    : null
+
+                this.props.getNewData(null, values)
+            }
         });
     }
 
@@ -169,7 +186,7 @@ class DoneFreightForm extends React.PureComponent {
                     onSubmit={this.handleSearch}
                 >
                     <Row gutter={6}>
-                        <Col span={6}>
+                        <Col span={4}>
                             <FormItem label="单号">
                                 {getFieldDecorator('id')(
                                     <Input placeholder="单号搜索"/>
@@ -183,7 +200,7 @@ class DoneFreightForm extends React.PureComponent {
                                 )}
                             </FormItem>
                         </Col>
-                        <Col span={6}>
+                        <Col span={8}>
                             <FormItem
                                 label="时间区间过滤"
                             >

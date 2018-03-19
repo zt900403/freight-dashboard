@@ -32,7 +32,7 @@ function parseJSON(response) {
 
 function deleteUndefined(obj) {
     for (let p in obj) {
-        if (obj[p] === null || obj[p] === undefined)
+        if (obj[p] === null || obj[p] === undefined || obj[p] === '')
             delete obj[p]
     }
     return obj

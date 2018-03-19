@@ -35,9 +35,50 @@ FreightRecord.getAllRecord = async function () {
     }
 }
 
-FreightRecord.getDoneRecord = async function ({results, page}) {
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePicker}) {
     try {
-        let all = await db.FreightRecord.find({status: 'DONE'}).sort({date: -1})
+        rangePicker = rangePicker ?
+            rangePicker.includes(',') ? rangePicker.split(',') : []
+            : null
+
+        let all
+        if (id) {
+            all = await db.FreightRecord.find({status: 'DONE', id: id}).sort({date: -1})
+        } else {
+            all = await db.FreightRecord.find({status: 'DONE'}).sort({date: -1})
+        }
+        all = all.filter((item) => {
+            const f1 = title ? item.title.includes(title) : true
+            let f2
+            if (rangePicker && rangePicker.length === 2) {
+                const d = new Date(formatDate(item.date))
+                const low = new Date(rangePicker[0])
+                const high = new Date(rangePicker[1])
+
+                if (d > low && d < high) {
+                    f2 = true
+                }
+
+                if (d.getTime() === low.getTime() || d.getTime() === high.getTime()) {
+                    f2 = true
+                }
+                return f1 && f2
+            }
+            return f1
+        })
+
         const total = all.length
         all = all.slice((page - 1) * results, page * results)
 

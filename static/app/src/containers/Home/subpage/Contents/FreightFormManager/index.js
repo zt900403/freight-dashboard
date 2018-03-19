@@ -102,7 +102,7 @@ class FreightFormManager extends React.PureComponent {
         )
     }
 
-    getDoneData = (pagination) => {
+    getDoneData = (pagination, conditions) => {
         const pagination_tmp = {...pagination}
         const page = pagination ? pagination_tmp.current || 1 : 1
 
@@ -110,10 +110,10 @@ class FreightFormManager extends React.PureComponent {
             doneLoading: true,
         })
 
-        getDoneRecord({
+        getDoneRecord(Object.assign({
             results: 10,
             page: page,
-        }).then((result) => {
+        }, conditions)).then((result) => {
             pagination_tmp.total = result.total
             this.setState({
                 done: result.data,

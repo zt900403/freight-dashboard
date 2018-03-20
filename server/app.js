@@ -17,6 +17,7 @@ app.use(async(ctx) => {
 })
 */
 app.use(session(config.sessionConfig, app));
+console.log(config.sessionConfig)
 app.use(bodyParser())
 app.use(rest.restify())
 app.use(auth.auth())

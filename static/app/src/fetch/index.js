@@ -3,6 +3,7 @@
  */
 import 'whatwg-fetch'
 import 'es6-promise'
+import { withRouter } from 'react-router'
 
 function params2getParams(obj) {
     let result = '?'
@@ -21,14 +22,27 @@ function params2getParams(obj) {
 //         }
 //     }).then(parseJSON)
 // }
+
 function parseJSON(response) {
-    return new Promise((resolve) => response.json()
-        .then((json) => resolve({
-            status: response.status,
-            ok: response.ok,
-            json,
-        })));
+
+    return new Promise((resolve, reject) => {
+        if (response.status === 200) {
+            response.json()
+                .then((json) => resolve({
+                    status: response.status,
+                    ok: response.ok,
+                    json,
+                }))
+        } else {
+                resolve({
+                    ok: response.ok,
+                    redirected: response.redirected,
+                    url: response.url,
+                })
+        }
+    });
 }
+
 
 function deleteUndefined(obj) {
     for (let p in obj) {
@@ -53,7 +67,7 @@ function get(url, paramsObj) {
                     return resolve(response.json);
                 }
                 // extract the error from the server's json
-                return reject(response.json);
+                return reject(response);
             })
             .catch((error) => reject({
                 networkError: error.message,
@@ -161,7 +175,6 @@ function DELETE(url, paramsObj) {
             }));
     });
 }
-
 
 
 // function parseJSON(response) {

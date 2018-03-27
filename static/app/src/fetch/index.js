@@ -3,7 +3,6 @@
  */
 import 'whatwg-fetch'
 import 'es6-promise'
-import { withRouter } from 'react-router'
 
 function params2getParams(obj) {
     let result = '?'

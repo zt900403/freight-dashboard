@@ -80,9 +80,11 @@ class FreightFormManager extends React.PureComponent {
         // if (this.state.done.length === 1) {
         //     if
         //         }
-        this.setState({
-            undone: this.state.undone.slice().concat(data),
-        })
+        if (data.status !== 'STEP4') {
+            this.setState({
+                undone: this.state.undone.slice().concat(data),
+            })
+        }
 
         this.updateDoneData()
 
@@ -127,6 +129,7 @@ class FreightFormManager extends React.PureComponent {
                 donePagination: pagination_tmp,
             })
         }).catch((err) => {
+            console.log(err)
             message.error(err.message)
         }).then(() => {
             this.setState({

@@ -2,7 +2,7 @@
  * Created by zhang on 18/03/08.
  */
 import React from 'react'
-import {InputNumber,Collapse, Form, Col, Row} from 'antd';
+import {Checkbox, InputNumber, Collapse, Form, Col, Row} from 'antd';
 import './style.css'
 
 
@@ -97,6 +97,32 @@ class FreightFormStep2 extends React.PureComponent {
                                         <InputNumber />
                                     )}
                                 </FormItem>
+                            </Col>
+                        </Row>
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <FormItem>
+                                    {getFieldDecorator('needZhebaiCalc', {
+                                        valuePropName: 'checked',
+                                        initialValue: data ? data.needZhebaiCalc : false,
+                                    })(
+                                        <Checkbox>需要按照折百计算</Checkbox>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="浓度(%)"
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('concentration', {
+                                        rules: [{required: true, message: '请输入!'},],
+                                        initialValue: data ? data.concentration: '',
+                                    })(
+                                        <InputNumber />
+                                    )}
+                                </FormItem>
+
                             </Col>
                         </Row>
                     </Panel>

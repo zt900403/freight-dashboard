@@ -129,7 +129,6 @@ class FreightFormManager extends React.PureComponent {
                 donePagination: pagination_tmp,
             })
         }).catch((err) => {
-            console.log(err)
             message.error(err.message)
         }).then(() => {
             this.setState({

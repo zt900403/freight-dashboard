@@ -49,7 +49,6 @@ function formatDate(date) {
 
 FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePicker}) {
     try {
-        console.log(results)
         rangePicker = rangePicker ?
             rangePicker.includes(',') ? rangePicker.split(',') : []
             : null

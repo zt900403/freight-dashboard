@@ -121,7 +121,6 @@ class DoneFreightForm extends React.PureComponent {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (err) {
-                console.log(err)
                 return
             }
             if (values.rangePicker && values.rangePicker.length === 2) {

@@ -96,6 +96,8 @@ freightRecordModel.prototype.toJSON = function () {
         CSellAmountAdjust: this.CSellAmountAdjust,
         DSellAmount: this.DSellAmount,
         DSellAmountAdjust: this.DSellAmountAdjust,
+        needZhebaiCalc: this.needZhebaiCalc,
+        concentration: this.concentration,
 
         //step3
         ABuyUnitPrice: this.ABuyUnitPrice,

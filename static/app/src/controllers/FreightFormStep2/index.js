@@ -11,6 +11,16 @@ const FormItem = Form.Item
 
 class FreightFormStep2 extends React.PureComponent {
 
+    state = {
+        needZhebaiCalc: this.props.initialValues.needZhebaiCalc,
+    }
+    add = (a, b) => {
+        return parseFloat(a) + parseFloat(b)
+    }
+
+    multiply = (a, b) => {
+        return parseFloat(a) * parseFloat(b)
+    }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -19,6 +29,12 @@ class FreightFormStep2 extends React.PureComponent {
                 this.props.onSubmit()
             }
         });
+    }
+
+    handleZhebaiCheckboxChange = (e) => {
+        this.setState({
+            needZhebaiCalc: e.target.checked,
+        })
     }
 
     render() {
@@ -105,25 +121,40 @@ class FreightFormStep2 extends React.PureComponent {
                                     {getFieldDecorator('needZhebaiCalc', {
                                         valuePropName: 'checked',
                                         initialValue: data ? data.needZhebaiCalc : false,
-                                    })(
-                                        <Checkbox>需要按照折百计算</Checkbox>
-                                    )}
-                                </FormItem>
-                            </Col>
-                            <Col {...colspan}>
-                                <FormItem
-                                    label="浓度(%)"
-                                    {...formItemLayout}
-                                >
-                                    {getFieldDecorator('concentration', {
-                                        rules: [{required: true, message: '请输入!'},],
-                                        initialValue: data ? data.concentration: '',
-                                    })(
-                                        <InputNumber />
-                                    )}
-                                </FormItem>
 
+                                    })(
+                                        <Checkbox
+                                            onChange={this.handleZhebaiCheckboxChange}>
+                                            需要按照折百计算</Checkbox>
+                                    )}
+                                </FormItem>
                             </Col>
+                            { this.state.needZhebaiCalc ? (
+                                <div>
+                                    <Col {...colspan}>
+                                        <FormItem
+                                            label="浓度(%)"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('concentration', {
+                                                rules: [{required: true, message: '请输入!'},],
+                                                initialValue: data ? data.concentration : 0,
+                                            })(
+                                                <InputNumber
+                                                    min={0}
+                                                    max={100}
+                                                    formatter={value => `${value}%`}
+                                                    parser={value => value.replace('%', '')}
+                                                />
+                                            )}
+                                        </FormItem>
+
+                                    </Col>
+                                </div>
+                            )
+                                :
+                                ''
+                            }
                         </Row>
                     </Panel>
                     <Panel header="留存车辆信息录入" key="2">
@@ -248,7 +279,7 @@ class FreightFormStep2 extends React.PureComponent {
                     </Panel>
                 </Collapse>
 
-            </ Form >
+            </Form>
         )
     }
 }

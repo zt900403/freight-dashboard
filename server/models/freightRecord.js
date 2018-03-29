@@ -89,6 +89,8 @@ const schema = util.defineSchema('freightRecord', {
     CSellAmountAdjust: String,
     DSellAmount: String,
     DSellAmountAdjust: String,
+    needZhebaiCalc: Boolean,
+    concentration: String,
 
     //step3
     ABuyUnitPrice: String,

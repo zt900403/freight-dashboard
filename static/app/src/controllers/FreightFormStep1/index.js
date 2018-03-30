@@ -324,19 +324,7 @@ class NewFreightForm extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col {...colspan}>
-                                <FormItem
-                                    label="B采购量"
-                                    {...formItemLayout}
-                                >
-                                    {getFieldDecorator('BPurchaseAmount', {
-                                        initialValue: data ? data.BPurchaseAmount : '',
 
-                                    })(
-                                        <InputNumber />
-                                    )}
-                                </FormItem>
-                            </Col>
                         </Row>
                     </Panel>
                     <Panel header="第三方贸易商信息录入" key="4">

@@ -175,6 +175,21 @@ class FreightFormStep2 extends React.PureComponent {
                         </Row>
                     </Panel>
                     <Panel header="多点采购信息录入" key="3">
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="B采购量"
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('BPurchaseAmount', {
+                                        initialValue: data ? data.BPurchaseAmount : '',
+
+                                    })(
+                                        <InputNumber />
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
                     </Panel>
                     <Panel header="第三方贸易商信息录入" key="4">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>

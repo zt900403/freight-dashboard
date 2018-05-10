@@ -7,6 +7,7 @@ import MyHeader from './subpage/Header'
 import UserManager from './subpage/Contents/UserManager'
 import FreightFormStep1 from '../../controllers/FreightFormStep1'
 import FreightFromManager from './subpage/Contents/FreightFormManager'
+import CarCost from './subpage/Contents/FreightForms/CarCost'
 import './style.css'
 
 
@@ -50,6 +51,10 @@ class Home extends React.PureComponent {
                 breadcrumb: ['货运单管理', '货运单概览'],
                 content: <FreightFromManager userinfo={this.props.userinfo} />
             },
+            {
+                breadcrumb:['货运报表', '单车费用'],
+                content: <CarCost/>
+            }
         ]
 
         key = parseInt(key, 10)
@@ -61,6 +66,8 @@ class Home extends React.PureComponent {
     }
 
     render() {
+        let authority = this.props.userinfo.authority
+        let STEP1 = authority.includes('ADMIN') || authority.includes('STEP1')
         return (
             <Layout style={{minHeight: '100vh'}}>
                 <Sider
@@ -72,7 +79,7 @@ class Home extends React.PureComponent {
                     <Menu theme="dark" defaultSelectedKeys={[]} mode="inline" onClick={this.menuClickHandle}>
                         <SubMenu
                             key="freightFormManager"
-                            title={<span><Icon type="profile"/>货运单管理</span>}
+                            title={<span><Icon type="profile"/><span>货运单管理</span></span>}
                         >
                             <Menu.Item key="3">货运单概览</Menu.Item>
                             {
@@ -81,6 +88,16 @@ class Home extends React.PureComponent {
                                     : ''
                             }
                         </SubMenu>
+                        {
+                            STEP1
+                                ? <SubMenu
+                                key="freightForms"
+                                title={<span><Icon type="form"/><span>货运报表</span></span>}
+                            >
+                                <Menu.Item key="4">单车费用</Menu.Item>
+                            </SubMenu>
+                                : ''
+                        }
                         {   this.props.userinfo.authority.includes('ADMIN')
                             ? <SubMenu
                                 key="userManager"

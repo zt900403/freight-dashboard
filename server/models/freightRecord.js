@@ -74,7 +74,6 @@ const schema = util.defineSchema('freightRecord', {
     needPoisonInfo: Boolean,
     remainingProductStoreAmount: String,
     BPurchaseCompany: String,
-    BPurchaseAmount: String,
 
     //step2
     APurchaseAmount: String,
@@ -83,6 +82,8 @@ const schema = util.defineSchema('freightRecord', {
     carTotalCost: String,
     keepProductAmount: String,
     warehouseSupplement: String,
+    BPurchaseAmount: String,
+
     BSellAmount: String,
     BSellAmountAdjust: String,
     CSellAmount: String,

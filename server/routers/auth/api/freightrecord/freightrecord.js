@@ -66,6 +66,28 @@ const getUndoneRecord = async (ctx) => {
         throw err
     }
 }
+const getDistinctCarNumber = async (ctx) => {
+    try {
+        const result = await FreightRecord.getDistinctCarNumber(ctx.request.query)
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
+
+const getCarCostDetail = async (ctx) => {
+    try {
+        let query = ctx.request.query
+        const carNumber = query.carNumber
+        const year = query.year
+        const month = query.month
+        const result = await FreightRecord.getCarCostDetail({carNumber, year: parseInt(year), month: parseInt(month) + 1})
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
+
 module.exports = {
     'PUT /': newFreightRecord,
     'POST /:id': updateOneRecord,
@@ -73,4 +95,6 @@ module.exports = {
     'GET /done': getDoneRecord,
     'GET /undone': getUndoneRecord,
     'DELETE /:id': deleteOneRecord,
+    'GET /distinctcarnumber': getDistinctCarNumber,
+    'GET /carcostdetail': getCarCostDetail,
 }

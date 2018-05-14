@@ -32,3 +32,17 @@ export function getUndoneRecord(data) {
     const result = fetch.get('/auth/api/freightrecord/undone', data)
     return result
 }
+
+export function getDistinctCarNumber(data) {
+    const result = fetch.get('/auth/api/freightrecord/distinctcarnumber', data)
+    return result
+}
+
+export function getCarCostDetail(data) {
+    const date = data.date
+    data.year = date.year()
+    data.month = date.month()
+    delete data.date
+    const result = fetch.get('/auth/api/freightrecord/carcostdetail', data)
+    return result
+}

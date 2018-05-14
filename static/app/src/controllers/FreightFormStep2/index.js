@@ -13,6 +13,10 @@ class FreightFormStep2 extends React.PureComponent {
 
     state = {
         needZhebaiCalc: this.props.initialValues.needZhebaiCalc,
+        AZhebai: -1,
+        BZhebai: -1,
+        CZhebai: -1,
+        DZHebai: -1,
     }
     add = (a, b) => {
         return parseFloat(a) + parseFloat(b)
@@ -35,6 +39,23 @@ class FreightFormStep2 extends React.PureComponent {
         this.setState({
             needZhebaiCalc: e.target.checked,
         })
+    }
+
+    handleZhebaiChange = (newValue) => {
+        this.setState({
+            AZhebai: (this.props.form.getFieldValue('ASellAmount') * newValue * 0.01).toFixed(2),
+            BZhebai: (this.props.form.getFieldValue('BSellAmount') * newValue * 0.01).toFixed(2),
+            CZhebai: (this.props.form.getFieldValue('CSellAmount') * newValue * 0.01).toFixed(2),
+            DZhebai: (this.props.form.getFieldValue('DSellAmount') * newValue * 0.01).toFixed(2),
+        })
+    }
+    handleXSellAmountChange = (x) => {
+        let concentration = this.props.form.getFieldValue('concentration')
+        return (newValue) => {
+            let obj = {}
+            obj[x + 'Zhebai'] = (concentration * newValue * 0.01).toFixed(2)
+            this.setState(obj)
+        }
     }
 
     render() {
@@ -84,7 +105,7 @@ class FreightFormStep2 extends React.PureComponent {
                                         rules: [{required: true, message: '请输入!'},],
                                         initialValue: data ? data.ASellAmount : '',
                                     })(
-                                        <InputNumber />
+                                        <InputNumber onChange={this.handleXSellAmountChange('A')}/>
                                     )}
                                 </FormItem>
                             </Col>
@@ -130,28 +151,36 @@ class FreightFormStep2 extends React.PureComponent {
                                 </FormItem>
                             </Col>
                             { this.state.needZhebaiCalc ? (
-                                <div>
-                                    <Col {...colspan}>
-                                        <FormItem
-                                            label="浓度(%)"
-                                            {...formItemLayout}
-                                        >
-                                            {getFieldDecorator('concentration', {
-                                                rules: [{required: true, message: '请输入!'},],
-                                                initialValue: data ? data.concentration : 0,
-                                            })(
-                                                <InputNumber
-                                                    min={0}
-                                                    max={100}
-                                                    formatter={value => `${value}%`}
-                                                    parser={value => value.replace('%', '')}
-                                                />
-                                            )}
-                                        </FormItem>
-
-                                    </Col>
-                                </div>
+                                <Col {...colspan}>
+                                    <FormItem
+                                        label="浓度(%)"
+                                        {...formItemLayout}
+                                    >
+                                        {getFieldDecorator('concentration', {
+                                            rules: [{required: true, message: '请输入!'},],
+                                            initialValue: data ? data.concentration : 0,
+                                        })(
+                                            <InputNumber
+                                                onChange={this.handleZhebaiChange}
+                                                min={0}
+                                                max={100}
+                                                formatter={value => `${value}%`}
+                                                parser={value => value.replace('%', '')}
+                                            />
+                                        )}
+                                    </FormItem>
+                                </Col>
                             )
+                                : ''
+                            }
+                            { this.state.needZhebaiCalc ?
+                                (
+                                    <Col {...colspan}>
+                                        <FormItem>
+                                            <p><strong>A折百</strong><span className="red">{this.state.AZhebai}</span></p>
+                                        </FormItem>
+                                    </Col>
+                                )
                                 :
                                 ''
                             }
@@ -175,6 +204,21 @@ class FreightFormStep2 extends React.PureComponent {
                         </Row>
                     </Panel>
                     <Panel header="多点采购信息录入" key="3">
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="B采购量"
+                                    {...formItemLayout}
+                                >
+                                    {getFieldDecorator('BPurchaseAmount', {
+                                        initialValue: data ? data.BPurchaseAmount : '',
+
+                                    })(
+                                        <InputNumber />
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
                     </Panel>
                     <Panel header="第三方贸易商信息录入" key="4">
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
@@ -202,7 +246,7 @@ class FreightFormStep2 extends React.PureComponent {
 
                                         initialValue: data ? data.BSellAmount : '',
                                     })(
-                                        <InputNumber />
+                                        <InputNumber onChange={this.handleXSellAmountChange('B')}/>
                                     )}
                                 </FormItem>
                             </Col>
@@ -219,6 +263,19 @@ class FreightFormStep2 extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
+                            {
+                                this.state.needZhebaiCalc ?
+                                    (
+                                        <Col {...colspan}>
+                                            <FormItem>
+                                                <p><strong>B折百</strong><span className="red">{this.state.BZhebai}</span>
+                                                </p>
+                                            </FormItem>
+                                        </Col>
+                                    )
+                                    :
+                                    ''
+                            }
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
@@ -230,7 +287,7 @@ class FreightFormStep2 extends React.PureComponent {
 
                                         initialValue: data ? data.CSellAmount : '',
                                     })(
-                                        <InputNumber />
+                                        <InputNumber onChange={this.handleXSellAmountChange('C')}/>
                                     )}
                                 </FormItem>
                             </Col>
@@ -247,6 +304,19 @@ class FreightFormStep2 extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
+                            {
+                                this.state.needZhebaiCalc ?
+                                    (
+                                        <Col {...colspan}>
+                                            <FormItem>
+                                                <p><strong>C折百</strong><span className="red">{this.state.CZhebai}</span>
+                                                </p>
+                                            </FormItem>
+                                        </Col>
+                                    )
+                                    :
+                                    ''
+                            }
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
@@ -258,7 +328,7 @@ class FreightFormStep2 extends React.PureComponent {
 
                                         initialValue: data ? data.DSellAmount : '',
                                     })(
-                                        <InputNumber />
+                                        <InputNumber onChange={this.handleXSellAmountChange('D')}/>
                                     )}
                                 </FormItem>
                             </Col>
@@ -275,6 +345,19 @@ class FreightFormStep2 extends React.PureComponent {
                                     )}
                                 </FormItem>
                             </Col>
+                            {
+                                this.state.needZhebaiCalc ?
+                                    (
+                                        <Col {...colspan}>
+                                            <FormItem>
+                                                <p><strong>D折百</strong><span className="red">{this.state.DZhebai}</span>
+                                                </p>
+                                            </FormItem>
+                                        </Col>
+                                    )
+                                    :
+                                    ''
+                            }
                         </Row>
                     </Panel>
                 </Collapse>

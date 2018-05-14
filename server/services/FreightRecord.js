@@ -55,9 +55,14 @@ FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePi
 
         let all
         if (id) {
-            all = await db.FreightRecord.find({$or:[{status: 'DONE', id: id}, {status:'STEP4', id: id}]}).sort({date: -1})
+            all = await db.FreightRecord.find({
+                $or: [{status: 'DONE', id: id}, {
+                    status: 'STEP4',
+                    id: id
+                }]
+            }).sort({date: -1})
         } else {
-            all = await db.FreightRecord.find({$or:[{status: 'DONE'}, {status:'STEP4'}]}).sort({date: -1})
+            all = await db.FreightRecord.find({$or: [{status: 'DONE'}, {status: 'STEP4'}]}).sort({date: -1})
         }
         all = all.filter((item) => {
             const f1 = title ? item.title.includes(title) : true
@@ -97,7 +102,6 @@ FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePi
 FreightRecord.getUndoneRecord = async function () {
     try {
         let all = await db.FreightRecord.find({$or: [{status: 'STEP2'}, {status: 'STEP3'}]}).sort({date: -1})
-
         return all
     } catch (err) {
         throw err
@@ -122,5 +126,47 @@ FreightRecord.findOneAndRemove = async function (conditions) {
         throw err
     }
 }
+
+FreightRecord.getDistinctCarNumber = async function () {
+    try {
+        const data = await db.FreightRecord.distinct('carNumber')
+        return data
+    } catch (err) {
+        throw err
+    }
+}
+
+
+FreightRecord.getCarCostDetail = async function (conditions) {
+    try {
+        let all = await db.FreightRecord.aggregate([
+            {
+                $project: {
+                    id: 1,
+                    carNumber: 1,
+                    year: {$year: '$date'},
+                    month: {$month: '$date'},
+                    day: {$dayOfMonth: '$date'},
+                    productName: 1,
+                    startPlace: 1,
+                    ASellerCompany: 1,
+                    BSellerCompany: 1,
+                    CSellerCompany: 1,
+                    DSellerCompany: 1,
+                    APurchaseAmount: 1,
+                    BPurchaseAmount: 1,
+                    freightUnitPrice: 1,
+                    freightPriceTonsAdjust: 1,
+                    carTotalCost: 1,
+                }
+            },
+            {$match: {month: conditions.month, year: conditions.year, carNumber: conditions.carNumber}}
+        ])
+        return all
+    } catch (err) {
+        throw err
+    }
+}
+
 
 module.exports = FreightRecord

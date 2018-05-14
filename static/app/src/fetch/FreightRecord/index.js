@@ -32,3 +32,8 @@ export function getUndoneRecord(data) {
     const result = fetch.get('/auth/api/freightrecord/undone', data)
     return result
 }
+
+export function getDistinctCarNumber(data) {
+    const result = fetch.get('/auth/api/freightrecord/distinctcarnumber', data)
+    return result
+}

@@ -299,8 +299,6 @@ class DoneFreightForm extends React.PureComponent {
                            pagination={this.props.pagination}
                            onChange={this.handleTableChange}
                            rowKey={record => record.id}/>
-
-
                 </div>
                 <Modal
                     cancelText="关闭"

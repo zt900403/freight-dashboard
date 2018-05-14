@@ -66,6 +66,15 @@ const getUndoneRecord = async (ctx) => {
         throw err
     }
 }
+const getDistinctCarNumber = async (ctx) => {
+    try {
+        const result = await FreightRecord.getDistinctCarNumber(ctx.request.query)
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
+
 module.exports = {
     'PUT /': newFreightRecord,
     'POST /:id': updateOneRecord,
@@ -73,4 +82,5 @@ module.exports = {
     'GET /done': getDoneRecord,
     'GET /undone': getUndoneRecord,
     'DELETE /:id': deleteOneRecord,
+    'GET /distinctcarnumber': getDistinctCarNumber,
 }

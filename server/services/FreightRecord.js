@@ -123,4 +123,24 @@ FreightRecord.findOneAndRemove = async function (conditions) {
     }
 }
 
+FreightRecord.getDistinctCarNumber = async function () {
+    try {
+        const data = await db.FreightRecord.distinct('carNumber')
+        return data
+    } catch (err) {
+        throw err
+    }
+}
+
+
+FreightRecord.getDistinctCarNumber = async function (conditions) {
+    try {
+        const all = await db.FreightRecord.find(conditions).sort({date: -1})
+        return data
+    } catch (err) {
+        throw err
+    }
+}
+
+
 module.exports = FreightRecord

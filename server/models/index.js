@@ -125,8 +125,12 @@ freightRecordModel.prototype.toJSON = function () {
         sellPoisonDestination: this.sellPoisonDestination,
     }
 }
+
+const carCostModel = mongoose.model('carCost', require('./carCost'))
+
 module.exports = {
     User: userModel,
     IDGenerator: IDGenerator,
     FreightRecord: freightRecordModel,
+    CarCost: carCostModel,
 }

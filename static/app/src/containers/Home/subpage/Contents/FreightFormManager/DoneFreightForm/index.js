@@ -206,6 +206,10 @@ class DoneFreightForm extends React.PureComponent {
             dataIndex: 'title',
             key: 'title',
         }, {
+            title: '车辆名称',
+            dataIndex: 'carNumber',
+            key: 'carNumber',
+        }, {
             title: '日期',
             key: 'date',
             render: (text, record) => {

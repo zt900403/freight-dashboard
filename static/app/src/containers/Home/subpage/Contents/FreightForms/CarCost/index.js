@@ -75,9 +75,18 @@ class CarCost extends React.PureComponent {
                         totalOutput,
                     })
 
+                    values.month += 1
                     getCarCost(values)
                         .then((data) => {
-                            console.log(data)
+                            if (data.length !== 0) {
+                                const obj = {
+                                    driverSalary: data[0].driverSalary,
+                                    loan: data[0].loan,
+                                    rentAndMealFee: data[0].rentAndMealFee,
+                                }
+                                this.setState(obj)
+                                this.props.form.setFieldsValue(obj)
+                            }
                         }).catch((err) => {
                         message.error(err.message)
                     })
@@ -100,12 +109,13 @@ class CarCost extends React.PureComponent {
             this.setState({
                 saveLoading: true,
             })
+            const moment = values.date
+            values.date = moment.year() + '-' + (moment.month() + 1)
             updateOrUpsert(values)
                 .then((data) => {
                     message.info(data.message)
                 }).catch((err) => {
-                console.log(err)
-                // message.error(err.message)
+                message.error(err.message)
             }).then(() => {
                 this.setState({
                     saveLoading: false,

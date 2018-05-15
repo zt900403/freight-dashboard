@@ -27,6 +27,9 @@ CarCost.updateOrUpsert = async function (conditions, newValue) {
 
 CarCost.getCarCost = async function (conditions) {
     try {
+        conditions.date = conditions.year + '-' + conditions.month
+        delete conditions.year
+        delete conditions.month
         const result = await db.CarCost.find(conditions)
         return result
     } catch (err) {

@@ -3,11 +3,12 @@ const APIError = require('../../../../middleware/rest').APIError
 
 const updateCarCostRecord = async (ctx) => {
     try {
-        const carNumber = ctx.request.query.carNumber
-        const date = ctx.request.query.date
-        delete ctx.request.query.carNumer
-        delete ctx.request.query.date
-        await CarCost.updateOrUpsert({carNumber, date}, ctx.request.query)
+        let data = ctx.request.body
+        const carNumber = data.carNumber
+        const date = data.date
+        delete data.carNumer
+        delete data.date
+        await CarCost.updateOrUpsert({carNumber, date}, data)
         ctx.rest({
             message: '保存成功!'
         })
@@ -19,9 +20,8 @@ const updateCarCostRecord = async (ctx) => {
 
 const getCarCostRecord = async (ctx) => {
     try {
-        console.log('haha')
         const result = await CarCost.getCarCost(ctx.request.query)
-        return result
+        ctx.rest(result)
     } catch (err) {
         throw err
     }

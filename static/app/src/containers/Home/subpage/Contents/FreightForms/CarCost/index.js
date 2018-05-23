@@ -2,7 +2,7 @@
  * Created by zhang on 18/05/10.
  */
 import React from 'react'
-import {message, Form, DatePicker, InputNumber, Table, Icon, Select, Row, Col, Button} from 'antd';
+import {message, Form, DatePicker, InputNumber, Table, Select, Row, Col, Button} from 'antd';
 import './style.css'
 import {getDistinctCarNumber, getCarCostDetail} from '../../../../../../fetch/FreightRecord'
 import {updateOrUpsert, getCarCost} from '../../../../../../fetch/CarCost'
@@ -50,6 +50,7 @@ class CarCost extends React.PureComponent {
             profit: this.state.freightTotal - this.state.totalOutput - rentAndMealFee - newValue
         })
     }
+
     handleSearch = (e) => {
         e.preventDefault()
 
@@ -101,6 +102,7 @@ class CarCost extends React.PureComponent {
         });
 
     }
+
     handleSave = () => {
         this.props.form.validateFields((err, values) => {
             if (err) {

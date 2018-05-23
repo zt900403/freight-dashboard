@@ -8,6 +8,11 @@ import UserManager from './subpage/Contents/UserManager'
 import FreightFormStep1 from '../../controllers/FreightFormStep1'
 import FreightFromManager from './subpage/Contents/FreightFormManager'
 import CarCost from './subpage/Contents/FreightForms/CarCost'
+import BuyPoisonDetail from './subpage/Contents/FreightForms/BuyPoisonDetail'
+import SellPoisonDetail from './subpage/Contents/FreightForms/SellPoisonDetail'
+import BuyBill from './subpage/Contents/FreightForms/BuyBill'
+import SellBill from './subpage/Contents/FreightForms/SellBill'
+import Put2Storage from './subpage/Contents/FreightForms/Put2Storage'
 import './style.css'
 
 
@@ -38,23 +43,43 @@ class Home extends React.PureComponent {
                 content: <UserManager/>
             },
             /*
-            {
-                breadcrumb: ['用户管理', '用户组'],
-                content: <UserGroupManager/>
-            },
-            */
+             {
+             breadcrumb: ['用户管理', '用户组'],
+             content: <UserGroupManager/>
+             },
+             */
             {
                 breadcrumb: ['货运单管理', '新建货运单'],
-                content: <FreightFormStep1 showSubmitButton={true} />
+                content: <FreightFormStep1 showSubmitButton={true}/>
             },
             {
                 breadcrumb: ['货运单管理', '货运单概览'],
-                content: <FreightFromManager userinfo={this.props.userinfo} />
+                content: <FreightFromManager userinfo={this.props.userinfo}/>
             },
             {
-                breadcrumb:['货运报表', '单车费用'],
+                breadcrumb: ['货运报表', '单车费用'],
                 content: <CarCost/>
-            }
+            },
+            {
+                breadcrumb: ['货运报表', '易制毒购入明细'],
+                content: <BuyPoisonDetail/>
+            },
+            {
+                breadcrumb: ['货运报表', '易制毒销售明细'],
+                content: <SellPoisonDetail/>
+            },
+            {
+                breadcrumb: ['货运报表', '购入应付详单'],
+                content: <BuyBill/>
+            },
+            {
+                breadcrumb: ['货运报表', '销售应收详单'],
+                content: <SellBill/>
+            },
+            {
+                breadcrumb: ['货运报表', '入库总表'],
+                content: <Put2Storage/>
+            },
         ]
 
         key = parseInt(key, 10)
@@ -67,7 +92,8 @@ class Home extends React.PureComponent {
 
     render() {
         let authority = this.props.userinfo.authority
-        let STEP1 = authority.includes('ADMIN') || authority.includes('STEP1')
+        let ADMIN = authority.includes('ADMIN')
+        let STEP1 = authority.includes('STEP1')
         return (
             <Layout style={{minHeight: '100vh'}}>
                 <Sider
@@ -89,12 +115,17 @@ class Home extends React.PureComponent {
                             }
                         </SubMenu>
                         {
-                            STEP1
+                            ADMIN
                                 ? <SubMenu
                                 key="freightForms"
                                 title={<span><Icon type="form"/><span>货运报表</span></span>}
                             >
-                                <Menu.Item key="4">单车费用</Menu.Item>
+                                {STEP1 ? <Menu.Item key="4">单车费用</Menu.Item> : ''}
+                                {ADMIN ? <Menu.Item key="5">易制毒购入明细</Menu.Item> : ''}
+                                {ADMIN ? <Menu.Item key="6">易制毒销售明细</Menu.Item> : ''}
+                                {ADMIN ? <Menu.Item key="7">购入应付详单</Menu.Item> : ''}
+                                {ADMIN ? <Menu.Item key="8">销售应收详单</Menu.Item> : ''}
+                                {ADMIN ? <Menu.Item key="9">入库总表</Menu.Item> : ''}
                             </SubMenu>
                                 : ''
                         }

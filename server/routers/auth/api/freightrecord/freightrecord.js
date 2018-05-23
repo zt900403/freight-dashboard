@@ -16,7 +16,12 @@ const newFreightRecord = async (ctx) => {
 
 const getAllFreightRecord = async (ctx) => {
     try {
-        const result = await FreightRecord.getAllRecord()
+        let query = ctx.request.query
+        const filter = {
+            rangePicker: query.rangePicker,
+        }
+        delete query.rangePicker
+        const result = await FreightRecord.getAllRecord(query, filter)
         ctx.rest(result)
     } catch (err) {
         throw err
@@ -66,6 +71,7 @@ const getUndoneRecord = async (ctx) => {
         throw err
     }
 }
+
 const getDistinctCarNumber = async (ctx) => {
     try {
         const result = await FreightRecord.getDistinctCarNumber(ctx.request.query)
@@ -88,6 +94,24 @@ const getCarCostDetail = async (ctx) => {
     }
 }
 
+const getPoisonRecords = async (ctx) => {
+    try {
+        const result = await FreightRecord.getPoisonRecords(ctx.request.query)
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
+
+const getDistinctPurchaser = async (ctx) => {
+    try {
+        const result = await FreightRecord.getDistinctPurchaser(ctx.request.query)
+        ctx.rest(result)
+    } catch (err) {
+        throw err
+    }
+}
+
 module.exports = {
     'PUT /': newFreightRecord,
     'POST /:id': updateOneRecord,
@@ -96,5 +120,8 @@ module.exports = {
     'GET /undone': getUndoneRecord,
     'DELETE /:id': deleteOneRecord,
     'GET /distinctcarnumber': getDistinctCarNumber,
+    'GET /distinct_purchaser': getDistinctPurchaser,
     'GET /carcostdetail': getCarCostDetail,
+    'GET /poisonrecords' : getPoisonRecords,
+
 }

@@ -38,11 +38,21 @@ export function getDistinctCarNumber(data) {
     return result
 }
 
+export function getDistinctPurchaser(data) {
+    const result = fetch.get('/auth/api/freightrecord/distinct_purchaser', data)
+    return result
+}
+
 export function getCarCostDetail(data) {
     const date = data.date
     data.year = date.year()
     data.month = date.month()
     delete data.date
     const result = fetch.get('/auth/api/freightrecord/carcostdetail', data)
+    return result
+}
+
+export function getPoisonRecords(data) {
+    const result = fetch.get('/auth/api/freightrecord/poisonrecords', data)
     return result
 }

@@ -9,34 +9,8 @@ const db = require('../models')
  }
  */
 
-class FreightRecord extends db.FreightRecord {
-    constructor(obj) {
-        super(obj)
-    }
-
-}
-
-FreightRecord.getAllRecord = async function () {
-    const all = await db.FreightRecord.find({})
-    let done = []
-    let undone = []
-    all.forEach((item, index) => {
-        let obj = item.toJSON()
-        obj.key = obj.id
-        if (obj.status == "DONE") {
-            done.push(obj)
-        } else {
-            undone.push(obj)
-        }
-    })
-    return {
-        done,
-        undone
-    }
-}
-
 function formatDate(date) {
-    var d = new Date(date),
+    let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
@@ -45,6 +19,45 @@ function formatDate(date) {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+class FreightRecord extends db.FreightRecord {
+    constructor(obj) {
+        super(obj)
+    }
+
+}
+
+FreightRecord.getAllRecord = async function (conditions, {rangePicker}) {
+    try {
+        let all = await db.FreightRecord.find(conditions)
+        if (rangePicker) {
+            rangePicker = rangePicker ?
+                rangePicker.includes(',') ? rangePicker.split(',') : []
+                : null
+            all = all.filter((item) => {
+                let f2
+                if (rangePicker && rangePicker.length === 2) {
+                    const d = new Date(formatDate(item.date))
+                    const low = new Date(rangePicker[0])
+                    const high = new Date(rangePicker[1])
+
+                    if (d > low && d < high) {
+                        f2 = true
+                    }
+
+                    if (d.getTime() === low.getTime() || d.getTime() === high.getTime()) {
+                        f2 = true
+                    }
+                    return f2
+                }
+                return true
+            })
+        }
+        return all
+    } catch (err) {
+        throw err
+    }
 }
 
 FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePicker}) {
@@ -99,6 +112,7 @@ FreightRecord.getDoneRecord = async function ({results, page, id, title, rangePi
     }
 
 }
+
 FreightRecord.getUndoneRecord = async function () {
     try {
         let all = await db.FreightRecord.find({$or: [{status: 'STEP2'}, {status: 'STEP3'}]}).sort({date: -1})
@@ -136,7 +150,6 @@ FreightRecord.getDistinctCarNumber = async function () {
     }
 }
 
-
 FreightRecord.getCarCostDetail = async function (conditions) {
     try {
         let all = await db.FreightRecord.aggregate([
@@ -168,5 +181,47 @@ FreightRecord.getCarCostDetail = async function (conditions) {
     }
 }
 
+FreightRecord.getPoisonRecords = async function ({rangePicker}) {
+    try {
+        rangePicker = rangePicker ?
+            rangePicker.includes(',') ? rangePicker.split(',') : []
+            : null
+
+        let all = await db.FreightRecord.find({needPoisonInfo: true}).sort({date: -1})
+        all = all.filter((item) => {
+            let f2 = false
+            if (rangePicker && rangePicker.length === 2) {
+                const d = new Date(formatDate(item.date))
+                const low = new Date(rangePicker[0])
+                const high = new Date(rangePicker[1])
+
+                if (d > low && d < high) {
+                    f2 = true
+                }
+
+                if (d.getTime() === low.getTime() || d.getTime() === high.getTime()) {
+                    f2 = true
+                }
+                return f2
+            }
+            return true
+        })
+
+
+        return all
+    } catch (err) {
+        throw err
+    }
+
+}
+
+FreightRecord.getDistinctPurchaser = async function () {
+    try {
+        const data = await db.FreightRecord.distinct('purchaser')
+        return data
+    } catch (err) {
+        throw err
+    }
+}
 
 module.exports = FreightRecord

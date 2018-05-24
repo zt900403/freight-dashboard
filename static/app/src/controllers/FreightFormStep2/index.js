@@ -85,6 +85,28 @@ class FreightFormStep2 extends React.PureComponent {
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
                                 <FormItem
+                                    label="出发地"
+                                    {...formItemLayout}
+                                >
+                                    {
+                                        data ? data.startPlace : ''
+                                    }
+                                </FormItem>
+                            </Col>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="A销售地"
+                                    {...formItemLayout}
+                                >
+                                    {
+                                        data ? data.ASellPlace : ''
+                                    }
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <FormItem
                                     label="A采购量"
                                     {...formItemLayout}
                                 >
@@ -239,6 +261,16 @@ class FreightFormStep2 extends React.PureComponent {
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
                                 <FormItem
+                                    label="B销售地"
+                                    {...formItemLayout}
+                                >
+                                    {
+                                        data ? data.BSellPlace : ''
+                                    }
+                                </FormItem>
+                            </Col>
+                            <Col {...colspan}>
+                                <FormItem
                                     label="B销售量"
                                     {...formItemLayout}
                                 >
@@ -280,6 +312,16 @@ class FreightFormStep2 extends React.PureComponent {
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
                             <Col {...colspan}>
                                 <FormItem
+                                    label="C销售地"
+                                    {...formItemLayout}
+                                >
+                                    {
+                                        data ? data.CSellPlace : ''
+                                    }
+                                </FormItem>
+                            </Col>
+                            <Col {...colspan}>
+                                <FormItem
                                     label="C销售量"
                                     {...formItemLayout}
                                 >
@@ -309,7 +351,8 @@ class FreightFormStep2 extends React.PureComponent {
                                     (
                                         <Col {...colspan}>
                                             <FormItem>
-                                                <p><strong>C折百</strong><span className="red">{this.state.CZhebai}</span>
+                                                <p><strong>C折百</strong><span
+                                                    className="red">{this.state.CZhebai}</span>
                                                 </p>
                                             </FormItem>
                                         </Col>
@@ -319,6 +362,16 @@ class FreightFormStep2 extends React.PureComponent {
                             }
                         </Row>
                         <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                            <Col {...colspan}>
+                                <FormItem
+                                    label="D销售地"
+                                    {...formItemLayout}
+                                >
+                                    {
+                                        data ? data.DSellPlace : ''
+                                    }
+                                </FormItem>
+                            </Col>
                             <Col {...colspan}>
                                 <FormItem
                                     label="D销售量"
@@ -350,7 +403,8 @@ class FreightFormStep2 extends React.PureComponent {
                                     (
                                         <Col {...colspan}>
                                             <FormItem>
-                                                <p><strong>D折百</strong><span className="red">{this.state.DZhebai}</span>
+                                                <p><strong>D折百</strong><span
+                                                    className="red">{this.state.DZhebai}</span>
                                                 </p>
                                             </FormItem>
                                         </Col>
@@ -360,11 +414,13 @@ class FreightFormStep2 extends React.PureComponent {
                             }
                         </Row>
                     </Panel>
-                </Collapse>
+                    <
+                    / Collapse >
 
-            </Form>
-        )
-    }
-}
+                    <
+                    / Form >
+                    )
+                    }
+                    }
 
-export default Form.create()(FreightFormStep2)
+                    export default Form.create()(FreightFormStep2)
